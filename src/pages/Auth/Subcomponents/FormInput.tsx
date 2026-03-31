@@ -1,6 +1,3 @@
-// FormInput.tsx
-// Pill-shaped input using shadcn/ui Input with crimson focus ring.
-
 import { useState, InputHTMLAttributes } from "react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
