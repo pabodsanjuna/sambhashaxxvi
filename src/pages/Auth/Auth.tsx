@@ -1,7 +1,6 @@
 // src/pages/Auth/Auth.tsx
 import { Outlet } from "react-router-dom";
-import { AuthCard } from "./Subcomponents/AuthSC";
-import { Header, Footer } from "../Subcomponent/FH";
+import { AuthCard, Header, Footer } from "./Subcomponents/AuthSC";
 
 export default function AuthLayout() {
   return (

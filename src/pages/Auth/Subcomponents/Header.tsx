@@ -1,6 +1,3 @@
-// Header.tsx
-// REPLACE: swap the img src with your actual Sambhasha logo path.
-
 export default function Header() {
   return (
     <header className="fixed z-10 px-6 pt-6 md:px-10 md:pt-8 flex-shrink-0">

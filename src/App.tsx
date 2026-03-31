@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AuthLayout from "./pages/Auth/Auth";
-import LoginForm from "./pages/Auth/Subcomponents/LoginForm";
-import RegisterForm from "./pages/Auth/Subcomponents/RegisterForm";
+import { LoginForm, RegisterForm } from "./pages/Auth/Subcomponents/AuthSC"
 import ResetPassword from "./pages/Auth/ResetPassword";
 
 export default function App() {

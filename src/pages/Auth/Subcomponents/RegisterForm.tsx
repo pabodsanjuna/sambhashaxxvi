@@ -3,11 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Upload } from "lucide-react";
 import FormInput from "./FormInput";
-
-interface RegisterFormProps {
-  onGoLogin: () => void;
-}
-
 // ─── Step 1: School Details ───────────────────────────────────────────────────
 
 function Step1({
