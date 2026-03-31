@@ -1,12 +1,10 @@
-import React from 'react'
+import Auth from "./pages/Auth/Auth";
 
-import './App.css'
 
-function App() {
-
+export default function App() {
   return (
     <>
-      
+      <Auth />
     </>
-  )
+  );
 }
