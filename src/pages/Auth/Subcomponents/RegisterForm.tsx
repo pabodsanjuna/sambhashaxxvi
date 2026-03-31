@@ -1,7 +1,5 @@
-// RegisterForm.tsx
-// 4-step registration using shadcn/ui: Button, Input (via FormInput)
-
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Upload } from "lucide-react";
 import FormInput from "./FormInput";
@@ -146,7 +144,8 @@ function Step4({
 
 // ─── Main RegisterForm ────────────────────────────────────────────────────────
 
-export default function RegisterForm({ onGoLogin }: RegisterFormProps) {
+export default function RegisterForm() {
+  const navigate = useNavigate(); // <-- Initialize Navigation
   const [step, setStep] = useState(1);
   const TOTAL = 4;
 
@@ -172,17 +171,9 @@ export default function RegisterForm({ onGoLogin }: RegisterFormProps) {
       {step === 1 && <Step1 data={schoolDetails} onChange={change(setSchoolDetails)} />}
       {step === 2 && <Step2 data={professionalDetails} onChange={change(setProfessionalDetails)} />}
       {step === 3 && <Step3 data={security} onChange={change(setSecurity)} />}
-      {step === 4 && (
-        <Step4
-          schoolLogo={schoolLogo}
-          mediaLogo={mediaLogo}
-          onSchoolLogo={setSchoolLogo}
-          onMediaLogo={setMediaLogo}
-        />
-      )}
+      {step === 4 && <Step4 schoolLogo={schoolLogo} mediaLogo={mediaLogo} onSchoolLogo={setSchoolLogo} onMediaLogo={setMediaLogo} />}
 
-      {/* Next / Register + step counter */}
-      <div className="flex items-center justify-center gap-6 w-full">
+      <div className="flex items-center justify-center gap-6 w-full mt-4">
         <Button
           onClick={isLast ? () => console.log("Register!") : () => setStep((s) => s + 1)}
           className="rounded-xl bg-[#262626] hover:bg-[#262626] cursor-pointer text-white text-sm font-semibold tracking-wide px-14 h-11 active:scale-95 transition-all duration-150"
@@ -192,10 +183,9 @@ export default function RegisterForm({ onGoLogin }: RegisterFormProps) {
         <span className="text-sm text-gray-400">Steps : {step}/{TOTAL}</span>
       </div>
 
-      {/* Back to login */}
       <Button
         variant="link"
-        onClick={onGoLogin}
+        onClick={() => navigate('/login')} // <-- Route back to Login
         className="mt-3 text-xs text-[#8D7471] cursor-pointer hover:text-gray-600 h-auto p-0"
       >
         Already have an account?{" "}

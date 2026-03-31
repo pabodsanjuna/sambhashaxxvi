@@ -1,15 +1,9 @@
-// App.tsx — Root entry point
-import { useState } from "react";
-import { AuthCard, LoginForm, RegisterForm } from "./Subcomponents/AuthSC";
-import ResetPassword from "./ResetPassword";
+// src/pages/Auth/Auth.tsx
+import { Outlet } from "react-router-dom";
+import { AuthCard } from "./Subcomponents/AuthSC";
 import { Header, Footer } from "../Subcomponent/FH";
 
-// අලුත් 'reset_password' state එක මෙතනට ඇතුළත් කර ඇත
-type View = "login" | "register" | "reset_password";
-
-export default function Auth() {
-  const [view, setView] = useState<View>("login");
-
+export default function AuthLayout() {
   return (
     <div 
       className="relative min-h-screen w-full flex flex-col"
@@ -21,29 +15,8 @@ export default function Auth() {
       <Header />
       <main className="relative z-10 flex-1 flex items-center justify-center px-4 py-10">
         <AuthCard>
-          
-          {/* Login View */}
-          {view === "login" && (
-            <LoginForm 
-              onGoRegister={() => setView("register")} 
-              onGoResetPassword={() => setView("reset_password")} // Reset password එකට navigate වීමට
-            />
-          )}
-
-          {/* Register View */}
-          {view === "register" && (
-            <RegisterForm 
-              onGoLogin={() => setView("login")} 
-            />
-          )}
-
-          {/* Reset Password View */}
-          {view === "reset_password" && (
-            <ResetPassword 
-              onGoLogin={() => setView("login")} // නැවත login එකට යාමට
-            />
-          )}
-
+          {/* This Outlet dynamically renders Login, Register, or Reset Password */}
+          <Outlet />
         </AuthCard>
       </main>
       <Footer />
