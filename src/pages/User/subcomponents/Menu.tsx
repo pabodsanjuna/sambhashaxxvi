@@ -47,12 +47,12 @@ export default function DashboardSidebar({
   return (
     <aside className="flex flex-col w-[210px] min-h-screen bg-white border-r border-gray-100 flex-shrink-0">
       {/* Logo */}
-      <div className="px-5 pt-6 pb-8">
+      <div className="px-5 pt-8 pb-2 ">
         {/* REPLACE_SAMBHASHA_LOGO */}
         <img
-          src="https://placehold.co/140x42/1a1a1a/1a1a1a?text=SAMBHASHA"
+          src="https://zlehpcmytcixupbhahtl.supabase.co/storage/v1/object/sign/logo/sambhasha-logo.webp?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8zZGRkN2NkNy01MDBjLTQ1ZjQtOTNkYi02M2UzYzVhNGVkMjUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJsb2dvL3NhbWJoYXNoYS1sb2dvLndlYnAiLCJpYXQiOjE3NzQ5NTYyMzgsImV4cCI6MTgwNjQ5MjIzOH0.gcyvRLaqUXqqk1I-8R8URHoWBnzF7uCVbhut2jMX7dM"
           alt="Sambhasha"
-          className="h-10 object-contain"
+          className="h-20 w-50 object-contain"
         />
       </div>
 

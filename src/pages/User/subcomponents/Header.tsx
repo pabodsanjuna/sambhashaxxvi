@@ -10,7 +10,7 @@ interface DashboardHeaderProps {
 }
 
 export default function DashboardHeader({
-  eventTitle = "SAMBHASHA XXVI – THE MEDIA DAY",
+  eventTitle = "SAMBHASHA XXVI – THE MEDIA COMPETITION",
   schoolName = "Nalanda College Colombo",
   schoolId = "SAM255",
 }: DashboardHeaderProps) {
@@ -19,7 +19,7 @@ export default function DashboardHeader({
       {/* Crimson serif title */}
       <h1
         className="text-xl md:text-3xl font-bold tracking-wide uppercase leading-tight"
-        style={{ color: "#8b0000", fontFamily: "'Georgia', serif" }}
+        style={{ color: "#8b0000" }}
       >
         {eventTitle}
       </h1>

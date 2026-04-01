@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AuthLayout from "./pages/Auth/Auth";
 import { LoginForm, RegisterForm } from "./pages/Auth/Subcomponents/AuthSC"
 import ResetPassword from "./pages/Auth/ResetPassword";
+import Dashboard from "./pages/User/Dashbaord/Dashboard";
 
 export default function App() {
   return (
@@ -14,6 +15,9 @@ export default function App() {
           <Route path="register" element={<RegisterForm />} />
           <Route path="reset-password" element={<ResetPassword />} />
         </Route>
+
+        {/* Dashboard Flow */}
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
   );
