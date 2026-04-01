@@ -8,6 +8,7 @@ import DashboardSidebar from "../subcomponents/Menu";
 import DashboardHeader from "../subcomponents/Header";
 import DashboardFooter from "../subcomponents/Footer";
 import ContestantsTable from "./TableLayout";
+import RulesRegulationsContent from "../Rules&Regulations/RulesContent";
 
 export default function Dashboard() {
   const [activeNav, setActiveNav] = useState("Dashboard");
@@ -21,7 +22,6 @@ export default function Dashboard() {
   };
 
   return (
-    // 1. h-screen and overflow-hidden prevent the entire page from scrolling globally
     <div className="flex h-screen w-full bg-gray-50 overflow-hidden">
 
       {/* ── Fixed Desktop Sidebar ── */}
@@ -66,7 +66,6 @@ export default function Dashboard() {
         </div>
 
         {/* ── Fixed Header & Action Pills ── */}
-        {/* shrink-0 ensures this section never squishes or scrolls */}
         <div className="shrink-0 px-4 md:px-8 pt-4 md:pt-6 bg-gray-50">
           <DashboardHeader
             eventTitle="SAMBHASHA XXVI – THE MEDIA DAY"
@@ -74,33 +73,50 @@ export default function Dashboard() {
             schoolId="SAM255"
           />
 
-          <div className="flex flex-wrap gap-2 mb-4 justify-center">
-            <Button className="rounded-full bg-[#262626] hover:bg-[#373737] text-white text-xs font-semibold tracking-wide h-9 px-5 active:scale-95 transition-all">
-              Add Contestants
-            </Button>
-            <Button className="rounded-full bg-[#262626] hover:bg-[#373737] text-white text-xs font-semibold tracking-wide h-9 px-5 active:scale-95 transition-all">
-              Category locations
-            </Button>
+          {/* Render action buttons ONLY on the Dashboard tab */}
+          {activeNav === "Dashboard" && (
+            <div className="flex flex-wrap gap-2 mb-4 justify-center">
+              <Button className="rounded-full bg-[#262626] hover:bg-[#373737] text-white text-xs font-semibold tracking-wide h-9 px-5 active:scale-95 transition-all">
+                Add Contestants
+              </Button>
+              <Button className="rounded-full bg-[#262626] hover:bg-[#373737] text-white text-xs font-semibold tracking-wide h-9 px-5 active:scale-95 transition-all">
+                Category locations
+              </Button>
 
-            <div className="flex gap-2 md:ml-auto">
-              <Button className="rounded-full bg-[#262626] hover:bg-[#373737] text-white text-xs font-semibold tracking-wide h-9 px-5 active:scale-95 transition-all">
-                Bulk Upload
-              </Button>
-              <Button className="rounded-full bg-[#262626] hover:bg-[#373737] text-white text-xs font-semibold tracking-wide h-9 px-5 active:scale-95 transition-all">
-                Download Excel Format
-              </Button>
+              <div className="flex gap-2 md:ml-auto">
+                <Button className="rounded-full bg-[#262626] hover:bg-[#373737] text-white text-xs font-semibold tracking-wide h-9 px-5 active:scale-95 transition-all">
+                  Bulk Upload
+                </Button>
+                <Button className="rounded-full bg-[#262626] hover:bg-[#373737] text-white text-xs font-semibold tracking-wide h-9 px-5 active:scale-95 transition-all">
+                  Download Excel Format
+                </Button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
-        {/* ── Inner Scrollable Wrapper strictly for the Table ── */}
-        <main className="flex-1 overflow-hidden px-4 md:px-8 pb-4 flex flex-col min-h-0">
-          <ContestantsTable
-            currentPage={currentPage}
-            totalPages={4}
-            totalRecords={20}
-            onPageChange={setCurrentPage}
-          />
+        {/* ── Inner Scrollable Wrapper strictly for the Table/Content ── */}
+        {/* Changed overflow-hidden to overflow-y-auto so specific pages can scroll */}
+        <main className="flex-1 overflow-y-auto px-4 md:px-8 pb-4 flex flex-col min-h-0">
+          {activeNav === "Dashboard" && (
+            <ContestantsTable
+              currentPage={currentPage}
+              totalPages={4}
+              totalRecords={20}
+              onPageChange={setCurrentPage}
+            />
+          )}
+
+          {activeNav === "Rules & Regulation" && (
+            <RulesRegulationsContent />
+          )}
+
+          {/* Placeholder for future links (Categories, Submissions) */}
+          {activeNav !== "Dashboard" && activeNav !== "Rules & Regulation" && (
+            <div className="flex flex-1 items-center justify-center text-gray-400">
+              {activeNav} Content Coming Soon
+            </div>
+          )}
         </main>
 
         {/* ── Fixed Footer ── */}

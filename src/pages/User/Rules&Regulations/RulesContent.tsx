@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 
-// PDF page mock thumbnails — replace with real thumbnail <img> tags in production
+// Updated mock array to accept actual image paths for your PDF pages.
+// Replace the '/assets/...' links with your actual file paths or URLs.
 const pdfPagePreviews = [
-  { id: 1, isCover: true },
-  { id: 2, isCover: false },
-  { id: 3, isCover: false },
+  { id: 1, imageUrl: "", alt: "Rules Page 1" },
+  { id: 2, imageUrl: "../../../assets/images/Rules2.jpg", alt: "Rules Page 2" },
+  { id: 3, imageUrl: "../../../assets/images/Rules3.jpg", alt: "Rules Page 3" },
 ];
 
 export default function RulesRegulationsContent() {
@@ -23,7 +24,7 @@ export default function RulesRegulationsContent() {
   return (
     <div className="flex flex-col items-center w-full px-4 py-10 sm:px-8 md:px-12 lg:px-16">
       {/* Page Title */}
-      <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight mb-3">
+      <h1 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight mb-3">
         Rules and Regulations
       </h1>
 
@@ -33,7 +34,7 @@ export default function RulesRegulationsContent() {
       <p className="text-sm font-semibold text-gray-800 text-center leading-relaxed mb-10">
         Kisara Vonal ( President ) - 076 421 5114
         <span className="mx-2 text-gray-400">|</span>
-        Nisith Danula ( Treasure ) -&nbsp; 077 1485 326
+        Nisith Danula ( Treasure ) -&nbsp; 076 6896 326
       </p>
 
       {/* PDF Preview Thumbnails */}
@@ -42,59 +43,27 @@ export default function RulesRegulationsContent() {
           <div
             key={page.id}
             className="
-              bg-gray-800
+              bg-gray-100
               w-[100px] h-[138px]
               sm:w-[140px] sm:h-[192px]
               md:w-[160px] md:h-[220px]
               rounded-sm overflow-hidden
-              shadow-md border border-gray-600
+              shadow-md border border-gray-200
               flex flex-col items-center justify-center
               flex-shrink-0
               select-none
             "
           >
-            {/* Inner content simulating PDF page */}
-            <div className="flex flex-col items-center justify-between h-full w-full p-2 py-3">
-              {/* Top logo text */}
-              <div className="flex flex-col items-center gap-0.5 w-full">
-                <span className="text-yellow-400 text-[7px] sm:text-[8px] font-semibold tracking-[0.2em] uppercase">
-                  SAMBHASHA
-                </span>
-                <div className="w-10 h-px bg-yellow-500 opacity-50" />
-              </div>
-
-              {/* Middle content */}
-              <div className="flex flex-col items-center justify-center flex-1 w-full px-2 mt-2 mb-2">
-                {page.isCover ? (
-                  <div className="text-center">
-                    <p className="text-white text-[10px] sm:text-xs font-bold tracking-widest uppercase leading-tight">
-                      RULES AND
-                    </p>
-                    <p className="text-white text-[10px] sm:text-xs font-bold tracking-widest uppercase leading-tight">
-                      REGULATIONS
-                    </p>
-                  </div>
-                ) : (
-                  <div className="w-full space-y-1.5">
-                    {[85, 100, 90, 75, 100, 65, 80].map((w, i) => (
-                      <div
-                        key={i}
-                        className="h-[1.5px] bg-gray-500 rounded opacity-70"
-                        style={{ width: `${w}%` }}
-                      />
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Bottom logo */}
-              <div className="flex flex-col items-center gap-0.5 w-full">
-                <div className="w-10 h-px bg-yellow-500 opacity-50" />
-                <span className="text-yellow-400 text-[6px] tracking-[0.3em] uppercase opacity-70">
-                  XXVI
-                </span>
-              </div>
-            </div>
+            {/* Replaced simulated content with an actual image tag */}
+            <img 
+              src={page.imageUrl} 
+              alt={page.alt} 
+              className="w-full h-full object-cover object-top"
+              onError={(e) => {
+                 // Fallback if the image path is broken/not added yet
+                 e.currentTarget.src = "https://via.placeholder.com/160x220.png?text=PDF+Page";
+              }}
+            />
           </div>
         ))}
       </div>
