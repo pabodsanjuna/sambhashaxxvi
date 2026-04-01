@@ -34,7 +34,7 @@ export default function RulesRegulationsContent() {
       <p className="text-xs md:text-sm font-semibold text-gray-800 text-center leading-relaxed mb-10">
         Kisara Vonal ( President ) - 076 421 5114
         <span className="mx-2 text-gray-400">|</span>
-        Nisith Danula ( Treasure ) -&nbsp; 076 6896 326
+        Nisith Danula ( Treasurer ) -&nbsp; 076 6896 326
       </p>
 
       {/* PDF Preview Thumbnails */}
@@ -46,7 +46,7 @@ export default function RulesRegulationsContent() {
               bg-gray-100
               w-[80px] h-[108px]
               sm:w-[140px] sm:h-[192px]
-              md:w-[120px] md:h-[160px]
+              md:w-[100px] md:h-[130px]
               rounded-sm overflow-hidden
               shadow-md border border-gray-200
               flex flex-col items-center justify-center

@@ -32,7 +32,7 @@ export default function Categories() {
       <p className="text-xs md:text-sm font-semibold text-gray-800 text-center leading-relaxed mb-10">
         Kisara Vonal ( President ) - 076 421 5114
         <span className="mx-2 text-gray-400">|</span>
-        Nisith Danula ( Treasure ) -&nbsp; 076 6896 326
+        Nisith Danula ( Treasurer ) -&nbsp; 076 6896 326
       </p>
 
       {/* PDF Preview Thumbnails */}
@@ -44,7 +44,7 @@ export default function Categories() {
               bg-gray-100
               w-[100px] h-[138px]
               sm:w-[140px] sm:h-[192px]
-              md:w-[120px] md:h-[160px]
+              md:w-[100px] md:h-[130px]
               rounded-sm overflow-hidden
               shadow-md border border-gray-200
               flex flex-col items-center justify-center
@@ -77,7 +77,7 @@ export default function Categories() {
       <Button
         onClick={handleDownload}
         className="
-          bg-[#373737] hover:[#373737S] active:bg-[#373737]
+          bg-[#373737] hover:[#373737] active:bg-[#373737]
           text-white text-sm font-medium
           px-7 py-2.5
           rounded-full
