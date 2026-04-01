@@ -1,8 +1,13 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AuthLayout from "./pages/Auth/Auth";
-import { LoginForm, RegisterForm } from "./pages/Auth/Subcomponents/AuthSC"
+import { LoginForm, RegisterForm } from "./pages/Auth/Subcomponents/AuthSC";
 import ResetPassword from "./pages/Auth/ResetPassword";
+
+// Import the Mainrender layout and child pages
+import Mainrender from "./pages/User/MainRender";
 import Dashboard from "./pages/User/Dashbaord/Dashboard";
+import RulesRegulationsContent from "./pages/User/Rules&Regulations/RulesContent";
+import Categories from "./pages/User/Categories/Category";
 
 export default function App() {
   return (
@@ -16,8 +21,14 @@ export default function App() {
           <Route path="reset-password" element={<ResetPassword />} />
         </Route>
 
-        {/* Dashboard Flow */}
-        <Route path="/dashboard" element={<Dashboard />} />
+        {/* Dashboard Flow using Mainrender as a Pathless Layout Route */}
+        <Route element={<Mainrender />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/rules" element={<RulesRegulationsContent />} />
+          <Route path="/categories" element={<Categories />} />
+          {/* Future routes will go here, e.g.: */}
+          {/* <Route path="/submissions" element={<Submissions />} /> */}
+        </Route>
       </Routes>
     </BrowserRouter>
   );

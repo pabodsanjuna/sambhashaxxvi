@@ -4,9 +4,9 @@ import { Download } from "lucide-react";
 // Updated mock array to accept actual image paths for your PDF pages.
 // Replace the '/assets/...' links with your actual file paths or URLs.
 const pdfPagePreviews = [
-  { id: 1, imageUrl: "", alt: "Rules Page 1" },
-  { id: 2, imageUrl: "../../../assets/images/Rules2.jpg", alt: "Rules Page 2" },
-  { id: 3, imageUrl: "../../../assets/images/Rules3.jpg", alt: "Rules Page 3" },
+  { id: 1, imageUrl: "https://zlehpcmytcixupbhahtl.supabase.co/storage/v1/object/sign/logo/Rules1.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8zZGRkN2NkNy01MDBjLTQ1ZjQtOTNkYi02M2UzYzVhNGVkMjUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJsb2dvL1J1bGVzMS5qcGciLCJpYXQiOjE3NzUwNDQ0NjAsImV4cCI6MTgwNjU4MDQ2MH0.3ZbKcgzXigYzS4FD12DP_Xt8scKGPZ2dPT459hnNzvQ", alt: "Rules Page 1" },
+  { id: 2, imageUrl: "https://zlehpcmytcixupbhahtl.supabase.co/storage/v1/object/sign/logo/Rules2.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8zZGRkN2NkNy01MDBjLTQ1ZjQtOTNkYi02M2UzYzVhNGVkMjUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJsb2dvL1J1bGVzMi5qcGciLCJpYXQiOjE3NzUwNDQ0NzIsImV4cCI6MTgwNjU4MDQ3Mn0.p0-3nn5gKmP4LjNYshNebIbvrJPzAgtMXKI_C1QZ-jc", alt: "Rules Page 2" },
+  { id: 3, imageUrl: "https://zlehpcmytcixupbhahtl.supabase.co/storage/v1/object/sign/logo/Rules3.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8zZGRkN2NkNy01MDBjLTQ1ZjQtOTNkYi02M2UzYzVhNGVkMjUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJsb2dvL1J1bGVzMy5qcGciLCJpYXQiOjE3NzUwNDQ0ODYsImV4cCI6MTgwNjU4MDQ4Nn0.5wpfV-GxmqaHW41neXyJe_u3Xt_uwI-AnqPzbEWzFRA", alt: "Rules Page 3" },
 ];
 
 export default function RulesRegulationsContent() {
@@ -31,7 +31,7 @@ export default function RulesRegulationsContent() {
       {/* Contact Info */}
       <p className="text-sm text-gray-500 mb-1">For More Information Contact :</p>
 
-      <p className="text-sm font-semibold text-gray-800 text-center leading-relaxed mb-10">
+      <p className="text-xs md:text-sm font-semibold text-gray-800 text-center leading-relaxed mb-10">
         Kisara Vonal ( President ) - 076 421 5114
         <span className="mx-2 text-gray-400">|</span>
         Nisith Danula ( Treasure ) -&nbsp; 076 6896 326
@@ -44,9 +44,9 @@ export default function RulesRegulationsContent() {
             key={page.id}
             className="
               bg-gray-100
-              w-[100px] h-[138px]
+              w-[80px] h-[108px]
               sm:w-[140px] sm:h-[192px]
-              md:w-[160px] md:h-[220px]
+              md:w-[120px] md:h-[160px]
               rounded-sm overflow-hidden
               shadow-md border border-gray-200
               flex flex-col items-center justify-center
@@ -79,7 +79,7 @@ export default function RulesRegulationsContent() {
       <Button
         onClick={handleDownload}
         className="
-          bg-gray-900 hover:bg-gray-700 active:bg-gray-800
+          bg-[#373737] hover:[#373737] active:bg-[#373737]
           text-white text-sm font-medium
           px-7 py-2.5
           rounded-full
