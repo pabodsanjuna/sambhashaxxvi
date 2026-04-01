@@ -16,7 +16,6 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 
 interface NavItem {
   label: string;
@@ -47,12 +46,12 @@ export default function DashboardSidebar({
   return (
     <aside className="flex flex-col w-[210px] min-h-screen bg-white border-r border-gray-100 flex-shrink-0">
       {/* Logo */}
-      <div className="px-5 pt-8 pb-2 ">
+      <div className="px-5 pt-5 pb-2 ">
         {/* REPLACE_SAMBHASHA_LOGO */}
         <img
           src="https://zlehpcmytcixupbhahtl.supabase.co/storage/v1/object/sign/logo/sambhasha-logo.webp?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8zZGRkN2NkNy01MDBjLTQ1ZjQtOTNkYi02M2UzYzVhNGVkMjUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJsb2dvL3NhbWJoYXNoYS1sb2dvLndlYnAiLCJpYXQiOjE3NzQ5NTYyMzgsImV4cCI6MTgwNjQ5MjIzOH0.gcyvRLaqUXqqk1I-8R8URHoWBnzF7uCVbhut2jMX7dM"
           alt="Sambhasha"
-          className="h-20 w-50 object-contain"
+          className="h-15 w-50 object-contain"
         />
       </div>
 
@@ -67,7 +66,7 @@ export default function DashboardSidebar({
               onMouseEnter={() => setHovered(item.label)}
               onMouseLeave={() => setHovered(null)}
               className={cn(
-                "flex items-center justify-between w-full px-3 py-2.5 rounded-lg text-sm transition-all duration-150 group",
+                "flex items-center justify-between w-full px-3 py-2.5 rounded-lg text-xs transition-all duration-150 group",
                 isActive
                   ? "bg-gray-100 text-gray-900 font-medium"
                   : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"
@@ -94,14 +93,14 @@ export default function DashboardSidebar({
       <div className="px-3 pb-6 flex flex-col gap-1">
         <button
           onClick={() => onNavigate?.("Settings")}
-          className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-800 transition-all duration-150"
+          className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-xs text-gray-500 hover:bg-gray-50 hover:text-gray-800 transition-all duration-150"
         >
           <Settings className="w-4 h-4 text-gray-400" />
           <span>Settings</span>
         </button>
         <button
           onClick={onLogout}
-          className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm text-gray-500 hover:bg-red-50 hover:text-red-700 transition-all duration-150"
+          className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-xs text-gray-500 hover:bg-red-50 hover:text-red-700 transition-all duration-150"
         >
           <LogOut className="w-4 h-4 text-gray-400" />
           <span>Logout</span>

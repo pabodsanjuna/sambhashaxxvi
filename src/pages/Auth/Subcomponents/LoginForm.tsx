@@ -1,4 +1,3 @@
-// src/pages/Auth/Subcomponents/LoginForm.tsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -7,10 +6,12 @@ import FormInput from "./FormInput";
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate(); // <-- Initialize Navigation
+  const navigate = useNavigate();
 
   const handleSignIn = () => {
     console.log("Sign In →", { email, password });
+    // Execute routing to the Dashboard
+    navigate("/dashboard");
   };
 
   return (
@@ -37,14 +38,14 @@ export default function LoginForm() {
       <div className="flex flex-col md:flex-row items-center gap-1 md:gap-0 md:justify-between w-full">
         <Button
           variant="link"
-          onClick={() => navigate('/reset-password')} // <-- Route to Reset Password
+          onClick={() => navigate('/reset-password')}
           className="text-xs text-[#8D7471] cursor-pointer hover:text-gray-600 h-auto p-0"
         >
           Forget Password ?
         </Button>
         <Button
           variant="link"
-          onClick={() => navigate('/register')} // <-- Route to Register
+          onClick={() => navigate('/register')}
           className="text-xs text-[#8D7471] cursor-pointer hover:text-gray-600 h-auto p-0"
         >
           Don't have an account ?{" "}

@@ -4,7 +4,6 @@ import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 
-// Corrected relative import paths
 import DashboardSidebar from "../subcomponents/Menu";
 import DashboardHeader from "../subcomponents/Header";
 import DashboardFooter from "../subcomponents/Footer";
@@ -22,10 +21,11 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    // 1. h-screen and overflow-hidden prevent the entire page from scrolling globally
+    <div className="flex h-screen w-full bg-gray-50 overflow-hidden">
 
-      {/* Desktop Sidebar */}
-      <div className="hidden md:flex flex-shrink-0">
+      {/* ── Fixed Desktop Sidebar ── */}
+      <div className="hidden md:flex h-full flex-shrink-0 z-20 border-r border-gray-100">
         <DashboardSidebar
           active={activeNav}
           onNavigate={setActiveNav}
@@ -33,7 +33,7 @@ export default function Dashboard() {
         />
       </div>
 
-      {/* Mobile Sidebar Sheet Drawer */}
+      {/* ── Mobile Sidebar Sheet Drawer ── */}
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
         <SheetContent side="left" className="p-0 w-[210px]">
           <DashboardSidebar
@@ -44,79 +44,69 @@ export default function Dashboard() {
         </SheetContent>
       </Sheet>
 
-      {/* Main content column */}
-      <div className="flex flex-col flex-1 min-w-0">
+      {/* ── Main content column (Flex container) ── */}
+      <div className="flex flex-col flex-1 min-w-0 h-full relative">
 
-        {/* Mobile top bar */}
-        <div className="flex md:hidden items-center px-4 pt-5 pb-3 gap-3">
+        {/* ── Fixed Mobile Top Bar (Hamburger + Logo) ── */}
+        <div className="flex md:hidden items-center px-4 py-3 bg-white border-b border-gray-100 shrink-0 z-20">
           <button
             onClick={() => setMobileOpen(true)}
             className="p-1 text-gray-500 hover:text-gray-800 transition-colors flex-shrink-0"
-            aria-label="Open menu"
           >
             <Menu className="w-5 h-5" />
           </button>
-
           <div className="flex-1 flex justify-center">
             <img
               src="https://zlehpcmytcixupbhahtl.supabase.co/storage/v1/object/sign/logo/sambhasha-logo.webp?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8zZGRkN2NkNy01MDBjLTQ1ZjQtOTNkYi02M2UzYzVhNGVkMjUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJsb2dvL3NhbWJoYXNoYS1sb2dvLndlYnAiLCJpYXQiOjE3NzQ5NTYyMzgsImV4cCI6MTgwNjQ5MjIzOH0.gcyvRLaqUXqqk1I-8R8URHoWBnzF7uCVbhut2jMX7dM"
               alt="Sambhasha"
-              className="h-10  object-contain"
+              className="h-10 object-contain"
             />
           </div>
           <div className="w-7 flex-shrink-0" />
         </div>
 
-        {/* Scrollable content area */}
-        <main className="flex-1 overflow-auto px-4 md:px-8 pt-2 md:pt-8 pb-4">
+        {/* ── Fixed Header & Action Pills ── */}
+        {/* shrink-0 ensures this section never squishes or scrolls */}
+        <div className="shrink-0 px-4 md:px-8 pt-4 md:pt-6 bg-gray-50">
           <DashboardHeader
-            eventTitle="SAMBHASHA XXVI – THE MEDIA COMPETITION"
+            eventTitle="SAMBHASHA XXVI – THE MEDIA DAY"
             schoolName="Nalanda College Colombo"
             schoolId="SAM255"
           />
 
-          {/* Action pill buttons */}
-          <div className="flex flex-wrap gap-2 mb-5">
-            <Button
-              onClick={() => console.log("Add Contestants")}
-              className="rounded-full bg-[#373737] hover:bg-[#373737] text-white text-xs font-semibold tracking-wide h-9 px-5 active:scale-95 transition-all"
-            >
+          <div className="flex flex-wrap gap-2 mb-4 justify-center">
+            <Button className="rounded-full bg-[#262626] hover:bg-[#373737] text-white text-xs font-semibold tracking-wide h-9 px-5 active:scale-95 transition-all">
               Add Contestants
             </Button>
-            <Button
-              onClick={() => console.log("View Category Location Map")}
-              className="rounded-full bg-[#373737] hover:bg-[#373737] text-white text-xs font-semibold tracking-wide h-9 px-5 active:scale-95 transition-all"
-            >
-              View Category Location Map
+            <Button className="rounded-full bg-[#262626] hover:bg-[#373737] text-white text-xs font-semibold tracking-wide h-9 px-5 active:scale-95 transition-all">
+              Category locations
             </Button>
 
             <div className="flex gap-2 md:ml-auto">
-              <Button
-                onClick={() => console.log("Bulk Registration")}
-                className="rounded-full bg-[#373737] hover:bg-[#373737] text-white text-xs font-semibold tracking-wide h-9 px-5 active:scale-95 transition-all"
-              >
-                Bulk Contestants Registration
+              <Button className="rounded-full bg-[#262626] hover:bg-[#373737] text-white text-xs font-semibold tracking-wide h-9 px-5 active:scale-95 transition-all">
+                Bulk Upload
               </Button>
-              <Button
-                onClick={() => console.log("Download Excel")}
-                className="rounded-full bg-[#373737] hover:bg-[#373737] text-white text-xs font-semibold tracking-wide h-9 px-5 active:scale-95 transition-all"
-              >
+              <Button className="rounded-full bg-[#262626] hover:bg-[#373737] text-white text-xs font-semibold tracking-wide h-9 px-5 active:scale-95 transition-all">
                 Download Excel Format
               </Button>
             </div>
           </div>
+        </div>
 
+        {/* ── Inner Scrollable Wrapper strictly for the Table ── */}
+        <main className="flex-1 overflow-hidden px-4 md:px-8 pb-4 flex flex-col min-h-0">
           <ContestantsTable
             currentPage={currentPage}
             totalPages={4}
             totalRecords={20}
             onPageChange={setCurrentPage}
-            onSearch={(q) => console.log("Search:", q)}
-            onFilter={() => console.log("Filter")}
           />
         </main>
 
-        <DashboardFooter />
+        {/* ── Fixed Footer ── */}
+        <div className="shrink-0 z-10">
+          <DashboardFooter />
+        </div>
       </div>
     </div>
   );
