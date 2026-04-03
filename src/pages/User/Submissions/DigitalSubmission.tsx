@@ -8,8 +8,6 @@ export default function DigitalSubmissions() {
     // would cause unnecessary double-scrollbars in the dashboard.
     <div className="h-full w-full bg-gray-50 flex items-center justify-center p-6 font-sans">
       <div className="w-full max-w-lg">
-        {/* Card */}
-        <div className="bg-white rounded-2xl shadow-sm border border-[#ede8e8] px-8 py-10">
           
           {/* Heading */}
           <h2 className="text-center text-2xl font-bold text-gray-900 mb-1 tracking-tight">
@@ -40,8 +38,6 @@ export default function DigitalSubmissions() {
 
           {/* Render the Form Logic */}
           <SubmissionsForm />
-
-        </div>
       </div>
     </div>
   );

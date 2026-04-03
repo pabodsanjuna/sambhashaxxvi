@@ -1,156 +1,210 @@
-import { useState, SelectHTMLAttributes } from "react";
-import { FormInput } from "../../Auth/Subcomponents/AuthSC";
-import { cn } from "@/lib/utils";
+"use client";
 
-// ── FormSelect ───────────────────────────────────────────────────────────────
-interface FormSelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
-  label: string;
-  options: { value: string; label: string }[];
-}
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-function FormSelect({ label, options, className, ...rest }: FormSelectProps) {
-  const [focused, setFocused] = useState(false);
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 
-  return (
-    <div className="relative">
-      <select
-        {...rest}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        className={cn(
-          "w-full appearance-none rounded-xl border bg-white px-4 py-3 text-sm text-gray-700 transition-all duration-200 outline-none",
-          rest.value === "" ? "text-gray-400" : "text-gray-700",
-          className
-        )}
-        style={{
-          borderColor: focused ? "#BF8989" : "#d1c4c4",
-          boxShadow: focused ? "0 0 0 3px rgba(139,0,0,0.08)" : "none",
-        }}
-      >
-        <option value="" disabled hidden>
-          {label}
-        </option>
-        {options.map((opt) => (
-          <option key={opt.value} value={opt.value}>
-            {opt.label}
-          </option>
-        ))}
-      </select>
-      {/* Custom chevron */}
-      <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </span>
-    </div>
-  );
-}
+// ─── Validation Schema ─────────────────────────────────────────────────────────
 
-// ── Label helper ─────────────────────────────────────────────────────────────
-function FieldLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <label className="block text-sm font-medium text-gray-800 mb-1.5">
-      {children}
-    </label>
-  );
-}
+const formSchema = z.object({
+  competitionCategory: z.string({
+    required_error: "Please select a competition category.",
+  }),
+  contestant: z.string({
+    required_error: "Please select a contestant.",
+  }),
+  driveLink: z
+    .string()
+    .min(1, { message: "Drive link is required." })
+    .url({ message: "Please enter a valid URL." }),
+});
 
-// ── Constants ────────────────────────────────────────────────────────────────
-const COMPETITION_CATEGORIES = [
+type FormValues = z.infer<typeof formSchema>;
+
+// ─── Sample Data ───────────────────────────────────────────────────────────────
+
+const CATEGORIES = [
   { value: "photography", label: "Photography" },
-  { value: "videography", label: "Videography" },
-  { value: "digital_art", label: "Digital Art" },
-  { value: "graphic_design", label: "Graphic Design" },
+  { value: "digital-art", label: "Digital Art" },
+  { value: "short-film", label: "Short Film" },
+  { value: "podcast", label: "Podcast" },
+  { value: "graphic-design", label: "Graphic Design" },
   { value: "animation", label: "Animation" },
 ];
 
 const CONTESTANTS = [
-  { value: "contestant_1", label: "Contestant 1" },
-  { value: "contestant_2", label: "Contestant 2" },
-  { value: "contestant_3", label: "Contestant 3" },
+  { value: "contestant-1", label: "Contestant 01" },
+  { value: "contestant-2", label: "Contestant 02" },
+  { value: "contestant-3", label: "Contestant 03" },
+  { value: "contestant-4", label: "Contestant 04" },
 ];
 
-// ── Submissions Form Component ───────────────────────────────────────────────
-export default function SubmissionsForm() {
-  const [category, setCategory] = useState("");
-  const [contestant, setContestant] = useState("");
-  const [driveLink, setDriveLink] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+// ─── Component ─────────────────────────────────────────────────────────────────
 
-  const handleSubmit = () => {
-    if (!category || !contestant || !driveLink) return;
-    setSubmitted(true);
-    // Note: This is where you will eventually wire up your backend API call
-    setTimeout(() => setSubmitted(false), 3000);
-  };
+export default function DigitalSubmissionsForm() {
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      driveLink: "",
+    },
+  });
+
+  function onSubmit(values: FormValues) {
+    console.log(values);
+  }
 
   return (
-    <>
-      {/* Fields */}
-      <div className="space-y-5">
-        {/* Competition Category */}
-        <div>
-          <FieldLabel>Competition Category</FieldLabel>
-          <FormSelect
-            label="Select Competition Category"
-            options={COMPETITION_CATEGORIES}
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          />
-        </div>
+    <div className="w-full max-w-xl mx-auto px-6 py-10">
+      {/* ── Form ── */}
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 
-        {/* Contestant */}
-        <div>
-          <FieldLabel>Contestant</FieldLabel>
-          <FormSelect
-            label="Select Contestant"
-            options={CONTESTANTS}
-            value={contestant}
-            onChange={(e) => setContestant(e.target.value)}
+          {/* Competition Category */}
+          <FormField
+            control={form.control}
+            name="competitionCategory"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-medium text-gray-900">
+                  Competition Catergory
+                </FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger
+                      className="
+                        h-12 w-full rounded-lg border border-gray-300
+                        bg-white px-4 text-sm text-gray-400
+                        shadow-none ring-0
+                        focus:ring-0 focus:border-gray-400
+                        focus-visible:ring-0 focus-visible:outline-none
+                      "
+                    >
+                      <SelectValue placeholder="Select Competition Category" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent className="rounded-lg border border-gray-200 shadow-md">
+                    {CATEGORIES.map((cat) => (
+                      <SelectItem
+                        key={cat.value}
+                        value={cat.value}
+                        className="text-sm cursor-pointer"
+                      >
+                        {cat.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
           />
-        </div>
 
-        {/* Drive Link */}
-        <div>
-          <FieldLabel>Drive Link</FieldLabel>
-          <FormInput
-            label="Paste your Drive Link Here"
-            type="url"
-            value={driveLink}
-            onChange={(e) => setDriveLink(e.target.value)}
+          {/* Contestant */}
+          <FormField
+            control={form.control}
+            name="contestant"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-medium text-gray-900">
+                  Contestant
+                </FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger
+                      className="
+                        h-12 w-full rounded-lg border border-gray-300
+                        bg-white px-4 text-sm text-gray-400
+                        shadow-none ring-0
+                        focus:ring-0 focus:border-gray-400
+                        focus-visible:ring-0 focus-visible:outline-none
+                      "
+                    >
+                      <SelectValue placeholder="Select Contestant" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent className="rounded-lg border border-gray-200 shadow-md">
+                    {CONTESTANTS.map((c) => (
+                      <SelectItem
+                        key={c.value}
+                        value={c.value}
+                        className="text-sm cursor-pointer"
+                      >
+                        {c.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
           />
-          <p className="mt-1.5 text-xs text-gray-400">
-            Ensure the link has "Anyone with the link" access enabled.
-          </p>
-        </div>
-      </div>
 
-      {/* Submit Button */}
-      <div className="mt-8 flex justify-center">
-        <button
-          onClick={handleSubmit}
-          disabled={!category || !contestant || !driveLink}
-          className="relative px-10 py-3 rounded-xl text-sm font-semibold text-white transition-all duration-200 overflow-hidden"
-          style={{
-            background:
-              !category || !contestant || !driveLink
-                ? "#b0a0a0"
-                : submitted
-                ? "#2d7a3a"
-                : "#2c2424",
-            cursor:
-              !category || !contestant || !driveLink
-                ? "not-allowed"
-                : "pointer",
-            boxShadow:
-              !category || !contestant || !driveLink
-                ? "none"
-                : "0 2px 12px rgba(44,36,36,0.18)",
-          }}
-        >
-          {submitted ? "✓ Entry Submitted!" : "Submit Entry"}
-        </button>
-      </div>
-    </>
+          {/* Drive Link */}
+          <FormField
+            control={form.control}
+            name="driveLink"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-medium text-gray-900">
+                  Drive Link
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Paste your Drive Link Here"
+                    className="
+                      h-12 w-full rounded-lg border border-gray-300
+                      bg-white px-4 text-sm placeholder:text-gray-400
+                      shadow-none ring-0
+                      focus-visible:ring-0 focus-visible:border-gray-400
+                      focus-visible:outline-none
+                    "
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription className="text-xs text-gray-500">
+                  Ensure the link has "Anyone with the link" access enabled.
+                </FormDescription>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
+          />
+
+          {/* Submit Button */}
+          <div className="flex justify-center pt-2">
+            <Button
+              type="submit"
+              className="
+                w-48 h-11 rounded-lg
+                bg-gray-900 hover:bg-gray-800
+                text-white text-sm font-medium
+                tracking-wide
+              "
+            >
+              Submit Entry
+            </Button>
+          </div>
+
+        </form>
+      </Form>
+    </div>
   );
 }
