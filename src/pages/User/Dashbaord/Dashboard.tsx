@@ -1,16 +1,21 @@
 // src/pages/User/Dashbaord/Dashboard.tsx
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import ContestantsTable from "./TableLayout";
 
 export default function Dashboard() {
   const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate();
 
   return (
     <div className="flex flex-col h-full w-full">
       {/* Action Pills */}
       <div className="flex flex-wrap gap-2 mb-4 justify-center shrink-0">
-        <Button className="rounded-full bg-[#262626] hover:bg-[#373737] text-white text-xs font-semibold tracking-wide h-9 px-5 active:scale-95 transition-all">
+        <Button 
+          onClick={() => navigate("/add-contestant")}
+          className="rounded-full bg-[#262626] hover:bg-[#373737] text-white text-xs font-semibold tracking-wide h-9 px-5 active:scale-95 transition-all"
+        >
           Add Contestants
         </Button>
         <Button className="rounded-full bg-[#262626] hover:bg-[#373737] text-white text-xs font-semibold tracking-wide h-9 px-5 active:scale-95 transition-all">

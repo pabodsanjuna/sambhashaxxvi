@@ -9,7 +9,8 @@ import Dashboard from "./pages/User/Dashbaord/Dashboard";
 import RulesRegulationsContent from "./pages/User/Rules&Regulations/RulesContent";
 import Settings from "./pages/User/Settings/Settings";
 import Categories from "./pages/User/Categories/Category";
-import Submissions from "./pages/User/Submissions/DigitalSubmission"
+import Submissions from "./pages/User/Submissions/DigitalSubmission";
+import AddContestant from "./pages/User/AddContestant/AddContestant"; // Added Import
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="/settings" element={<Settings />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/submissions" element={<Submissions />} /> 
+          <Route path="/add-contestant" element={<AddContestant />} /> {/* Added Route */}
         </Route>
       </Routes>
     </BrowserRouter>
