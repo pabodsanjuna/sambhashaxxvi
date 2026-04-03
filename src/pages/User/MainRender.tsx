@@ -14,6 +14,7 @@ export default function Mainrender() {
     if (location.pathname === "/rules") return "Rules & Regulation";
     if (location.pathname === "/categories") return "Categories";
     if (location.pathname === "/submissions") return "Submissions";
+    if (location.pathname === "/settings") return "Settings";
     return "Dashboard"; // Default for /dashboard
   };
 
@@ -24,6 +25,7 @@ export default function Mainrender() {
     else if (label === "Rules & Regulation") navigate("/rules");
     else if (label === "Categories") navigate("/categories");
     else if (label === "Submissions") navigate("/submissions");
+    else if (label === "Settings") navigate("/settings");
   };
 
   const handleLogout = () => {

@@ -8,6 +8,7 @@ import Mainrender from "./pages/User/MainRender";
 import Dashboard from "./pages/User/Dashbaord/Dashboard";
 import RulesRegulationsContent from "./pages/User/Rules&Regulations/RulesContent";
 import Categories from "./pages/User/Categories/Category";
+import Settings from "./pages/User/Settings/Settings";
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/rules" element={<RulesRegulationsContent />} />
           <Route path="/categories" element={<Categories />} />
+          <Route path="/settings" element={<Settings />} />
           {/* Future routes will go here, e.g.: */}
           {/* <Route path="/submissions" element={<Submissions />} /> */}
         </Route>
