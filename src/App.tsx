@@ -3,12 +3,12 @@ import AuthLayout from "./pages/Auth/Auth";
 import { LoginForm, RegisterForm } from "./pages/Auth/Subcomponents/AuthSC";
 import ResetPassword from "./pages/Auth/ResetPassword";
 
-// Import the Mainrender layout and child pages
-import Mainrender from "./pages/User/MainRender";
+// Import the MainRender layout and child pages
+import MainRender from "./pages/User/MainRender";
 import Dashboard from "./pages/User/Dashbaord/Dashboard";
 import RulesRegulationsContent from "./pages/User/Rules&Regulations/RulesContent";
-import Categories from "./pages/User/Categories/Category";
 import Settings from "./pages/User/Settings/Settings";
+import Categories from "./pages/User/Categories/Category";
 
 export default function App() {
   return (
@@ -22,14 +22,13 @@ export default function App() {
           <Route path="reset-password" element={<ResetPassword />} />
         </Route>
 
-        {/* Dashboard Flow using Mainrender as a Pathless Layout Route */}
-        <Route element={<Mainrender />}>
+        {/* Dashboard Flow using MainRender as a Pathless Layout Route */}
+        <Route element={<MainRender />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/rules" element={<RulesRegulationsContent />} />
-          <Route path="/categories" element={<Categories />} />
           <Route path="/settings" element={<Settings />} />
-          {/* Future routes will go here, e.g.: */}
-          {/* <Route path="/submissions" element={<Submissions />} /> */}
+          <Route path="/categories" element={<Categories />} />
+          <Route path="/submissions" element={<div></div>} /> 
         </Route>
       </Routes>
     </BrowserRouter>

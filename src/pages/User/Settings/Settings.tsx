@@ -49,7 +49,7 @@ function InfoRow({
     </div>
   );
 }
-
+ 
 // ─── Settings Content ─────────────────────────────────────────────────────────
 
 function SettingsContent() {
@@ -165,6 +165,7 @@ function SettingsContent() {
               >
                 Contact System Admins
               </a>
+              {" "}or reach out to administrators listed below.
             </p>
 
             <div className="space-y-2.5">
@@ -189,9 +190,6 @@ function SettingsContent() {
     </div>
   );
 }
-
-// ─── App ─────────────────────────────────────────────────────────────────────
-
 export default function SambhashaSettings() {
   return (
     <>
