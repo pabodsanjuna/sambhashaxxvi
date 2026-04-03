@@ -9,6 +9,7 @@ import Dashboard from "./pages/User/Dashbaord/Dashboard";
 import RulesRegulationsContent from "./pages/User/Rules&Regulations/RulesContent";
 import Settings from "./pages/User/Settings/Settings";
 import Categories from "./pages/User/Categories/Category";
+import Submissions from "./pages/User/Submissions/DigitalSubmission"
 
 export default function App() {
   return (
@@ -28,7 +29,7 @@ export default function App() {
           <Route path="/rules" element={<RulesRegulationsContent />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/categories" element={<Categories />} />
-          <Route path="/submissions" element={<div></div>} /> 
+          <Route path="/submissions" element={<Submissions />} /> 
         </Route>
       </Routes>
     </BrowserRouter>
