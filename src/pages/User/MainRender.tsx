@@ -82,7 +82,6 @@ export default function MainRender() {
         </div>
 
         {/* ── Fixed Header ── */}
-        {/* Conditionally rendered based on isSettingsPage */}
         {!isSettingsPage && (
           <div className="shrink-0 px-4 md:px-8 pt-4 md:pt-6 bg-gray-50">
             <DashboardHeader
@@ -93,16 +92,19 @@ export default function MainRender() {
           </div>
         )}
 
-        {/* ── Dynamic Route Content (Outlet) ── */}
-        {/* The active route component injects here */}
-        <main className="flex-1 overflow-y-auto px-4 md:px-8 pb-4 pt-4 flex flex-col min-h-0">
-          <Outlet />
+        {/* ── Dynamic Route Content & Scrolling Footer ── */}
+        <main className="flex-1 overflow-y-auto flex flex-col min-h-0">
+          {/* Main page content wrapper */}
+          <div className="px-4 md:px-8 pb-4 pt-4 flex-1">
+            <Outlet />
+          </div>
+
+          {/* Footer moved inside the scrolling container */}
+          <div className="shrink-0 w-full z-10">
+            <DashboardFooter />
+          </div>
         </main>
 
-        {/* ── Fixed Footer ── */}
-        <div className="shrink-0 z-10">
-          <DashboardFooter />
-        </div>
       </div>
     </div>
   );
