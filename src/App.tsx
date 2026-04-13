@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AuthLayout from "./pages/Auth/Auth";
 import { LoginForm, RegisterForm } from "./pages/Auth/Subcomponents/AuthSC";
 import ResetPassword from "./pages/Auth/ResetPassword";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 // Import the MainRender layout and child pages
 import MainRender from "./pages/User/MainRender";
@@ -24,14 +25,16 @@ export default function App() {
           <Route path="reset-password" element={<ResetPassword />} />
         </Route>
 
-        {/* Dashboard Flow using MainRender as a Pathless Layout Route */}
-        <Route element={<MainRender />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/rules" element={<RulesRegulationsContent />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/categories" element={<Categories />} />
-          <Route path="/submissions" element={<Submissions />} /> 
-          <Route path="/add-contestant" element={<AddContestant />} /> {/* Added Route */}
+        {/* Protected Dashboard Flow using MainRender as a Pathless Layout Route */}
+        <Route element={<ProtectedRoute />}>
+          <Route element={<MainRender />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/rules" element={<RulesRegulationsContent />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/categories" element={<Categories />} />
+            <Route path="/submissions" element={<Submissions />} /> 
+            <Route path="/add-contestant" element={<AddContestant />} /> {/* Added Route */}
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

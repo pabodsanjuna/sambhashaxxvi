@@ -1,19 +1,23 @@
+import { useAuth } from "@/lib/AuthContext";
+
 // DashboardHeader.tsx
 // Only contains: crimson event title + school name / school ID breadcrumb.
 // The 4 action buttons live in Dashboard.tsx, NOT here.
-// shadcn/ui: none required
+// Real-time data from Supabase via AuthContext
 
 interface DashboardHeaderProps {
   eventTitle?: string;
-  schoolName?: string;
-  schoolId?: string;
 }
 
 export default function DashboardHeader({
   eventTitle = "SAMBHASHA XXVI – THE MEDIA COMPETITION",
-  schoolName = "Nalanda College Colombo",
-  schoolId = "SAM255",
 }: DashboardHeaderProps) {
+  const { user } = useAuth();
+  
+  const schoolName = user?.school_name || "School Name";
+  const City = user?.city || "City";
+  const schoolId = user?.school_id || "SAM---";
+
   return (
     <div className="w-full pb-4">
       {/* Crimson serif title */}
@@ -27,7 +31,7 @@ export default function DashboardHeader({
         <span>
           <span className="text-gray-400">&gt;</span>{" "}
           <span className="font-medium">School Name </span>{" "}
-          <span className="text-[#8b0000]">{schoolName}</span>
+          <span className="text-[#8b0000]">{schoolName} , {City}</span>
         </span>
         <span>
           <span className="text-gray-400">&gt;</span>{" "}
@@ -36,5 +40,4 @@ export default function DashboardHeader({
         </span>
       </div>
     </div>
-  );
-}
+  )};
