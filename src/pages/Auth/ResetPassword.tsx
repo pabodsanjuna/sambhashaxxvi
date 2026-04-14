@@ -34,7 +34,7 @@ export default function ResetPassword() {
 
       <Button
         onClick={() => navigate('/login')} // <-- Route back to Login
-        className="rounded-full cursor-pointer bg-[#262626] hover:bg-[#262626] text-white text-sm font-semibold tracking-wide px-10 h-11 active:scale-95 transition-all duration-150"
+        className="rounded-full cursor-pointer bg-gray-900 hover:bg-gray-800 text-white text-sm font-semibold tracking-wide px-10 h-11 active:scale-95 transition-all duration-150"
       >
         Back to Login
       </Button>

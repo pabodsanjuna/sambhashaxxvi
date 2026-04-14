@@ -84,7 +84,11 @@ export default function MainRender() {
         {/* ── Fixed Header ── */}
         {!isSettingsPage && (
           <div className="shrink-0 px-4 md:px-8 pt-4 md:pt-6 bg-gray-50">
-            <DashboardHeader eventTitle="SAMBHASHA XXVI – THE MEDIA DAY" />
+            <DashboardHeader
+              eventTitle="SAMBHASHA XXVI – THE MEDIA DAY"
+              schoolName="Nalanda College Colombo"
+              schoolId="SAM255"
+            />
           </div>
         )}
 

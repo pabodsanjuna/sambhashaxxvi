@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import {
   Shield,
   Phone,
@@ -9,9 +8,26 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useAuth } from "@/lib/AuthContext";
-import { supabase } from "@/lib/supabase";
 
+const schoolInfo = {
+  name: "Nalanda College , Colombo 10",
+  id: "SAM255",
+  logo: "/nalanda-logo.png",
+  phone: "+94 11 587 2369",
+  address: "Siri Dhamma Mawatha, Colombo 01000",
+  mic: {
+    name: "Mrs. Gayani Mirihagalla",
+    contact: "+94 12 345 6978",
+  },
+  coordinator: {
+    name: "Kisara Vonal Hettige",
+    contact: "+94 12 345 6978",
+  },
+  admins: [
+    { name: "Kisara Vonal", phone: "+94 12 345 6987" },
+    { name: "Pabod Sanjuna", phone: "+94 12 345 6987" },
+  ],
+};
 // ─── Info Row ─────────────────────────────────────────────────────────────────
 
 function InfoRow({
@@ -37,52 +53,6 @@ function InfoRow({
 // ─── Settings Content ─────────────────────────────────────────────────────────
 
 function SettingsContent() {
-  const { user } = useAuth();
-  const [profileData, setProfileData] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  
-  // Get user ID from auth context
-  const currentUserId = user?.id;
-
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      if (!currentUserId) return;
-
-      try {
-        const { data, error } = await supabase
-          .from('users')
-          .select('*')
-          .eq('id', currentUserId)
-          .single();
-
-        if (error) throw error;
-        setProfileData(data);
-      } catch (error) {
-        console.error('Error fetching profile:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserProfile();
-  }, [user?.id]);
-
-  if (loading) {
-    return (
-      <div className="p-4 sm:p-6 md:p-8 max-w-5xl mx-auto">
-        <p className="text-gray-500">Loading your profile...</p>
-      </div>
-    );
-  }
-
-  if (!profileData) {
-    return (
-      <div className="p-4 sm:p-6 md:p-8 max-w-5xl mx-auto">
-        <p className="text-gray-500">No profile data found</p>
-      </div>
-    );
-  }
-
   return (
     <div className="p-4 sm:p-6 md:p-8 max-w-5xl mx-auto">
       {/* Page title */}
@@ -95,27 +65,21 @@ function SettingsContent() {
 
       {/* School card header */}
       <div className="flex items-center gap-4 mb-8">
-        <Avatar className="w-16 h-16">
-          <AvatarImage 
-            src={profileData.school_logo_path}
-            alt={profileData.school_name}
-          />
-        </Avatar>
-        <Avatar className="w-16 h-16">
-          <AvatarImage
-            src={profileData.media_logo_path}
-            alt="Media Logo"
-          />
+        <Avatar className="w-16 h-16 ring-2 ring-red-100">
+          <AvatarImage src="/nalanda-logo.png" alt="Nalanda College" />
+          <AvatarFallback className="bg-red-50 text-red-700 text-lg font-bold">
+            NC
+          </AvatarFallback>
         </Avatar>
         <div>
           <h2 className="text-lg sm:text-xl font-bold text-gray-800 leading-tight">
-            {profileData.school_name},{profileData.city}
+            {schoolInfo.name}
           </h2>
           <Badge
             variant="outline"
             className="mt-1 text-xs text-red-600 border-red-200 bg-red-50 font-semibold tracking-wide"
           >
-            SCHOOL ID – {profileData.school_id}
+            SCHOOL ID – {schoolInfo.id}
           </Badge>
         </div>
       </div>
@@ -134,19 +98,14 @@ function SettingsContent() {
               <InfoRow
                 icon={User}
                 label="School Name"
-                value={profileData.school_name || "N/A"}
-              />
-              <InfoRow
-                icon={MapPin}
-                label="City"
-                value={profileData.city || "N/A"}
+                value="Nalanda College  Colombo 10"
               />
               <InfoRow
                 icon={Phone}
                 label="Official Phone Number"
-                value={profileData.phone || "N/A"}
+                value={schoolInfo.phone}
               />
-              <InfoRow icon={MapPin} label="Address" value={profileData.address || "N/A"} />
+              <InfoRow icon={MapPin} label="Address" value={schoolInfo.address} />
             </div>
           </div>
 
@@ -162,68 +121,70 @@ function SettingsContent() {
               <InfoRow
                 icon={User}
                 label="Name of Master In Charge"
-                value={profileData.mic_name || "N/A"}
+                value={schoolInfo.mic.name}
               />
               <InfoRow
                 icon={Phone}
                 label="MIC Contact"
-                value={profileData.mic_contact || "N/A"}
+                value={schoolInfo.mic.contact}
               />
               <InfoRow
                 icon={User}
                 label="Name of Co-Ordinator"
-                value={profileData.coordinator_name || "N/A"}
+                value={schoolInfo.coordinator.name}
               />
               <InfoRow
                 icon={MessageCircle}
                 label="Co-Ordinator Contact (Whatsapp)"
-                value={profileData.coordinator_contact || "N/A"}
+                value={schoolInfo.coordinator.contact}
               />
             </div>
           </div>
         </div>
 
-        {/* Right: Account Info */}
-        <div className="bg-blue-50 rounded-xl border border-blue-100 shadow-sm p-6 space-y-5">
+        {/* Right: Security Notice */}
+        <div className="bg-red-50 rounded-xl border border-red-100 shadow-sm p-6 flex flex-col gap-5">
           <div className="flex items-center gap-2">
-            <Shield className="w-4 h-4 text-blue-600" />
-            <h3 className="text-sm font-bold text-blue-700 tracking-wider uppercase">
-              Account Information
+            <Shield className="w-4 h-4 text-red-600" />
+            <h3 className="text-sm font-bold text-red-700 tracking-wider uppercase">
+              Security Notice
             </h3>
           </div>
 
-          <div className="space-y-3">
-            <div className="bg-white/60 border border-blue-100 rounded-lg px-4 py-3">
-              <p className="text-xs text-gray-500 mb-1">Email Address</p>
-              <p className="text-sm font-semibold text-gray-800">{profileData.email}</p>
-            </div>
+          <p className="text-sm text-red-600 leading-relaxed">
+            For security reasons, you cannot directly modify your school's
+            registration details or profile image.
+          </p>
 
-            <div className="bg-white/60 border border-blue-100 rounded-lg px-4 py-3">
-              <p className="text-xs text-gray-500 mb-1">Member Since</p>
-              <p className="text-sm font-semibold text-gray-800">
-                {new Date(profileData.created_at).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-              </p>
+          <div>
+            <p className="text-sm text-red-600 mb-3">
+              To Request Change Details or Recover Password{" "}
+              <a
+                href="#"
+                className="font-semibold underline underline-offset-2 hover:opacity-80 transition-opacity"
+              >
+                Contact System Admins
+              </a>
+              {" "}or reach out to administrators listed below.
+            </p>
+
+            <div className="space-y-2.5">
+              {schoolInfo.admins.map((admin) => (
+                <div
+                  key={admin.name}
+                  className="flex items-center justify-between bg-white/60 border border-red-100 rounded-lg px-4 py-2.5"
+                >
+                  <span className="text-sm font-semibold text-red-700">
+                    {admin.name}
+                  </span>
+                  <span className="flex items-center gap-1.5 text-sm font-bold text-red-700">
+                    <Phone className="w-3 h-3" />
+                    {admin.phone}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
-
-          <Separator className="bg-blue-200" />
-
-          <p className="text-sm text-blue-700">
-            For security reasons, you cannot directly modify your school's registration details.
-            <span className="font-semibold underline underline-offset-2 hover:opacity-80 transition-opacity ml-1">
-              Contact us from below numbers
-            </span>
-          </p>
-          <p className="font-semibold hover:opacity-80 transition-opacity ml-1 text-blue-700 cursor-pointer">
-              Kisara Vonal : +94 77 123 4567
-          </p>
-          <p className="font-semibold hover:opacity-80 transition-opacity ml-1 text-blue-700 cursor-pointer">
-              Pabod Sanjuna : +94 77 123 4567
-          </p>
         </div>
       </div>
     </div>

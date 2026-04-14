@@ -2,13 +2,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/lib/AuthContext";
 import ContestantsTable from "./TableLayout";
 
 export default function Dashboard() {
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
-  const { user } = useAuth();
 
   return (
     <div className="flex flex-col h-full w-full">
