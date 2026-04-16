@@ -2,13 +2,11 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ClerkProvider, useAuth } from "@clerk/react";
 
 // Import the new DashboardLayout and child pages
-import DashboardLayout from "./pages/User/DashboardLayout";
-import Dashboard from "./pages/User/Dashbaord/Dashboard";
-import Settings from "./pages/User/Settings/Settings";
-import Rules from "./pages/User/Rules&Regulations/Rules";
-import Categories from "./pages/User/Categories/Category";
-import Submissions from "./pages/User/Submissions/DigitalSubmission";
-import AddContestant from "./pages/User/AddContestant/AddContestant";
+import Settings from "./app/dashboard/Settings/Settings";
+import Rules from "./app/dashboard/Rules&Regulations/Rules";
+import Categories from "./app/dashboard/Categories/Category";
+import Submissions from "./app/dashboard/Submissions/DigitalSubmission";
+import AddContestant from "./app/dashboard/AddContestant/AddContestant";
 import SignInPage from "./pages/Auth/SignInPage";
 import SignUpPage from "./pages/Auth/SignUpPage";
 
@@ -18,7 +16,7 @@ function ProtectedLayout() {
   if (!isLoaded) return <div>Loading...</div>;
   if (!isSignedIn) return <Navigate to="/sign-in" replace />;
   
-  return <DashboardLayout />;
+  return ;
 }
 
 export default function App() {
@@ -34,10 +32,8 @@ export default function App() {
         <Routes>
           <Route path="/sign-in/*" element={<SignInPage />} />
           <Route path="/sign-up/*" element={<SignUpPage />} />
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
           
           <Route element={<ProtectedLayout />}>
-            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/rules" element={<Rules />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/categories" element={<Categories />} />
