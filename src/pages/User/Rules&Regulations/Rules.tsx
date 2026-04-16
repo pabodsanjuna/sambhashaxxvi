@@ -9,7 +9,7 @@ const pdfPagePreviews = [
   { id: 3, imageUrl: "https://zlehpcmytcixupbhahtl.supabase.co/storage/v1/object/sign/logo/Rules3.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8zZGRkN2NkNy01MDBjLTQ1ZjQtOTNkYi02M2UzYzVhNGVkMjUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJsb2dvL1J1bGVzMy5qcGciLCJpYXQiOjE3NzUwNDQ0ODYsImV4cCI6MTgwNjU4MDQ4Nn0.5wpfV-GxmqaHW41neXyJe_u3Xt_uwI-AnqPzbEWzFRA", alt: "Rules Page 3" },
 ];
 
-export default function RulesRegulationsContent() {
+export default function Rules() {
   const handleDownload = () => {
     // Replace with actual PDF URL/path
     const pdfUrl = "/assets/sambhasha-xxvi-rules-regulations.pdf";
