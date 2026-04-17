@@ -65,7 +65,7 @@ function AppRoutes() {
     <Routes>
       <Route path="/sign-in" element={<SignInPage />} />
       <Route path="/sign-up" element={<SignUpPage />} />
-      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      <Route path="/" element={<Navigate to="/sign-in" replace />} />
       
       <Route element={<ProtectedLayout />}>
         <Route path="/dashboard" element={<ContestantDashboard />} />

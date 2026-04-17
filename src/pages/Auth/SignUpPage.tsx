@@ -8,7 +8,6 @@ export default function SignUpPage() {
         <div className="w-full max-w-md">
           <SignUp 
             signInUrl="/sign-in"
-            redirectUrl="/dashboard"
             forceRedirectUrl="/dashboard"
           />
         </div>
