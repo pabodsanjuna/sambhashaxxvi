@@ -7,8 +7,9 @@ export default function SignUpPage() {
       <div className="relative z-10 flex-1 flex items-center justify-center px-4 py-10">
         <div className="w-full max-w-md">
           <SignUp 
-            path="/sign-up" 
             signInUrl="/sign-in"
+            redirectUrl="/dashboard"
+            forceRedirectUrl="/dashboard"
           />
         </div>
         <Footer />

@@ -3,7 +3,7 @@ import SubmissionInstructions from "./SubmissionInstructions";
 
 export default function DigitalSubmissions() {
   return (
-    <div className="h-full w-full -mb-10 bg-gray-50 flex items-center justify-center p-6 font-sans">
+    <div className="h-full w-full -mb-10 flex items-center justify-center p-6 font-sans">
       <div className="w-full max-w-lg">
         <SubmissionInstructions />
         <SubmissionsForm />
