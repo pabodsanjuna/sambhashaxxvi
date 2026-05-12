@@ -1,98 +1,90 @@
-import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
-import { ClerkProvider, useAuth, RedirectToSignIn } from "@clerk/react";
-import { ReactNode } from "react";
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { AuthBG } from './components/AuthBG';
+import { AuthForm } from './components/AuthForm';
+import { SignUpForm } from './components/SignUpForm';
+import { RequireAuth } from './components/RequireAuth';
+import { RequireRole } from './components/RequireRole';
 
-// Import layout and pages
-import { DashboardLayout } from "./app/dashboard/layout/DashboardLayout";
-import ContestantDashboard from "./app/dashboard/Dashboard";
-import Settings from "./app/dashboard/Settings/Settings";
-import Rules from "./app/dashboard/Rules&Regulations/Rules";
-import Categories from "./app/dashboard/Categories/Category";
-import Submissions from "./app/dashboard/Submissions/DigitalSubmission";
-import AddContestant from "./app/dashboard/AddContestant/AddContestant";
-import SignInPage from "./pages/Auth/SignInPage";
-import SignUpPage from "./pages/Auth/SignUpPage";
+// Landing Page
+import { LandingPage } from './App/LandingPage/LandingPage';
 
-// Protected Route Component
-function ProtectedRoute({ children }: { children: ReactNode }) {
-  const { isLoaded, isSignedIn } = useAuth();
+// User imports
+import { Onboarding } from './App/User/Onboarding';
+import { StaffOnboarding } from './App/User/StaffOnboarding';
+import { Dashboard } from './App/User/Dashboard';
+import { DashboardLayout } from './App/User/DashboardLayout';
+import { AddContestant } from './App/User/AddContestant';
+import { AddSubmission } from './App/User/AddSubmission';
+import { SubmissionsList } from './App/User/SubmissionsList';
+import { Settings } from './App/User/Settings';
+import { Notifications } from './App/User/Notifications';
 
-  if (!isLoaded) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading...</p>
-        </div>
-      </div>
-    );
-  }
+// Admin imports
+import { AdminLayout } from './App/Admin/AdminLayout';
+import { AdminDashboard } from './App/Admin/AdminDashboard';
+import { AdminSchools } from './App/Admin/AdminSchools';
+import { AdminSchoolDetails } from './App/Admin/AdminSchoolDetails';
+import { AdminContestants } from './App/Admin/AdminContestants';
+import { AdminSettings } from './App/Admin/AdminSettings';
+import { AdminNotifications } from './App/Admin/AdminNotifications';
+import { AdminSubmissions } from './App/Admin/AdminSubmissions';
 
-  if (!isSignedIn) {
-    return <RedirectToSignIn />;
-  }
+// Attendance imports
+import { AttendanceApp } from './App/Attendance/AttendanceApp';
+import { AttendanceDashboard } from './App/Attendance/AttendanceDashboard';
+import { AttendanceScanner } from './App/Attendance/AttendanceScanner';
+import { AttendanceWalkIn } from './App/Attendance/AttendanceWalkIn';
+import { AttendanceScannerView } from './App/Attendance/AttendanceScannerView';
 
-  return <>{children}</>;
-}
-
-// Protected Layout Component
-function ProtectedLayout() {
-  return (
-    <ProtectedRoute>
-      <DashboardLayout>
-        <Outlet />
-      </DashboardLayout>
-    </ProtectedRoute>
-  );
-}
-
-// Routes Component (inside ClerkProvider context)
-function AppRoutes() {
-  const { isLoaded } = useAuth();
-
-  if (!isLoaded) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading...</p>
-        </div>
-      </div>
-    );
-  }
-
+export default function App() {
   return (
     <Routes>
-      <Route path="/sign-in" element={<SignInPage />} />
-      <Route path="/sign-up" element={<SignUpPage />} />
-      <Route path="/" element={<Navigate to="/sign-in" replace />} />
-      
-      <Route element={<ProtectedLayout />}>
-        <Route path="/dashboard" element={<ContestantDashboard />} />
-        <Route path="/rules" element={<Rules />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/categories" element={<Categories />} />
-        <Route path="/submissions" element={<Submissions />} />
-        <Route path="/add-contestant" element={<AddContestant />} />
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/staff-onboarding" element={<StaffOnboarding />} />
+      <Route element={<AuthBG />}>
+        <Route path="/sign-in/*" element={<AuthForm />} />
+        <Route path="/sign-up/*" element={<SignUpForm />} />
       </Route>
       
-      <Route path="*" element={<Navigate to="/" replace />} />
+      {/* Admin Flow */}
+      <Route element={<RequireRole allowedRoles={['admin']} />}>
+        <Route element={<AdminLayout />}>
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/schools" element={<AdminSchools />} />
+          <Route path="/admin/schools/:schoolId" element={<AdminSchoolDetails />} />
+          <Route path="/admin/contestants" element={<AdminContestants />} />
+          <Route path="/admin/submissions" element={<AdminSubmissions />} />
+          <Route path="/admin/settings" element={<AdminSettings />} />
+          <Route path="/admin/notifications" element={<AdminNotifications />} />
+        </Route>
+      </Route>
+
+      {/* Event Day / Attendance Flow */}
+      <Route element={<RequireRole allowedRoles={['admin', 'registrar']} />}>
+        <Route element={<AttendanceApp />}>
+          <Route path="/attendance" element={<AttendanceDashboard />} />
+          <Route path="/attendance/scan" element={<AttendanceScanner />} />
+          <Route path="/attendance/walk-in" element={<AttendanceWalkIn />} />
+          <Route path="/attendance/:schoolId" element={<AttendanceScannerView />} />
+        </Route>
+      </Route>
+
+      {/* School Coordinator Protected Routes */}
+      <Route element={<RequireAuth />}>
+        <Route path="/onboarding" element={<Onboarding />} />
+        
+        <Route element={<DashboardLayout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/add-contestant" element={<AddContestant />} />
+          <Route path="/dashboard/add-submission" element={<AddSubmission />} />
+          <Route path="/dashboard/submissions" element={<SubmissionsList />} />
+          <Route path="/dashboard/settings" element={<Settings />} />
+          <Route path="/dashboard/notifications" element={<Notifications />} />
+          <Route path="/category" element={<Dashboard />} />
+          <Route path="/guidelines" element={<Dashboard />} />
+        </Route>
+      </Route>
     </Routes>
   );
 }
 
-export default function App() {
-  const publishableKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
-
-  if (!publishableKey) {
-    throw new Error('Missing Publishable Key. Go to the Clerk dashboard and copy your key.');
-  }
-
-  return (
-    <ClerkProvider publishableKey={publishableKey}>
-      <BrowserRouter>
-        <AppRoutes />
-      </BrowserRouter>
-    </ClerkProvider>
-  );
-}
