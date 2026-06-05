@@ -47,8 +47,7 @@ export function AdminContestants() {
       'School ID': c.school_details?.school_id,
       'Status': c.status,
       'Registered At': new Date(c.created_at).toLocaleString(),
-      'Attended': c.is_attended ? 'Yes' : 'No',
-      'Walk-In': c.is_walk_in ? 'Yes' : 'No'
+      'Attended': c.is_attended ? 'Yes' : 'No'
     }));
 
     const csv = Papa.unparse(exportData);

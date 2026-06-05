@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Plus, Edit2 } from 'lucide-react';
+import { ArrowLeft, Plus, Edit2, Download, ChevronDown, FileText, FileSpreadsheet } from 'lucide-react';
+import { exportContestantsAsCSV } from './utils/csvExport';
+import { exportContestantsAsPDF } from './utils/pdfExport';
 
 export function AdminSchoolDetails() {
   const { schoolId } = useParams();
@@ -9,6 +11,29 @@ export function AdminSchoolDetails() {
   const [school, setSchool] = useState<any>(null);
   const [contestants, setContestants] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isExportDropdownOpen, setIsExportDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsExportDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const exportAsCSV = () => {
+    setIsExportDropdownOpen(false);
+    exportContestantsAsCSV(school, contestants);
+  };
+
+  const exportAsPDF = async () => {
+    setIsExportDropdownOpen(false);
+    await exportContestantsAsPDF(school, contestants);
+  };
 
   // Modal State for edit/add
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -127,6 +152,36 @@ export function AdminSchoolDetails() {
               <div className="text-2xl font-black text-orange-400 font-mono">{contestants.length}</div>
            </div>
            <div className="w-px h-10 bg-white/10 hidden md:block"></div>
+           
+           <div className="relative" ref={dropdownRef}>
+             <button 
+               onClick={() => setIsExportDropdownOpen(!isExportDropdownOpen)}
+               className="h-10 px-4 rounded-xl bg-white/5 hover:bg-white/10 text-white text-sm font-bold border border-white/10 transition-all flex items-center justify-center gap-2 shrink-0"
+             >
+               <Download className="w-4 h-4" /> Export
+               <ChevronDown className={`w-4 h-4 transition-transform ${isExportDropdownOpen ? 'rotate-180' : ''}`} />
+             </button>
+             
+             {isExportDropdownOpen && (
+               <div className="absolute right-0 top-full mt-2 w-48 bg-zinc-900 border border-white/10 rounded-xl shadow-2xl overflow-hidden z-50">
+                 <button 
+                   onClick={exportAsCSV}
+                   className="w-full flex items-center gap-3 px-4 py-3 text-sm text-white hover:bg-white/5 transition-colors text-left"
+                 >
+                   <FileSpreadsheet className="w-4 h-4 text-green-400" />
+                   Export as CSV
+                 </button>
+                 <button 
+                   onClick={exportAsPDF}
+                   className="w-full flex items-center gap-3 px-4 py-3 text-sm text-white hover:bg-white/5 transition-colors text-left border-t border-white/5"
+                 >
+                   <FileText className="w-4 h-4 text-red-400" />
+                   Export as PDF
+                 </button>
+               </div>
+             )}
+           </div>
+
            <button 
              onClick={openAddModal}
              className="h-10 px-6 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-sm font-bold shadow-lg shadow-orange-900/20 transition-all flex items-center justify-center gap-2 shrink-0"

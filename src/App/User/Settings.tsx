@@ -6,6 +6,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { QRCodeSVG } from 'qrcode.react';
 import * as htmlToImage from 'html-to-image';
+import { jsPDF } from 'jspdf';
+import { EntryPass } from './components/EntryPass';
 
 export function Settings() {
   const { user } = useUser();
@@ -35,12 +37,19 @@ export function Settings() {
     if (!qrCardRef.current || !schoolDetails) return;
     setIsGeneratingQR(true);
     try {
-      const imgData = await htmlToImage.toJpeg(qrCardRef.current, { quality: 1, backgroundColor: '#ffffff', pixelRatio: 2 });
+      // Create a clean A4 PDF (A4 is 595.28 x 841.89 points)
+      // Our card aspect ratio is set, we can fit it inside A4 or just match the card size.
+      // Let's match the card size to preserve the exact layout: 840x1260
+      const imgData = await htmlToImage.toPng(qrCardRef.current, { quality: 1, backgroundColor: '#ffffff', pixelRatio: 2 });
       
-      const link = document.createElement('a');
-      link.download = `${schoolDetails.school_name} - ${schoolDetails.school_id} - SAMBHASHA XXVI ENTRY PASS.jpg`;
-      link.href = imgData;
-      link.click();
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'px',
+        format: [480, 720]
+      });
+
+      pdf.addImage(imgData, 'PNG', 0, 0, 480, 720);
+      pdf.save(`${schoolDetails.school_name} - ${schoolDetails.school_id} - SAMBHASHA XXVI ENTRY PASS.pdf`);
     } catch (err) {
       console.error(err);
       alert('Failed to generate Attendance QR. Please try again.');
@@ -237,84 +246,13 @@ export function Settings() {
             
             {/* Hidden QR Code Layout for ID Card Generation */}
             <div className="absolute top-[-9999px] left-[-9999px]">
-               <div 
-                 ref={qrCardRef} 
-                 className="w-[840px] h-[1260px] bg-white relative overflow-hidden flex flex-col items-center py-20 box-border" 
-                 style={{ fontFamily: 'Inter, sans-serif' }}
-               >
-                  {/* Left Floral/Ornamental Pattern */}
-                  <div className="absolute left-[-60px] top-0 bottom-0 w-[200px] flex flex-col justify-around pointer-events-none opacity-[0.06] text-black">
-                    <svg viewBox="0 0 100 200" fill="currentColor" className="w-full h-[300px]">
-                      <path d="M10,50 Q30,20 60,40 T90,70 Q70,90 40,80 T10,50 Z"/>
-                      <path d="M20,100 Q40,150 80,120 T100,180 Q60,190 20,160 Z"/>
-                      <path d="M5,150 Q20,130 50,140 T80,170 Q60,190 30,180 T5,150 Z"/>
-                    </svg>
-                    <svg viewBox="0 0 100 200" fill="currentColor" className="w-full h-[300px]">
-                      <path d="M10,50 Q30,20 60,40 T90,70 Q70,90 40,80 T10,50 Z"/>
-                      <path d="M20,100 Q40,150 80,120 T100,180 Q60,190 20,160 Z"/>
-                    </svg>
-                    <svg viewBox="0 0 100 200" fill="currentColor" className="w-full h-[300px]">
-                      <path d="M20,100 Q40,150 80,120 T100,180 Q60,190 20,160 Z"/>
-                      <path d="M5,150 Q20,130 50,140 T80,170 Q60,190 30,180 T5,150 Z"/>
-                    </svg>
-                  </div>
-             
-                  {/* Right vertical text "ENTRY PASS" */}
-                  <div className="absolute right-[-140px] top-[50%] -translate-y-1/2 -rotate-90 text-[140px] font-black text-black/[0.04] whitespace-nowrap pointer-events-none tracking-tighter origin-center">
-                     ENTRY PASS
-                  </div>
-             
-                  {/* Bottom orange bar */}
-                  <div className="absolute bottom-0 left-0 right-0 h-[30px] bg-[#f97316] z-20" />
-             
-                  {/* Content Wrapper */}
-                  <div className="text-center z-10 w-full px-24 h-full flex flex-col justify-between items-center relative">
-                     <div>
-                        <h1 className="text-6xl font-bold flex justify-center gap-4 tracking-tight">
-                           <span className="text-[#f97316]">SAMBHASHA</span>
-                           <span className="text-black">XXVI</span>
-                        </h1>
-                     </div>
-             
-                     <div className="space-y-2 text-center mt-12 mb-12">
-                        <h2 className="text-[32px] font-extrabold text-black uppercase tracking-tight">{schoolDetailsData.schoolName || 'SCHOOL_NAME'}</h2>
-                        <h3 className="text-[26px] font-extrabold text-black uppercase tracking-tight">{schoolDetailsData.city || 'SCHOOL_CITY'}</h3>
-                        <p className="text-2xl font-extrabold text-black uppercase tracking-wide mt-6">
-                          {schoolDetailsData.schoolId || 'SCHOOL_ID'}
-                        </p>
-                     </div>
-             
-                     <div className="flex justify-center mb-16 bg-white p-6 shadow-[0_0_40px_rgba(0,0,0,0.1)] rounded-xl border border-zinc-100">
-                         <QRCodeSVG 
-                           value={`${window.location.origin}/attendance/${schoolDetails?.id}`}
-                           size={480}
-                           level="M"
-                           includeMargin={false}
-                         />
-                     </div>
-             
-                     <div className="space-y-10 text-black w-full text-center flex-1">
-                        <div className="space-y-2">
-                           <p className="text-[32px] font-bold tracking-tight">Master-In-Charge</p>
-                           <p className="text-[26px] font-bold tracking-tight">
-                             {contactPersons.mic.name || 'Master-In-Charge Details'} {contactPersons.mic.phone && `- ${contactPersons.mic.phone}`}
-                           </p>
-                        </div>
-                        
-                        <div className="space-y-2">
-                           <p className="text-[32px] font-bold tracking-tight">General Co-ordinator</p>
-                           <p className="text-[26px] font-bold tracking-tight">
-                             {contactPersons.coordinator.name || 'Co-ordinator Details'} {contactPersons.coordinator.phone && `- ${contactPersons.coordinator.phone}`}
-                           </p>
-                        </div>
-                     </div>
-             
-                     {/* Bottom left generation details */}
-                     <div className="w-full text-left mt-8">
-                        <p className="text-black text-2xl font-medium tracking-tight">generate on {new Date().toLocaleDateString()}</p>
-                     </div>
-                  </div>
-               </div>
+               <EntryPass 
+                 ref={qrCardRef}
+                 schoolDetails={schoolDetails}
+                 schoolDetailsData={schoolDetailsData}
+                 contactPersons={contactPersons}
+                 originOrigin={window.location.origin}
+               />
             </div>
           </motion.div>
 

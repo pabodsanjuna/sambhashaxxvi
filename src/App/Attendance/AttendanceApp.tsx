@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { Activity, QrCode, UserPlus, LogOut, LayoutDashboard, Menu, X } from 'lucide-react';
+import { Activity, QrCode, LogOut, LayoutDashboard, Menu, X } from 'lucide-react';
 import { useAuth, useUser } from '@clerk/clerk-react';
 import { VintageBackground } from '@/components/VintageBackground';
 
@@ -21,7 +21,6 @@ export function AttendanceApp() {
   const tabs = [
     { name: 'Dashboard', path: '/attendance', icon: Activity },
     { name: 'Scan & Mark', path: '/attendance/scan', icon: QrCode },
-    { name: 'Walk-ins', path: '/attendance/walk-in', icon: UserPlus },
   ];
 
   return (
@@ -38,7 +37,7 @@ export function AttendanceApp() {
                 </div>
                 <div>
                    <h1 className="font-bold leading-tight text-white tracking-tight">Event Tracker</h1>
-                   <p className="text-[10px] text-zinc-500 font-mono tracking-widest mt-0.5">SAMBHASHA XXVI</p>
+                   <p className="text-[10px] text-zinc-500 font-mono tracking-widest mt-0.5" style={{ fontFamily: '"Bruny", "Bruno Ace", sans-serif' }}>SAMBHASHA XXVI</p>
                 </div>
              </div>
           </div>
@@ -86,7 +85,7 @@ export function AttendanceApp() {
              </div>
              <div>
                 <h1 className="font-bold leading-tight text-sm">Event Tracker</h1>
-                <p className="text-[10px] text-zinc-400 font-mono">SAMBHASHA XXVI</p>
+                <p className="text-[10px] text-zinc-400 font-mono" style={{ fontFamily: '"Bruny", "Bruno Ace", sans-serif' }}>SAMBHASHA XXVI</p>
              </div>
           </div>
        </header>

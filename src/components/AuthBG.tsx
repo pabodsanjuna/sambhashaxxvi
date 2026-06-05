@@ -12,7 +12,7 @@ export function AuthBG() {
       {/* Header */}
       <header className="relative w-full py-8 px-6 flex justify-center z-20 mt-4">
         <div className="text-center">
-          <h1 className="text-xl md:text-2xl font-[family-name:var(--font-modern)] font-bold text-white tracking-widest uppercase mb-1">
+          <h1 className="text-xl md:text-2xl font-bold text-white tracking-widest uppercase mb-1" style={{ fontFamily: '"Bruny", "Bruno Ace", sans-serif' }}>
             SAMBHASHA XXVI
           </h1>
           <p className="text-[9px] md:text-[10px] tracking-[0.3em] font-medium text-zinc-400 uppercase">

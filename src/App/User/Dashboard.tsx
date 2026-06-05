@@ -102,7 +102,10 @@ export function Dashboard() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `contestants_export_${new Date().toISOString().split('T')[0]}.csv`;
+    const schoolNameStr = schoolDetails?.school_name ? schoolDetails.school_name.replace(/\s+/g, '_') : 'school_name';
+    const schoolIdStr = schoolDetails?.school_id || 'school_id';
+    const dateStr = new Date().toISOString().split('T')[0];
+    a.download = `${schoolNameStr}_${schoolIdStr}_sambhashaxxvi_contestant_list_[${dateStr}].csv`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
-import { Users, CheckCircle2, UserPlus } from 'lucide-react';
+import { Users, CheckCircle2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export function AttendanceDashboard() {
-  const [stats, setStats] = useState({ expected: 0, attended: 0, walkIns: 0 });
+  const [stats, setStats] = useState({ expected: 0, attended: 0 });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -12,19 +12,16 @@ export function AttendanceDashboard() {
       // In a real optimized app, you'd use raw SQL or counts, but for now we'll fetch basic metrics.
       // Expected: All contestants
       // Attended: is_attended = true
-      // WalkIns: is_walk_in = true
 
       try {
-         const [allRes, attendedRes, walkInRes] = await Promise.all([
+         const [allRes, attendedRes] = await Promise.all([
            supabase.from('contestants').select('*', { count: 'exact', head: true }),
-           supabase.from('contestants').select('*', { count: 'exact', head: true }).eq('is_attended', true),
-           supabase.from('contestants').select('*', { count: 'exact', head: true }).eq('is_walk_in', true)
+           supabase.from('contestants').select('*', { count: 'exact', head: true }).eq('is_attended', true)
          ]);
 
          setStats({
             expected: allRes.count || 0,
-            attended: attendedRes.count || 0,
-            walkIns: walkInRes.count || 0
+            attended: attendedRes.count || 0
          });
       } catch(err) {
          console.error(err);
@@ -42,8 +39,7 @@ export function AttendanceDashboard() {
 
   const cards = [
     { label: 'Total Expected', value: stats.expected, icon: Users, color: 'text-blue-500', bg: 'bg-blue-500/10 border-blue-500/20' },
-    { label: 'Total Attended', value: stats.attended, icon: CheckCircle2, color: 'text-green-500', bg: 'bg-green-500/10 border-green-500/20' },
-    { label: 'Total Walk-ins', value: stats.walkIns, icon: UserPlus, color: 'text-orange-500', bg: 'bg-orange-500/10 border-orange-500/20' },
+    { label: 'Total Attended', value: stats.attended, icon: CheckCircle2, color: 'text-green-500', bg: 'bg-green-500/10 border-green-500/20' }
   ];
 
   return (
@@ -52,7 +48,7 @@ export function AttendanceDashboard() {
            <h2 className="text-2xl font-black mt-2">Live Metrics</h2>
            <p className="text-sm text-zinc-400 mt-1">Real-time attendance overview</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
            {cards.map((c, i) => (
              <motion.div 
                key={i}

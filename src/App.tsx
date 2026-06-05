@@ -33,13 +33,14 @@ import { AdminSubmissions } from './App/Admin/AdminSubmissions';
 import { AttendanceApp } from './App/Attendance/AttendanceApp';
 import { AttendanceDashboard } from './App/Attendance/AttendanceDashboard';
 import { AttendanceScanner } from './App/Attendance/AttendanceScanner';
-import { AttendanceWalkIn } from './App/Attendance/AttendanceWalkIn';
 import { AttendanceScannerView } from './App/Attendance/AttendanceScannerView';
+import { RemoteScanner } from './App/Attendance/RemoteScanner';
 
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
+      <Route path="/remote-scanner" element={<RemoteScanner />} />
       <Route path="/staff-onboarding" element={<StaffOnboarding />} />
       <Route element={<AuthBG />}>
         <Route path="/sign-in/*" element={<AuthForm />} />
@@ -64,7 +65,6 @@ export default function App() {
         <Route element={<AttendanceApp />}>
           <Route path="/attendance" element={<AttendanceDashboard />} />
           <Route path="/attendance/scan" element={<AttendanceScanner />} />
-          <Route path="/attendance/walk-in" element={<AttendanceWalkIn />} />
           <Route path="/attendance/:schoolId" element={<AttendanceScannerView />} />
         </Route>
       </Route>
@@ -84,6 +84,9 @@ export default function App() {
           <Route path="/guidelines" element={<Dashboard />} />
         </Route>
       </Route>
+
+      {/* Catch-all redirect to Landing Page */}
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }

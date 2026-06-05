@@ -7,18 +7,15 @@ import './index.css';
 
 // Patch window.fetch to avoid errors when third-party libraries (like Clerk) try to override it in an environment where it only has a getter.
 try {
-  const descriptor = Object.getOwnPropertyDescriptor(window, 'fetch');
-  if (descriptor && !descriptor.set) {
-    let currentFetch = window.fetch;
-    Object.defineProperty(window, 'fetch', {
-      get: () => currentFetch,
-      set: (newFetch) => {
-        currentFetch = newFetch;
-      },
-      configurable: true,
-      enumerable: true,
-    });
-  }
+  let currentFetch = window.fetch;
+  Object.defineProperty(window, 'fetch', {
+    get: () => currentFetch,
+    set: (newFetch) => {
+      currentFetch = newFetch;
+    },
+    configurable: true,
+    enumerable: true,
+  });
 } catch (e) {
   console.warn('Could not patch window.fetch', e);
 }
