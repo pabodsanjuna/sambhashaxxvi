@@ -100,6 +100,21 @@ export function AdminSettings() {
                <span className={`pointer-events-none inline-block h-6 w-6 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${settings.submissions_open ? 'translate-x-5' : 'translate-x-0'}`} />
             </button>
          </div>
+
+         {/* Setting 3: submission_start */}
+         <div className="bg-white/5 border border-white/10 p-6 rounded-2xl flex items-center justify-between">
+            <div>
+               <h3 className="text-lg font-bold text-white mb-1">Submissions Portal Access</h3>
+               <p className="text-sm text-zinc-400 font-medium">Controls user access to the submissions portal.</p>
+            </div>
+            <button 
+               onClick={() => toggleSetting('submission_start', settings.submission_start)}
+               disabled={isSaving}
+               className={`relative inline-flex h-7 w-12 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none disabled:opacity-50 ${settings.submission_start ? 'bg-orange-500' : 'bg-zinc-700'}`}
+            >
+               <span className={`pointer-events-none inline-block h-6 w-6 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${settings.submission_start ? 'translate-x-5' : 'translate-x-0'}`} />
+            </button>
+         </div>
       </div>
     </div>
   );

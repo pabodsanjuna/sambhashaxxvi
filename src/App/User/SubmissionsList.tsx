@@ -10,11 +10,20 @@ export function SubmissionsList() {
   const { schoolDetails } = useSchoolDetails();
   const [submissions, setSubmissions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [submissionStart, setSubmissionStart] = useState(true);
 
   useEffect(() => {
     async function loadSubmissions() {
       if (!schoolDetails) return;
       setLoading(true);
+      
+      const { data: settings } = await supabase.from('system_settings').select('submission_start').single();
+      if (settings && settings.submission_start === false) {
+        setSubmissionStart(false);
+        setLoading(false);
+        return;
+      }
+      
       const { data, error } = await supabase
         .from('submissions')
         .select(`
@@ -38,6 +47,20 @@ export function SubmissionsList() {
 
   if (loading) {
     return <div className="p-10 text-white">Loading submissions...</div>;
+  }
+
+  if (!submissionStart) {
+    return (
+      <div className="p-6 sm:p-10 space-y-8 max-w-5xl mx-auto w-full flex items-center justify-center min-h-[60vh]">
+        <div className="bg-black/20 backdrop-blur-md rounded-[2.5rem] border border-white/5 p-8 sm:p-12 shadow-2xl text-center max-w-md w-full relative overflow-hidden">
+          <div className="absolute inset-0 shadow-[inset_0_0_40px_rgba(255,255,255,0.02)] pointer-events-none rounded-[2.5rem]" />
+          <div className="relative z-10">
+            <h2 className="text-3xl font-bold text-white mb-4 tracking-tight">Access Restricted</h2>
+            <p className="text-sm text-zinc-400 font-medium leading-relaxed">Submissions are not open yet. Please check back later when the portal is unlocked.</p>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (

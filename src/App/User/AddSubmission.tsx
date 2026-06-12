@@ -25,13 +25,17 @@ export function AddSubmission() {
   const [link, setLink] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionsOpen, setSubmissionsOpen] = useState(true);
+  const [submissionStart, setSubmissionStart] = useState(true);
 
   const selectedCategoryData = categories.find(c => c.id === categoryId);
 
   useEffect(() => {
     async function init() {
-      const { data: settings } = await supabase.from('system_settings').select('submissions_open').single();
-      if (settings && settings.submissions_open === false) setSubmissionsOpen(false);
+      const { data: settings } = await supabase.from('system_settings').select('submissions_open, submission_start').single();
+      if (settings) {
+         if (settings.submissions_open === false) setSubmissionsOpen(false);
+         if (settings.submission_start === false) setSubmissionStart(false);
+      }
 
       const allowedDigitalCategories = ['Videography', 'Graphic Designing', 'Short Film', 'Photography'];
       const { data } = await supabase.from('categories').select('*');
@@ -93,10 +97,13 @@ export function AddSubmission() {
 
         alert(error.message || 'Failed to submit.');
       } else {
+        const submitTime = new Date().toLocaleString();
+        const successMessage = `Successfully added submission.\nSubmitter: ${submitter.name}\nCategory: ${selectedCategoryData?.name}\nSubmit time: ${submitTime}`;
+        
         await supabase.from('notifications').insert({
           school_details_id: schoolDetails.id,
           title: 'Submission Successful',
-          message: `Successfully added submission for ${selectedCategoryData?.name}.`,
+          message: successMessage,
           is_read: false
         });
         
@@ -138,13 +145,15 @@ export function AddSubmission() {
           <div className="absolute inset-0 shadow-[inset_0_0_40px_rgba(255,255,255,0.02)] pointer-events-none rounded-[2.5rem]"></div>
           
           <div className="relative z-10">
-            {!submissionsOpen ? (
+            {!submissionStart ? (
                <div className="text-center py-12">
-                  <div className="w-16 h-16 bg-red-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                     <span className="text-2xl">⏳</span>
-                  </div>
-                  <h2 className="text-3xl font-bold text-white mb-2">Submissions Closed</h2>
-                  <p className="text-zinc-400">The deadline for digital submissions has passed.</p>
+                  <h2 className="text-3xl font-bold text-white mb-4 tracking-tight">Access Restricted</h2>
+                  <p className="text-sm text-zinc-400 font-medium leading-relaxed">Submissions are not open yet.</p>
+               </div>
+            ) : !submissionsOpen ? (
+               <div className="text-center py-12">
+                  <h2 className="text-3xl font-bold text-white mb-4 tracking-tight">Submissions Closed</h2>
+                  <p className="text-sm text-zinc-400 font-medium leading-relaxed">The deadline for digital submissions has passed.</p>
                </div>
             ) : (
                <>

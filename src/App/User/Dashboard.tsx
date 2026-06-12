@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Download, Filter, Search, ChevronDown, ChevronRight } from 'lucide-react';
+import { Download, Filter, Search, ChevronDown, ChevronRight, MessageCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { Button } from '@/components/ui/button';
@@ -116,7 +116,7 @@ export function Dashboard() {
     <div className="p-6 sm:p-10 space-y-8">
       
       {/* Action Bar */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
         <div className="flex items-center gap-3 w-full sm:max-w-md">
           <div className="relative flex-1">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
@@ -146,6 +146,20 @@ export function Dashboard() {
               </SelectContent>
             </Select>
           </div>
+        </div>
+
+        <div>
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              alert("WhatsApp group link will be available soon.");
+            }}
+            className="flex items-center justify-center gap-2 rounded-2xl bg-[#25D366]/10 text-[#25D366] hover:bg-[#25D366]/20 border border-[#25D366]/20 shadow-lg text-sm h-11 px-5 font-bold transition-all transform active:scale-95"
+          >
+            <MessageCircle className="w-4 h-4" />
+            Join WhatsApp Group
+          </a>
         </div>
       </div>
       

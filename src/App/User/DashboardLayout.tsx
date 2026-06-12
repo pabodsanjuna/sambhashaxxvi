@@ -15,6 +15,7 @@ import {
 import { Link, useLocation, Outlet, useNavigate } from 'react-router-dom';
 import { useSchoolDetails } from '@/hooks/useSchoolDetails';
 import { supabase } from '@/lib/supabase';
+import { TawkChat } from '@/components/TawkChat';
 
 export function DashboardLayout() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -308,6 +309,9 @@ export function DashboardLayout() {
         </div>
         )}
       </AnimatePresence>
+
+      {/* Admins chat via Tawk.to */}
+      <TawkChat />
     </div>
   );
 }

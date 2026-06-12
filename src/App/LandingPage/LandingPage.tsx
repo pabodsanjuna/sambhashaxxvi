@@ -13,7 +13,7 @@ export function LandingPage() {
 
   useEffect(() => {
     // Target date: June 7th 2026 (Sunday)
-    const targetDate = new Date('2026-06-07T00:00:00').getTime();
+    const targetDate = new Date('2026-06-19T00:00:00').getTime();
 
     const updateCountdown = () => {
       const now = new Date().getTime();

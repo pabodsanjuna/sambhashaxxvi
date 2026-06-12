@@ -4,6 +4,7 @@ import { UploadCloud } from 'lucide-react';
 import { useUser } from '@clerk/clerk-react';
 import { supabase } from '@/lib/supabase';
 import { useSchoolDetails } from '@/hooks/useSchoolDetails';
+import { TawkChat } from '@/components/TawkChat';
 
 export function Onboarding() {
   const navigate = useNavigate();
@@ -83,7 +84,7 @@ export function Onboarding() {
       const { data: generatedSchoolId, error: rpcError } = await supabase.rpc('generate_school_id');
       if (rpcError) throw rpcError;
 
-      const { error } = await supabase.from('school_details').insert({
+      const { data: insertedRows, error } = await supabase.from('school_details').insert({
         user_id: user.id,
         school_name: schoolName,
         school_id: generatedSchoolId,
@@ -96,7 +97,8 @@ export function Onboarding() {
         coordinator_phone: coordinatorPhone,
         school_logo_url: schoolLogoUrl,
         media_logo_url: mediaLogoUrl,
-      });
+        status: 'onboarded',
+      }).select();
 
       if (error) {
         console.error('Error saving school details:', error);
@@ -105,23 +107,22 @@ export function Onboarding() {
         return;
       }
       
-      // Get the newly created school details to get its ID
-      const { data: newSchool } = await supabase
-        .from('school_details')
-        .select('id')
-        .eq('user_id', user.id)
-        .single();
-        
-      if (newSchool) {
+      if (insertedRows && insertedRows.length > 0) {
+        const newSchool = insertedRows[0];
         await supabase.from('notifications').insert({
           school_details_id: newSchool.id,
           title: 'Account Setup Complete',
           message: 'Welcome to SAMBHASHA XXVI! Your school profile has been successfully registered.',
           is_read: false
         });
-      }
 
-      navigate('/dashboard');
+        navigate('/onboarding-success', { 
+           replace: true, 
+           state: { schoolId: newSchool.school_id } 
+        });
+      } else {
+         navigate('/dashboard', { replace: true });
+      }
     } catch (err) {
       console.error(err);
       alert('An expected error occurred during upload. Please try again.');
@@ -281,6 +282,9 @@ export function Onboarding() {
         </div>
 
       </div>
+      
+      {/* Admins chat via Tawk.to */}
+      <TawkChat />
     </div>
   );
 }

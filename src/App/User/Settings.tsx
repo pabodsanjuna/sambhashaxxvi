@@ -1,4 +1,4 @@
-import { ShieldAlert, Mail, MapPin, Phone, Building2, User, Camera, ShieldCheck, GraduationCap, UploadCloud, QrCode, Download } from 'lucide-react';
+import { ShieldAlert, Mail, MapPin, Phone, Building2, User, Camera, QrCode, Download, ShieldCheck, MailCheck, LocateFixed, Link2 } from 'lucide-react';
 import { useUser } from '@clerk/clerk-react';
 import { motion } from 'motion/react';
 import { useSchoolDetails } from '@/hooks/useSchoolDetails';
@@ -37,9 +37,6 @@ export function Settings() {
     if (!qrCardRef.current || !schoolDetails) return;
     setIsGeneratingQR(true);
     try {
-      // Create a clean A4 PDF (A4 is 595.28 x 841.89 points)
-      // Our card aspect ratio is set, we can fit it inside A4 or just match the card size.
-      // Let's match the card size to preserve the exact layout: 840x1260
       const imgData = await htmlToImage.toPng(qrCardRef.current, { quality: 1, backgroundColor: '#ffffff', pixelRatio: 2 });
       
       const pdf = new jsPDF({
@@ -59,273 +56,222 @@ export function Settings() {
   };
 
   const schoolDetailsData = {
-    schoolName: schoolDetails?.school_name || "",
-    schoolId: schoolDetails?.school_id || "",
-    city: schoolDetails?.city || "",
-    address: schoolDetails?.address || "",
-    phone: schoolDetails?.phone || "",
-    registeredEmail: user?.primaryEmailAddress?.emailAddress || "",
+    schoolName: schoolDetails?.school_name || "Not Set",
+    schoolId: schoolDetails?.school_id || "NOT-SET",
+    city: schoolDetails?.city || "Not Set",
+    address: schoolDetails?.address || "Not Set",
+    phone: schoolDetails?.phone || "Not Set",
+    registeredEmail: user?.primaryEmailAddress?.emailAddress || "Not Set",
   };
 
   const contactPersons = {
     mic: {
-      name: schoolDetails?.mic_name || "",
+      name: schoolDetails?.mic_name || "Not Set",
       title: "Master in Charge",
-      phone: schoolDetails?.mic_phone || ""
+      phone: schoolDetails?.mic_phone || "Not Set"
     },
     coordinator: {
-      name: schoolDetails?.coordinator_name || "",
+      name: schoolDetails?.coordinator_name || "Not Set",
       title: "General Coordinator",
-      phone: schoolDetails?.coordinator_phone || ""
+      phone: schoolDetails?.coordinator_phone || "Not Set"
     }
   };
 
   if (loading) {
-    return <div className="p-10 text-white">Loading profile...</div>;
+    return (
+      <div className="flex h-full items-center justify-center text-zinc-500">
+        <div className="w-6 h-6 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+      </div>
+    );
   }
 
   return (
-    <div className="p-6 sm:p-10 space-y-12 animate-in fade-in duration-500">
-      <div className="max-w-4xl">
-        <h1 className="text-[20px] font-bold text-zinc-500 mb-3 tracking-tight not-italic no-underline">SETTINGS <span className="text-zinc-500 font-normal text-xl ml-2">- SAMBHASHA XXVI USER PORTAL</span></h1>
-        <p className="text-zinc-500 text-sm font-medium">Official school profile and administrative records.</p>
+    <div className="p-6 md:p-10 space-y-8 animate-in fade-in duration-700 max-w-7xl mx-auto">
+      {/* Header Area */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-white/5">
+        <div>
+          <h1 className="text-3xl font-bold text-white tracking-tight mb-2">School Profile</h1>
+          <p className="text-zinc-500 text-sm font-medium flex items-center gap-2">
+            <ShieldCheck className="w-4 h-4 text-emerald-500" />
+            Official configuration & administrative records
+          </p>
+        </div>
+        <div className="bg-white/5 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/10 flex items-center gap-4">
+          <div className="space-y-1">
+            <span className="text-[10px] uppercase font-bold text-zinc-500 tracking-wider block">Registration ID</span>
+            <span className="font-mono text-white text-sm font-bold tracking-tight">{schoolDetailsData.schoolId}</span>
+          </div>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-        <div className="lg:col-span-2 space-y-10">
+      {/* Bento Grid Structure */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-min">
+        
+        {/* Left Column: School Details (8 cols wide on desktop) */}
+        <div className="md:col-span-8 flex flex-col gap-6">
           
-          {/* Section 1: School Identity Logos */}
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.1 }}
-            className={`grid grid-cols-1 md:grid-cols-2 gap-6`}
-          >
-            <div className="bg-black/20 backdrop-blur-md rounded-[2.5rem] border border-white/5 p-8 flex flex-col items-center justify-center opacity-80 overflow-hidden relative">
-               <div className="absolute inset-0 shadow-[inset_0_0_40px_rgba(255,255,255,0.02)] pointer-events-none rounded-[2.5rem]" />
-               <div className="w-24 h-24 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center mb-4 overflow-hidden relative z-10">
-                  {schoolDetails?.school_logo_url ? (
-                    <img src={schoolDetails.school_logo_url} alt="School Logo" className="w-full h-full object-cover" crossOrigin="anonymous" referrerPolicy="no-referrer" />
-                  ) : (
-                    <Camera className="w-10 h-10 text-zinc-700" />
-                  )}
-               </div>
-               <span className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-bold relative z-10">School Logo</span>
-            </div>
-            <div className="bg-black/20 backdrop-blur-md rounded-[2.5rem] border border-white/5 p-8 flex flex-col items-center justify-center opacity-80 overflow-hidden relative">
-               <div className="absolute inset-0 shadow-[inset_0_0_40px_rgba(255,255,255,0.02)] pointer-events-none rounded-[2.5rem]" />
-               <div className="w-24 h-24 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center mb-4 overflow-hidden relative z-10">
-                  {schoolDetails?.media_logo_url ? (
-                    <img src={schoolDetails.media_logo_url} alt="Media Unit Logo" className="w-full h-full object-cover" crossOrigin="anonymous" referrerPolicy="no-referrer" />
-                  ) : (
-                    <Camera className="w-10 h-10 text-zinc-700" />
-                  )}
-               </div>
-               <span className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-bold relative z-10">Media Logo</span>
-            </div>
-          </motion.div>
-
-          {/* Section 2: School Profile (Read Only) */}
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.2 }}
-            className="bg-black/20 backdrop-blur-md rounded-[2.5rem] border border-white/5 p-8 sm:p-12 relative overflow-hidden"
-          >
-            <div className="absolute inset-0 shadow-[inset_0_0_40px_rgba(255,255,255,0.02)] pointer-events-none rounded-[2.5rem]" />
-            <div className="relative z-10 space-y-10">
-              <div className="flex items-center justify-between pb-8 border-b border-white/5">
-                <div className="flex items-center gap-6">
-                  <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
-                    <Building2 className="w-7 h-7 text-zinc-600" />
-                  </div>
-                  <div>
-                    <h2 className="text-xl font-bold text-white tracking-tight">School Profile</h2>
-                    <p className="text-xs text-zinc-500 mt-1">Immutable identification records</p>
-                  </div>
-                </div>
-                <div className="px-4 py-2 bg-white/5 rounded-xl border border-white/5">
-                   <span className="text-[10px] font-mono text-zinc-400">{schoolDetailsData.schoolId}</span>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                <div className="space-y-2">
-                  <label className="text-[10px] uppercase tracking-[0.2em] text-zinc-600 font-bold flex items-center gap-2">
-                    <MapPin className="w-3.5 h-3.5" /> School Name
-                  </label>
-                  <p className="text-sm text-zinc-300 font-semibold">{schoolDetailsData.schoolName}</p>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] uppercase tracking-[0.2em] text-zinc-600 font-bold flex items-center gap-2">
-                    <Mail className="w-3.5 h-3.5" /> Official Email
-                  </label>
-                  <p className="text-sm text-zinc-300 font-semibold">{schoolDetailsData.registeredEmail}</p>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] uppercase tracking-[0.2em] text-zinc-600 font-bold flex items-center gap-2">
-                    <Phone className="w-3.5 h-3.5" /> Contact Line
-                  </label>
-                  <p className="text-sm text-zinc-300 font-semibold">{schoolDetailsData.phone}</p>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] uppercase tracking-[0.2em] text-zinc-600 font-bold flex items-center gap-2">
-                    <Building2 className="w-3.5 h-3.5" /> City
-                  </label>
-                  <p className="text-sm text-zinc-300 font-semibold">{schoolDetailsData.city}</p>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Section 3: Administrative Contacts (Read Only) */}
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.3 }}
-            className="bg-black/20 backdrop-blur-md rounded-[2.5rem] border border-white/5 p-8 sm:p-12"
-          >
-            <div className="flex items-center gap-4 mb-10">
-               <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
-                  <User className="w-5 h-5 text-zinc-600" />
-               </div>
-               <h2 className="text-xl font-bold text-white tracking-tight">Administrative Contacts</h2>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-               <div className="p-6 bg-white/5 rounded-3xl border border-white/5 space-y-4">
-                  <span className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold bg-white/5 px-3 py-1 rounded-lg">Master in Charge</span>
-                  <div>
-                    <p className="text-lg font-bold text-white">{contactPersons.mic.name}</p>
-                    <p className="text-sm text-zinc-400 mt-1">{contactPersons.mic.phone}</p>
-                  </div>
-               </div>
-               <div className="p-6 bg-white/5 rounded-3xl border border-white/5 space-y-4">
-                  <span className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold bg-white/5 px-3 py-1 rounded-lg">Co-ordinator</span>
-                  <div>
-                    <p className="text-lg font-bold text-white">{contactPersons.coordinator.name}</p>
-                    <p className="text-sm text-zinc-400 mt-1">{contactPersons.coordinator.phone}</p>
-                  </div>
-               </div>
-            </div>
-          </motion.div>
-
-          {/* Section 4: Attendance QR Code Label */}
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.35 }}
-            className="bg-black/20 backdrop-blur-md rounded-[2.5rem] border border-white/5 p-8 sm:p-12 relative overflow-hidden"
-          >
-            <div className="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-6 relative z-10">
-              <div className="space-y-2">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-orange-500/10 flex items-center justify-center">
-                    <QrCode className="w-5 h-5 text-orange-500" />
-                  </div>
-                  <h2 className="text-xl font-bold text-white tracking-tight">Competition Day Attendance QR</h2>
-                </div>
-                <p className="text-sm text-zinc-400 mt-2 max-w-md">
-                  Generate the official attendance QR code containing your school details to speed up registration during the event.
-                </p>
-                {/* TODO: Restrict attendance marking to registration-staff authenticated only access */}
-              </div>
-              <button 
-                onClick={downloadQR}
-                disabled={isGeneratingQR}
-                className="bg-white text-black hover:bg-zinc-200 px-6 py-3 rounded-xl font-bold flex items-center gap-2 transition-colors disabled:opacity-50 flex-shrink-0"
-              >
-                {isGeneratingQR ? (
-                  <span className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+          {/* Top Row: Logos */}
+          <div className="grid grid-cols-2 gap-6">
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
+              className="bg-black/20 backdrop-blur-md border border-white/5 rounded-[2.5rem] p-8 flex flex-col items-center justify-center relative overflow-hidden group"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="w-20 h-20 bg-white/5 border border-white/10 rounded-3xl flex items-center justify-center mb-4 overflow-hidden relative z-10 transition-transform group-hover:scale-105">
+                {schoolDetails?.school_logo_url ? (
+                  <img src={schoolDetails.school_logo_url} alt="School Logo" className="w-full h-full object-cover" crossOrigin="anonymous" referrerPolicy="no-referrer" />
                 ) : (
-                  <Download className="w-5 h-5" />
+                  <Building2 className="w-8 h-8 text-zinc-700" />
                 )}
-                {isGeneratingQR ? 'Generating...' : 'Download QR PDF'}
-              </button>
+              </div>
+              <span className="text-xs uppercase tracking-widest text-zinc-400 font-bold">School Logo</span>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}
+              className="bg-black/20 backdrop-blur-md border border-white/5 rounded-[2.5rem] p-8 flex flex-col items-center justify-center relative overflow-hidden group"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="w-20 h-20 bg-white/5 border border-white/10 rounded-3xl flex items-center justify-center mb-4 overflow-hidden relative z-10 transition-transform group-hover:scale-105">
+                {schoolDetails?.media_logo_url ? (
+                  <img src={schoolDetails.media_logo_url} alt="Media Logo" className="w-full h-full object-cover" crossOrigin="anonymous" referrerPolicy="no-referrer" />
+                ) : (
+                  <Camera className="w-8 h-8 text-zinc-700" />
+                )}
+              </div>
+              <span className="text-xs uppercase tracking-widest text-zinc-400 font-bold">Media Area</span>
+            </motion.div>
+          </div>
+
+          {/* School Information Card */}
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.2 }}
+            className="bg-black/20 backdrop-blur-md border border-white/5 rounded-[2.5rem] p-8 relative overflow-hidden flex flex-col justify-between"
+          >
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/[0.02] rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+            
+            <div className="flex items-center gap-3 mb-8">
+              <Building2 className="w-5 h-5 text-zinc-500" />
+              <h2 className="text-lg font-bold text-white tracking-tight">Identity Details</h2>
             </div>
             
-            {/* Hidden QR Code Layout for ID Card Generation */}
-            <div className="absolute top-[-9999px] left-[-9999px]">
-               <EntryPass 
-                 ref={qrCardRef}
-                 schoolDetails={schoolDetails}
-                 schoolDetailsData={schoolDetailsData}
-                 contactPersons={contactPersons}
-                 originOrigin={window.location.origin}
-               />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-8 gap-x-10 relative z-10">
+              <div className="space-y-1.5 focus-within:bg-white/5 p-4 -ml-4 rounded-2xl transition-colors">
+                <label className="text-[10px] uppercase font-bold text-zinc-500 tracking-wider flex items-center gap-2">
+                  <MapPin className="w-3 h-3" /> School Name
+                </label>
+                <p className="text-white font-medium">{schoolDetailsData.schoolName}</p>
+              </div>
+              
+              <div className="space-y-1.5 focus-within:bg-white/5 p-4 -ml-4 rounded-2xl transition-colors">
+                <label className="text-[10px] uppercase font-bold text-zinc-500 tracking-wider flex items-center gap-2">
+                  <LocateFixed className="w-3 h-3" /> City / Location
+                </label>
+                <p className="text-white font-medium">{schoolDetailsData.city}</p>
+              </div>
+
+              <div className="space-y-1.5 focus-within:bg-white/5 p-4 -ml-4 rounded-2xl transition-colors">
+                <label className="text-[10px] uppercase font-bold text-zinc-500 tracking-wider flex items-center gap-2">
+                  <Phone className="w-3 h-3" /> Contact Number
+                </label>
+                <p className="text-white font-medium">{schoolDetailsData.phone}</p>
+              </div>
+
+              <div className="space-y-1.5 focus-within:bg-white/5 p-4 -ml-4 rounded-2xl transition-colors">
+                <label className="text-[10px] uppercase font-bold text-zinc-500 tracking-wider flex items-center gap-2">
+                  <MailCheck className="w-3 h-3" /> Registered Email
+                </label>
+                <p className="text-white font-medium">{schoolDetailsData.registeredEmail}</p>
+              </div>
             </div>
           </motion.div>
 
-          {/* Section 5: Security Restrictions */}
+          {/* Security Restrictions Banner */}
           <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.4 }}
-            className="bg-red-500/5 backdrop-blur-md rounded-[2.5rem] border border-red-500/10 p-8 flex flex-col sm:flex-row items-center gap-6 group"
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.5 }}
+            className="rounded-[2.5rem] bg-gradient-to-r from-red-500/10 to-transparent border border-red-500/20 p-6 flex items-center gap-6"
           >
-            <div className="w-14 h-14 rounded-2xl bg-red-500/10 flex items-center justify-center flex-shrink-0 group-hover:bg-red-500/20 transition-colors">
-              <ShieldAlert className="w-7 h-7 text-red-500" />
+            <div className="w-12 h-12 bg-red-500/20 rounded-2xl flex items-center justify-center flex-shrink-0">
+              <ShieldAlert className="w-6 h-6 text-red-500" />
             </div>
-            <div className="text-center sm:text-left">
-              <h3 className="text-red-500 font-bold uppercase tracking-widest text-[10px] mb-1">Security Enforcement</h3>
-              <p className="text-sm text-red-100/70 font-bold leading-relaxed tracking-tight">
-                PASSWORD MODIFICATION IS RESTRICTED BY SYSTEM POLICY.
+            <div>
+              <h3 className="text-red-500 font-bold text-sm tracking-tight mb-1">Editing Restrictions Enabled</h3>
+              <p className="text-xs text-red-400/80 leading-relaxed max-w-xl">
+                Critical profile information is locked to maintain data integrity. Modifications must be processed through the Administration Portal or by contacting technical support.
               </p>
-              <p className="text-[10px] font-medium text-red-500/40 mt-1 uppercase tracking-widest">FURTHER ASSISTANCE VIA MAIN ADMINISTRATION PORTAL ONLY.</p>
             </div>
           </motion.div>
+
         </div>
 
-        {/* Sidebar: Only Support Desk */}
-        <motion.div 
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.4, delay: 0.2 }}
-          className="space-y-8"
-        >
-          <div className="bg-gradient-to-b from-orange-600 to-orange-500 rounded-[2.5rem] p-8 text-white shadow-2xl shadow-orange-500/20 relative overflow-hidden group sticky top-10 border border-orange-400/50">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-bl-full" />
-            <div className="absolute bottom-0 left-0 w-24 h-24 bg-black/10 rounded-tr-full" />
-            <h4 className="font-bold text-2xl mb-2 relative z-10 tracking-tight">Support Desk</h4>
-            <div className="space-y-1 mb-8 relative z-10">
-              <p className="text-[13px] text-white/90 font-medium leading-tight">Technical & Administrative Support</p>
-              <p className="text-[11px] text-white/70">Contact for profile corrections or emergency access.</p>
-            </div>
+        {/* Right Column: Attendance QR & Support (4 cols wide on desktop) */}
+        <div className="md:col-span-4 flex flex-col gap-6">
+
+          {/* Download QR Card */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.4, delay: 0.3 }}
+            className="bg-orange-500 border border-orange-400 rounded-[2.5rem] p-8 text-black relative overflow-hidden group shadow-xl shadow-orange-500/10"
+          >
+            <div className="absolute top-0 right-0 w-48 h-48 bg-white/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
             
-            <div className="space-y-4 relative z-10">
-              <div className="bg-black/20 backdrop-blur-md rounded-2xl p-5 border border-white/10 transition-transform hover:scale-[1.02]">
-                <div className="flex justify-between items-start mb-2">
-                  <div>
-                    <span className="text-sm font-bold block text-white drop-shadow-sm">Pabod Sanjuna</span>
-                    <span className="text-[10px] font-medium text-orange-200">Technical Lead</span>
-                  </div>
-                  <span className="text-[9px] font-bold bg-white text-orange-600 px-2 py-0.5 rounded-full shadow-sm">MAIN ADMIN</span>
-                </div>
-                <div className="flex items-center text-xs text-white/90 font-mono mt-2 bg-black/20 w-fit px-3 py-1.5 rounded-lg border border-white/5">
-                  +94 77 692 1838
-                </div>
+            <div className="mb-6 relative z-10">
+              <div className="w-12 h-12 bg-black/10 rounded-2xl flex items-center justify-center mb-4">
+                <QrCode className="w-6 h-6 text-black" />
               </div>
+              <h3 className="text-2xl font-bold tracking-tight leading-tight mb-2">Event<br/>Entry Pass</h3>
+              <p className="text-black/70 text-sm font-medium">Download your school's QR for rapid registration on competition day.</p>
+            </div>
 
-              <div className="bg-black/20 backdrop-blur-md rounded-2xl p-5 border border-white/10 transition-transform hover:scale-[1.02]">
-                <div className="flex justify-between items-start mb-2">
-                  <div>
-                    <span className="text-sm font-bold block text-white drop-shadow-sm">Kisara Vonal</span>
-                    <span className="text-[10px] font-medium text-orange-200">Admin</span>
-                  </div>
-                  <span className="text-[9px] font-bold bg-white/20 text-white px-2 py-0.5 rounded-full border border-white/10">ADMIN</span>
-                </div>
-                <div className="flex items-center text-xs text-white/90 font-mono mt-2 bg-black/20 w-fit px-3 py-1.5 rounded-lg border border-white/5">
-                  +94 76 421 5114
-                </div>
+            <button 
+              onClick={downloadQR}
+              disabled={isGeneratingQR}
+              className="w-full bg-black text-white hover:bg-zinc-900 px-6 py-4 rounded-2xl font-bold flex items-center justify-center gap-3 transition-transform active:scale-95 disabled:opacity-50 relative z-10"
+            >
+              {isGeneratingQR ? (
+                <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              ) : (
+                <Download className="w-5 h-5" />
+              )}
+              {isGeneratingQR ? 'Generating PDF...' : 'Download PDF'}
+            </button>
+            
+            {/* Hidden QR generation component */}
+            <div className="absolute top-[9999px] left-[9999px] opacity-0 pointer-events-none">
+               <EntryPass ref={qrCardRef} schoolDetails={schoolDetails} schoolDetailsData={schoolDetailsData} contactPersons={contactPersons} originOrigin={window.location.origin} />
+            </div>
+          </motion.div>
+
+          {/* Administrative Contacts */}
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.4 }}
+            className="bg-black/20 backdrop-blur-md border border-white/5 rounded-[2.5rem] p-6 flex flex-col gap-4 flex-1"
+          >
+            <div className="px-2 mb-2 flex items-center gap-2">
+              <User className="w-4 h-4 text-zinc-500" />
+              <h3 className="text-sm font-bold text-zinc-300 tracking-tight">Key Personnel</h3>
+            </div>
+
+            <div className="bg-white/5 border border-white/5 rounded-2xl p-5 space-y-3 flex-1 flex flex-col justify-center">
+              <span className="text-[10px] uppercase font-bold text-zinc-500 tracking-widest">{contactPersons.mic.title}</span>
+              <div>
+                <p className="text-white font-bold leading-tight">{contactPersons.mic.name}</p>
+                <p className="text-sm text-zinc-400 mt-1">{contactPersons.mic.phone}</p>
               </div>
             </div>
 
-            <div className="mt-8 pt-6 border-t border-white/20 relative z-10 text-center">
-               <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/60">SAMBHASHA XXVI • PORTAL SYSTEMS</p>
+            <div className="bg-white/5 border border-white/5 rounded-2xl p-5 space-y-3 flex-1 flex flex-col justify-center">
+              <span className="text-[10px] uppercase font-bold text-zinc-500 tracking-widest">{contactPersons.coordinator.title}</span>
+              <div>
+                <p className="text-white font-bold leading-tight">{contactPersons.coordinator.name}</p>
+                <p className="text-sm text-zinc-400 mt-1">{contactPersons.coordinator.phone}</p>
+              </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+
+        </div>
       </div>
+
     </div>
   );
 }
+
