@@ -4,7 +4,6 @@ import { UploadCloud } from 'lucide-react';
 import { useUser } from '@clerk/clerk-react';
 import { supabase } from '@/lib/supabase';
 import { useSchoolDetails } from '@/hooks/useSchoolDetails';
-import { TawkChat } from '@/components/TawkChat';
 
 export function Onboarding() {
   const navigate = useNavigate();
@@ -283,8 +282,6 @@ export function Onboarding() {
 
       </div>
       
-      {/* Admins chat via Tawk.to */}
-      <TawkChat />
     </div>
   );
 }
