@@ -1,17 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowLeft, UploadCloud } from 'lucide-react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
+import { ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { Button } from '@/components/ui/button';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { supabase } from '@/lib/supabase';
 import { useSchoolDetails } from '@/hooks/useSchoolDetails';
+import { CategorySelection } from './components/AddSubmission/CategorySelection';
+import { SubmitterSelection } from './components/AddSubmission/SubmitterSelection';
+
+const SubmissionDetailsForm = lazy(() => import('./components/AddSubmission/SubmissionDetailsForm').then(m => ({ default: m.SubmissionDetailsForm })));
 
 export function AddSubmission() {
   const navigate = useNavigate();
@@ -22,7 +18,6 @@ export function AddSubmission() {
   
   const [submitterId, setSubmitterId] = useState('');
   const [categoryId, setCategoryId] = useState('');
-  const [link, setLink] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionsOpen, setSubmissionsOpen] = useState(true);
   const [submissionStart, setSubmissionStart] = useState(true);
@@ -66,8 +61,7 @@ export function AddSubmission() {
     loadSubmitters();
   }, [schoolDetails, categoryId]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleFormSubmit = async (link: string) => {
     if (!schoolDetails || !categoryId || !link || !submitterId) return;
     
     const submitter = submitters.find(s => s.id === submitterId);
@@ -162,79 +156,32 @@ export function AddSubmission() {
                    Submit your digital works to sambhasha xxvi portal. If you need any assistance, contact school media unit admins.
                  </p>
 
-                 <form className="space-y-6" onSubmit={handleSubmit}>
-              <div className="space-y-3">
-                <label className="block text-[10px] uppercase tracking-widest text-zinc-500 font-bold ml-1">Category</label>
-                <Select value={categoryId} onValueChange={setCategoryId} required>
-                  <SelectTrigger className="w-full h-14 bg-white/5 border-white/5 rounded-2xl px-6 text-white focus:ring-white/20">
-                    <SelectValue placeholder="Select Competition Category">
-                      {selectedCategoryData ? `${selectedCategoryData.name} - ${selectedCategoryData.age_group}` : undefined}
-                    </SelectValue>
-                  </SelectTrigger>
-                  <SelectContent className="bg-zinc-950 border-white/10 rounded-2xl text-white shadow-xl">
-                    {categories.map(c => (
-                      <SelectItem key={c.id} value={c.id} className="focus:bg-white/10 focus:text-white py-3">
-                        {c.name} - {c.age_group}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+                 <div className="space-y-6">
+              <CategorySelection
+                categoryId={categoryId}
+                categories={categories}
+                selectedCategoryData={selectedCategoryData}
+                onChange={setCategoryId}
+              />
 
               {categoryId && (
-                  <div className="space-y-3">
-                    <label className="block text-[10px] uppercase tracking-widest text-zinc-500 font-bold ml-1">Submitter</label>
-                    <Select value={submitterId} onValueChange={setSubmitterId} required>
-                      <SelectTrigger className="w-full h-14 bg-white/5 border-white/5 rounded-2xl px-6 text-white focus:ring-white/20">
-                        <SelectValue placeholder="Select Contestant">
-                          {submitterId ? submitters.find(s => s.id === submitterId)?.name : undefined}
-                        </SelectValue>
-                      </SelectTrigger>
-                      <SelectContent className="bg-zinc-950 border-white/10 rounded-2xl text-white shadow-xl">
-                        {submitters.length > 0 ? (
-                          submitters.map(s => (
-                            <SelectItem key={s.id} value={s.id} className="focus:bg-white/10 focus:text-white py-3">{s.name}</SelectItem>
-                          ))
-                        ) : (
-                          <div className="p-4 text-sm text-zinc-500 text-center">No contestants found for this category.</div>
-                        )}
-                      </SelectContent>
-                    </Select>
-                  </div>
+                <SubmitterSelection
+                  submitterId={submitterId}
+                  submitters={submitters}
+                  onChange={setSubmitterId}
+                />
               )}
 
-              <div className="space-y-3">
-                <label className="block text-[10px] uppercase tracking-widest text-zinc-500 font-bold ml-1">Google Drive Link</label>
-                <div className="relative">
-                  <UploadCloud className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
-                  <input 
-                    type="url" 
-                    value={link}
-                    onChange={(e) => setLink(e.target.value)}
-                    required
-                    placeholder="https://drive.google.com/..." 
-                    className="w-full h-14 bg-white/5 border border-white/5 rounded-2xl pl-12 pr-6 text-white text-sm focus:outline-none focus:ring-1 focus:ring-white/20 transition-all placeholder:text-zinc-600" 
+              <Suspense fallback={<div className="h-20 animate-pulse bg-white/5 rounded-2xl" />}>
+                {categoryId && submitterId && (
+                  <SubmissionDetailsForm
+                    isSubmitting={isSubmitting}
+                    canSubmit={true}
+                    onSubmit={handleFormSubmit}
                   />
-                </div>
-                {link && (
-                  <motion.div initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="p-4 bg-orange-500/10 border border-orange-500/20 rounded-xl mt-3">
-                    <p className="text-xs text-orange-400 font-medium">
-                      Warning: Please ensure your Google Drive link permissions are set to "Anyone with the link can view". Otherwise, the judges will not be able to access your submission.
-                    </p>
-                  </motion.div>
                 )}
-              </div>
-
-              <div className="pt-8">
-                <Button 
-                  type="submit" 
-                  disabled={isSubmitting || !submitterId || !categoryId || !link}
-                  className="w-full h-14 rounded-2xl bg-white text-black font-bold hover:bg-zinc-200 transition-all text-sm uppercase tracking-widest shadow-xl shadow-white/5 disabled:opacity-50"
-                >
-                  {isSubmitting ? 'Submitting...' : 'Submit'}
-                </Button>
-              </div>
-            </form>
+              </Suspense>
+            </div>
                </>
             )}
           </div>

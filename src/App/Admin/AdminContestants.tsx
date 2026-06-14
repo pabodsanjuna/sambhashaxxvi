@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
-import { Download, Search, Filter } from 'lucide-react';
+import { Download, Search, Filter, FileText } from 'lucide-react';
 import Papa from 'papaparse';
+import { exportAdminCategoryContestantsAsPDF } from './utils/pdfExport';
 
 export function AdminContestants() {
   const [contestants, setContestants] = useState<any[]>([]);
@@ -9,6 +10,7 @@ export function AdminContestants() {
   const [search, setSearch] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('');
   const [categories, setCategories] = useState<Record<string, string>>({});
+  const [rawCategories, setRawCategories] = useState<any[]>([]);
 
   useEffect(() => {
     async function fetchAll() {
@@ -18,6 +20,7 @@ export function AdminContestants() {
          catMap[c.id] = `${c.name} - ${c.age_group}`;
       });
       setCategories(catMap);
+      setRawCategories(catData || []);
 
       const { data, error } = await supabase
         .from('contestants')
@@ -61,6 +64,11 @@ export function AdminContestants() {
     document.body.removeChild(link);
   };
 
+  const handleExportPDF = async () => {
+    const cat = categoryFilter ? rawCategories.find(c => c.id === categoryFilter) : null;
+    await exportAdminCategoryContestantsAsPDF(cat, filtered);
+  };
+
   const filtered = contestants.filter(c => {
     const matchesSearch = c.name?.toLowerCase().includes(search.toLowerCase()) || 
                           c.contestant_id?.toLowerCase().includes(search.toLowerCase()) ||
@@ -76,12 +84,20 @@ export function AdminContestants() {
           <h1 className="text-3xl font-black text-white mb-2">Global Contestant Data</h1>
           <p className="text-zinc-400 text-sm font-medium">Master list of all registered participants.</p>
         </div>
-        <button 
-          onClick={handleExport}
-          className="h-10 px-6 rounded-xl bg-white text-black hover:bg-zinc-200 text-sm font-bold shadow-lg transition-all flex items-center justify-center gap-2 shrink-0"
-        >
-          <Download className="w-4 h-4" /> Export CSV
-        </button>
+        <div className="flex items-center gap-3 shrink-0">
+          <button 
+            onClick={handleExport}
+            className="h-10 px-6 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-white text-sm font-bold shadow-lg transition-all flex items-center justify-center gap-2"
+          >
+            <Download className="w-4 h-4" /> Export CSV
+          </button>
+          <button 
+            onClick={handleExportPDF}
+            className="h-10 px-6 rounded-xl bg-white text-black hover:bg-white text-black text-sm font-bold shadow-lg shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all flex items-center justify-center gap-2"
+          >
+            <FileText className="w-4 h-4" /> Export PDF
+          </button>
+        </div>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-4 relative z-10">
@@ -92,7 +108,7 @@ export function AdminContestants() {
             placeholder="Search by name, ID, or school..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="w-full h-12 bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
+            className="w-full h-12 bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-brand-500/50"
           />
         </div>
         <div className="relative w-full sm:w-64">
@@ -100,7 +116,7 @@ export function AdminContestants() {
            <select 
               value={categoryFilter}
               onChange={e => setCategoryFilter(e.target.value)}
-              className="w-full h-12 bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 text-sm text-white focus:outline-none focus:ring-2 focus:ring-orange-500/50 appearance-none"
+              className="w-full h-12 bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 text-sm text-white focus:outline-none focus:ring-2 focus:ring-brand-500/50 appearance-none"
            >
               <option value="" className="bg-zinc-900">All Categories</option>
               {Object.entries(categories).map(([id, name]) => (

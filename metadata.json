@@ -1,6 +1,7 @@
 {
-  "name": "",
-  "description": "",
+  "name": "Sambhasha Dashboard",
+  "description": "Sambhasha Competition dashboard for schools and digital submissions.",
   "requestFramePermissions": [],
-  "majorCapabilities": []
+  "majorCapabilities": [
+  ]
 }

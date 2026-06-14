@@ -76,7 +76,7 @@ export function AdminNotifications() {
              <select 
                value={selectedSchool} 
                onChange={(e) => setSelectedSchool(e.target.value)}
-               className="w-full h-14 bg-black/50 border border-white/10 rounded-2xl px-4 text-sm text-white focus:outline-none focus:border-orange-500 appearance-none"
+               className="w-full h-14 bg-[#171717]/80 border border-white/10 rounded-2xl px-4 text-sm text-white focus:outline-none focus:border-white/50 appearance-none"
              >
                <option value="all">Every School (Broadcast to All)</option>
                {schools.map(s => (
@@ -94,7 +94,7 @@ export function AdminNotifications() {
                  placeholder="e.g. Schedule Update"
                  value={title}
                  onChange={(e) => setTitle(e.target.value)}
-                 className="w-full h-14 bg-black/50 border border-white/10 rounded-2xl px-4 text-sm text-white focus:outline-none focus:border-orange-500"
+                 className="w-full h-14 bg-[#171717]/80 border border-white/10 rounded-2xl px-4 text-sm text-white focus:outline-none focus:border-white/50"
                />
             </div>
 
@@ -105,7 +105,7 @@ export function AdminNotifications() {
                  placeholder="e.g. John Doe (Optional)"
                  value={adminName}
                  onChange={(e) => setAdminName(e.target.value)}
-                 className="w-full h-14 bg-black/50 border border-white/10 rounded-2xl px-4 text-sm text-white focus:outline-none focus:border-orange-500"
+                 className="w-full h-14 bg-[#171717]/80 border border-white/10 rounded-2xl px-4 text-sm text-white focus:outline-none focus:border-white/50"
                />
             </div>
           </div>
@@ -118,7 +118,7 @@ export function AdminNotifications() {
                value={message}
                onChange={(e) => setMessage(e.target.value)}
                rows={5}
-               className="w-full bg-black/50 border border-white/10 rounded-2xl p-4 text-sm text-white focus:outline-none focus:border-orange-500 resize-none"
+               className="w-full bg-[#171717]/80 border border-white/10 rounded-2xl p-4 text-sm text-white focus:outline-none focus:border-white/50 resize-none"
              />
              <div className="text-xs text-zinc-500 mt-2 font-mono">
                A default signature will be appended:<br/>
@@ -141,7 +141,7 @@ export function AdminNotifications() {
              <button 
                type="submit" 
                disabled={isSending || !title.trim() || !message.trim()}
-               className="flex items-center gap-2 px-8 py-4 bg-orange-600 hover:bg-orange-500 text-white rounded-xl font-bold uppercase tracking-widest text-xs transition-all disabled:opacity-50"
+               className="flex items-center gap-2 px-8 py-4 bg-white text-black hover:bg-white text-black rounded-xl font-bold uppercase tracking-widest text-xs transition-all disabled:opacity-50"
              >
                {isSending ? 'Sending...' : 'Send Notification'}
                <Send className="w-4 h-4" />

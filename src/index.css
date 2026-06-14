@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -5,9 +6,20 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-modern: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-modern: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  
+  --color-brand-50: #faf7f5;
+  --color-brand-100: #f2eae3;
+  --color-brand-200: #c4b2a4;
+  --color-brand-300: #af9683;
+  --color-brand-400: #9a806d;
+  --color-brand-500: #8a6f5b;
+  --color-brand-600: #79604e;
+  --color-brand-700: #5c4b3f;
+  --color-brand-800: #3f332b;
+  --color-brand-900: #231c17;
 }
 
 body {
@@ -16,6 +28,22 @@ body {
   background-color: #050505;
   color: #ffffff;
   font-family: var(--font-sans);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(138, 111, 91, 0.5); /* #8a6f5b with opacity */
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(138, 111, 91, 0.8);
 }
 
 .glass-card {
@@ -75,8 +103,8 @@ body {
   animation: float-blob 20s ease-in-out infinite;
 }
 
-.mesh-orange-1 {
-  background: radial-gradient(circle, rgba(204, 85, 0, 0.3) 0%, transparent 70%);
+.mesh-brand-1 {
+  background: radial-gradient(circle, rgba(138, 111, 91, 0.3) 0%, transparent 70%);
   width: 60vw;
   height: 60vw;
   top: -20%;
@@ -84,8 +112,8 @@ body {
   animation-duration: 25s;
 }
 
-.mesh-orange-2 {
-  background: radial-gradient(circle, rgba(255, 122, 0, 0.2) 0%, transparent 70%);
+.mesh-brand-2 {
+  background: radial-gradient(circle, rgba(138, 111, 91, 0.2) 0%, transparent 70%);
   width: 70vw;
   height: 70vw;
   bottom: -30%;
@@ -94,8 +122,8 @@ body {
   animation-direction: reverse;
 }
 
-.mesh-orange-3 {
-  background: radial-gradient(circle, rgba(179, 71, 0, 0.4) 0%, transparent 70%);
+.mesh-brand-3 {
+  background: radial-gradient(circle, rgba(138, 111, 91, 0.4) 0%, transparent 70%);
   width: 50vw;
   height: 50vw;
   top: 30%;
@@ -157,7 +185,7 @@ body {
   --radius-xl: calc(var(--radius) * 1.4);
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  --radius-4xl: calc(var(--radius) * 3);
 }
 
 :root {

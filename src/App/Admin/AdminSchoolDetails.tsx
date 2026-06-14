@@ -149,7 +149,7 @@ export function AdminSchoolDetails() {
         <div className="flex items-center gap-4">
            <div>
               <p className="text-xs text-zinc-500 font-bold uppercase tracking-widest mb-1">Total Contestants</p>
-              <div className="text-2xl font-black text-orange-400 font-mono">{contestants.length}</div>
+              <div className="text-2xl font-black text-white font-mono">{contestants.length}</div>
            </div>
            <div className="w-px h-10 bg-white/10 hidden md:block"></div>
            
@@ -184,7 +184,7 @@ export function AdminSchoolDetails() {
 
            <button 
              onClick={openAddModal}
-             className="h-10 px-6 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-sm font-bold shadow-lg shadow-orange-900/20 transition-all flex items-center justify-center gap-2 shrink-0"
+             className="h-10 px-6 rounded-xl bg-white text-black hover:bg-white text-black text-sm font-bold shadow-lg shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all flex items-center justify-center gap-2 shrink-0"
            >
              <Plus className="w-4 h-4" /> Add Contestant
            </button>
@@ -198,12 +198,12 @@ export function AdminSchoolDetails() {
               placeholder="Search contestants..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full md:w-64 h-10 bg-black border border-white/10 rounded-lg px-4 text-sm text-white focus:outline-none focus:border-orange-500/50"
+              className="w-full md:w-64 h-10 bg-black border border-white/10 rounded-lg px-4 text-sm text-white focus:outline-none focus:border-white/20"
            />
            <select
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value)}
-              className="w-full md:w-48 h-10 bg-black border border-white/10 rounded-lg px-4 text-sm text-white focus:outline-none focus:border-orange-500/50 appearance-none"
+              className="w-full md:w-48 h-10 bg-black border border-white/10 rounded-lg px-4 text-sm text-white focus:outline-none focus:border-white/20 appearance-none"
            >
               <option value="">All Categories</option>
               {categories.map(c => (
@@ -237,7 +237,7 @@ export function AdminSchoolDetails() {
                     <p className="text-xs font-mono text-zinc-500 mt-1">ID: {c.contestant_id}</p>
                   </td>
                   <td className="px-6 py-4">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-orange-500/10 text-orange-400 border border-orange-500/20">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-white/10 text-white border border-white/20">
                       {c.categories?.name} - {c.categories?.age_group}
                     </span>
                   </td>
@@ -279,25 +279,25 @@ export function AdminSchoolDetails() {
             <form onSubmit={handleSave} className="space-y-4">
               <div>
                  <label className="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-1.5">Full Name</label>
-                 <input required type="text" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="w-full h-12 bg-black border border-white/10 rounded-xl px-4 text-white focus:outline-none focus:border-orange-500/50" />
+                 <input required type="text" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="w-full h-12 bg-black border border-white/10 rounded-xl px-4 text-white focus:outline-none focus:border-white/20" />
               </div>
               <div>
                  <label className="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-1.5">Date of Birth</label>
-                 <input required type="date" value={formData.dob} onChange={e => setFormData({...formData, dob: e.target.value})} className="w-full h-12 bg-black border border-white/10 rounded-xl px-4 text-white focus:outline-none focus:border-orange-500/50 [color-scheme:dark]" />
+                 <input required type="date" value={formData.dob} onChange={e => setFormData({...formData, dob: e.target.value})} className="w-full h-12 bg-black border border-white/10 rounded-xl px-4 text-white focus:outline-none focus:border-white/20 [color-scheme:dark]" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                  <div>
                     <label className="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-1.5">NIC / Postal ID</label>
-                    <input required type="text" value={formData.nic} onChange={e => setFormData({...formData, nic: e.target.value})} className="w-full h-12 bg-black border border-white/10 rounded-xl px-4 text-white focus:outline-none focus:border-orange-500/50 font-mono" />
+                    <input required type="text" value={formData.nic} onChange={e => setFormData({...formData, nic: e.target.value})} className="w-full h-12 bg-black border border-white/10 rounded-xl px-4 text-white focus:outline-none focus:border-white/20 font-mono" />
                  </div>
                  <div>
                     <label className="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-1.5">Mobile Number</label>
-                    <input required type="tel" value={formData.mobile} onChange={e => setFormData({...formData, mobile: e.target.value})} className="w-full h-12 bg-black border border-white/10 rounded-xl px-4 text-white focus:outline-none focus:border-orange-500/50 font-mono" />
+                    <input required type="tel" value={formData.mobile} onChange={e => setFormData({...formData, mobile: e.target.value})} className="w-full h-12 bg-black border border-white/10 rounded-xl px-4 text-white focus:outline-none focus:border-white/20 font-mono" />
                  </div>
               </div>
               <div>
                  <label className="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-1.5">Category</label>
-                 <select required value={formData.category_id} onChange={e => setFormData({...formData, category_id: e.target.value})} className="w-full h-12 bg-black border border-white/10 rounded-xl px-4 text-white focus:outline-none focus:border-orange-500/50 appearance-none">
+                 <select required value={formData.category_id} onChange={e => setFormData({...formData, category_id: e.target.value})} className="w-full h-12 bg-black border border-white/10 rounded-xl px-4 text-white focus:outline-none focus:border-white/20 appearance-none">
                     <option value="">Select Category</option>
                     {categories.map(cat => (
                       <option key={cat.id} value={cat.id}>{cat.name} - {cat.age_group}</option>
@@ -306,7 +306,7 @@ export function AdminSchoolDetails() {
               </div>
               <div className="flex gap-3 pt-6">
                 <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 h-12 rounded-xl bg-white/5 hover:bg-white/10 text-white font-bold text-sm transition-colors">Cancel</button>
-                <button type="submit" disabled={isSaving} className="flex-1 h-12 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-bold text-sm transition-colors shadow-lg shadow-orange-900/20 disabled:opacity-50">
+                <button type="submit" disabled={isSaving} className="flex-1 h-12 rounded-xl bg-white text-black hover:bg-white text-black font-bold text-sm transition-colors shadow-lg shadow-[0_0_15px_rgba(255,255,255,0.1)] disabled:opacity-50">
                   {isSaving ? 'Saving...' : 'Save Data'}
                 </button>
               </div>

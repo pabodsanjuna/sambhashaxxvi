@@ -112,7 +112,7 @@ export function AttendanceScannerView() {
   if (loading) {
     return (
       <div className="h-full flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white/50"></div>
       </div>
     );
   }
@@ -220,7 +220,7 @@ export function AttendanceScannerView() {
                   >
                     <div>
                       <p className="font-bold text-lg">{c.name}</p>
-                      <p className="text-sm font-semibold text-orange-400 mt-1 uppercase tracking-wider text-[10px]">
+                      <p className="text-sm font-semibold text-white mt-1 uppercase tracking-wider text-[10px]">
                         {c.categories?.name} - {c.categories?.age_group}
                       </p>
                        <p className="font-mono font-bold text-zinc-500 text-xs mt-2">ID: {c.contestant_id}</p>

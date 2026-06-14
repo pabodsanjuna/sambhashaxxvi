@@ -42,7 +42,7 @@ export function AdminSchools() {
             placeholder="Search schools..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="w-full h-12 bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
+            className="w-full h-12 bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-brand-500/50"
           />
         </div>
       </div>
@@ -81,7 +81,7 @@ export function AdminSchools() {
                       <p className="text-xs text-zinc-500 font-mono mt-1">{school.coordinator_phone || 'N/A'}</p>
                     </td>
                     <td className="px-6 py-4 text-right">
-                       <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/5 text-zinc-400 group-hover:bg-orange-500 group-hover:text-white transition-colors">
+                       <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/5 text-zinc-400 group-hover:bg-white text-black group-hover:text-white transition-colors">
                           <ChevronRight className="w-4 h-4" />
                        </div>
                     </td>

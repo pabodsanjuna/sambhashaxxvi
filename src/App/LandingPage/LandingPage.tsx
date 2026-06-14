@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Clock } from 'lucide-react';
-import { VintageBackground } from '@/components/VintageBackground';
+import { Bg } from '@/components/Bg';
 
 export function LandingPage() {
   const [timeLeft, setTimeLeft] = useState<{
@@ -36,9 +36,12 @@ export function LandingPage() {
   }, []);
 
   return (
-    <div className="min-h-[100dvh] text-white flex flex-col items-center justify-center p-4 relative overflow-hidden font-sans selection:bg-white selection:text-black">
-      <VintageBackground />
-
+    <Bg className="flex flex-col items-center justify-center p-4 selection:bg-white selection:text-black relative">
+      <div 
+        className="absolute inset-0 z-0 pointer-events-none opacity-20 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url('/sambhasha_bg.jpg')` }}
+        aria-hidden="true"
+      />
       <div className="relative z-10 w-full max-w-2xl mx-auto flex flex-col items-center text-center mt-[-10vh]">
         
         {/* Logo / Header */}
@@ -86,6 +89,6 @@ export function LandingPage() {
         </motion.div>
 
       </div>
-    </div>
+    </Bg>
   );
 }

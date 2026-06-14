@@ -101,7 +101,7 @@ export function AdminSubmissions() {
             placeholder="Search by name, category, or school..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="w-full h-12 bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-orange-500/50 block"
+            className="w-full h-12 bg-white/5 border border-white/10 rounded-xl pl-11 pr-4 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-brand-500/50 block"
           />
         </div>
       </div>
@@ -139,7 +139,7 @@ export function AdminSubmissions() {
                         <p className="text-sm text-zinc-300">{sub.school_details?.school_name || 'Unknown'}</p>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="inline-block px-2 py-1 rounded bg-orange-500/10 text-orange-400 text-xs font-medium">
+                        <span className="inline-block px-2 py-1 rounded bg-white/10 text-white text-xs font-medium">
                           {sub.categories?.name}
                         </span>
                         <p className="text-xs text-zinc-500 mt-1">{sub.categories?.age_group}</p>
@@ -151,7 +151,7 @@ export function AdminSubmissions() {
                                type="url"
                                value={editLink}
                                onChange={(e) => setEditLink(e.target.value)}
-                               className="flex-1 h-9 bg-black/50 border border-white/20 rounded-lg px-3 text-sm text-white focus:outline-none focus:border-orange-500"
+                               className="flex-1 h-9 bg-[#171717]/80 border border-white/20 rounded-lg px-3 text-sm text-white focus:outline-none focus:border-white/50"
                              />
                              <button 
                                onClick={() => saveEdit(sub.id)} 

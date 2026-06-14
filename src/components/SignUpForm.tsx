@@ -2,11 +2,11 @@ import { SignUp } from '@clerk/clerk-react';
 
 export function SignUpForm() {
   return (
-    <div className="flex flex-col justify-center items-center w-full">
-      <img 
-        src="/nccu_logo.PNG" 
+    <div className="flex flex-col justify-center items-center w-full p-8 rounded-4xl border border-white shadow-[0_0_10px_rgba(255,255,255,0.2)]">
+    <img 
+        src="/nccu_logo.png" 
         alt="Company Logo" 
-        className="h-20 w-auto mb-6 opacity-90 object-contain" 
+        className="h-20 w-auto mb-4 mt-2 opacity-90 object-contain" 
       />
       <SignUp routing="path" path="/sign-up" signInUrl="/sign-in" forceRedirectUrl="/onboarding" appearance={{
         elements: {

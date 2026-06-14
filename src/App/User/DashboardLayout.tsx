@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { UserButton, useUser } from '@clerk/clerk-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
@@ -15,6 +15,11 @@ import {
 import { Link, useLocation, Outlet, useNavigate } from 'react-router-dom';
 import { useSchoolDetails } from '@/hooks/useSchoolDetails';
 import { supabase } from '@/lib/supabase';
+import { Bg } from '@/components/Bg';
+
+const DesktopSidebar = lazy(() => import('./components/DashboardLayout/DesktopSidebar').then(m => ({ default: m.DesktopSidebar })));
+const MobileSidebar = lazy(() => import('./components/DashboardLayout/MobileSidebar').then(m => ({ default: m.MobileSidebar })));
+const NotificationPanel = lazy(() => import('./components/DashboardLayout/NotificationPanel').then(m => ({ default: m.NotificationPanel })));
 
 export function DashboardLayout() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -120,46 +125,16 @@ export function DashboardLayout() {
   };
 
   if (loading) {
-    return <div className="h-screen bg-black flex items-center justify-center text-white">Loading...</div>;
+    return <Bg className="flex items-center justify-center text-white">Loading...</Bg>;
   }
 
   return (
-    <div className="h-screen bg-gradient-to-br from-[#2b1000] via-[#050505] to-[#0a0500] text-white font-sans flex p-0 lg:p-4 gap-4 overflow-hidden">
+    <Bg className="h-[100dvh] flex p-0 lg:p-4 gap-4 overflow-hidden">
       
       {/* Sidebar - Desktop */}
-      <aside className="hidden lg:flex flex-col w-72 bg-black/40 backdrop-blur-xl border border-white/5 rounded-[2.5rem] p-8 flex-shrink-0 h-full">
-        <div className="mb-12">
-          <img src="/sambhasha-logo.png" alt="SAMBHASHA" className="h-20 w-auto object-contain" />
-          <div className="h-1 w-12 bg-orange-500 mt-3 rounded-full" />
-        </div>
-
-        <nav className="flex-1 space-y-2">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              to={link.path}
-              className={`flex items-center gap-4 px-6 py-4 rounded-2xl transition-all duration-200 group ${
-                location.pathname === link.path
-                  ? 'bg-white text-black'
-                  : 'text-zinc-500 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <link.icon className={`w-5 h-5 ${location.pathname === link.path ? 'text-black' : 'group-hover:scale-110 transition-transform'}`} />
-              <span className="font-medium tracking-tight flex-1">{link.name}</span>
-              
-              {link.name === 'Notifications' && unreadCount > 0 && (
-                <div className="bg-[#25D366] text-zinc-900 font-bold text-[10px] min-w-[20px] h-5 px-1.5 rounded-full flex items-center justify-center ml-auto shadow-[0_0_10px_rgba(37,211,102,0.3)]">
-                  {unreadCount}
-                </div>
-              )}
-              
-              {location.pathname === link.path && (link.name !== 'Notifications' || unreadCount === 0) && (
-                <div className="w-1.5 h-1.5 bg-black rounded-full ml-auto" />
-              )}
-            </Link>
-          ))}
-        </nav>
-      </aside>
+      <Suspense fallback={<aside className="hidden lg:flex flex-col w-72 bg-black/40 border border-white/5 rounded-[2.5rem] p-8 flex-shrink-0 h-full animate-pulse" />}>
+        <DesktopSidebar navLinks={navLinks} unreadCount={unreadCount} />
+      </Suspense>
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-h-0 bg-white/[0.02] backdrop-blur-sm lg:rounded-[2.5rem] border-0 lg:border border-white/5 overflow-hidden h-full">
@@ -185,48 +160,19 @@ export function DashboardLayout() {
               </button>
 
               {/* Notification Panel */}
-              {isNotificationsOpen && (
-                <>
-                  <div className="fixed inset-0 z-40" onClick={() => setIsNotificationsOpen(false)} />
-                  <div className="fixed sm:absolute top-[80px] sm:top-[calc(100%+0.75rem)] left-4 right-4 sm:left-auto sm:right-0 sm:w-96 bg-zinc-950 border border-white/10 rounded-3xl shadow-2xl overflow-hidden z-50 animate-in fade-in zoom-in duration-200">
-                    <div className="px-6 py-4 border-b border-white/5 flex items-center justify-between bg-white/5">
-                      <h3 className="font-bold">Notifications</h3>
-                      {unreadCount > 0 && (
-                        <button onClick={handleMarkAllRead} className="text-[10px] uppercase tracking-widest text-orange-500 font-bold hover:text-orange-400 transition-colors">Mark all read</button>
-                      )}
-                    </div>
-                    <div className="max-h-[400px] overflow-y-auto">
-                      {notifications.length === 0 ? (
-                        <div className="px-6 py-8 text-center text-zinc-500 text-sm">No new notifications</div>
-                      ) : (
-                        <>
-                          {notifications.slice(0, 4).map((n) => (
-                            <div key={n.id} onClick={() => handleNotificationClick(n.id, n.is_read)} className={`px-6 py-4 border-b border-white/5 hover:bg-white/[0.02] transition-colors cursor-pointer group ${!n.is_read ? 'bg-[#25D366]/5' : ''}`}>
-                              <div className="flex justify-between items-start mb-1">
-                                <span className={`font-bold text-sm transition-colors ${!n.is_read ? 'text-[#25D366]' : 'text-zinc-400'} group-hover:text-green-400 flex items-center gap-2`}>
-                                  {n.title}
-                                  {!n.is_read && <div className="w-1.5 h-1.5 bg-[#25D366] rounded-full shadow-[0_0_8px_rgba(37,211,102,0.8)]" />}
-                                </span>
-                                <span className="text-[10px] text-zinc-600">{new Date(n.created_at).toLocaleDateString()}</span>
-                              </div>
-                              <p className={`text-xs leading-relaxed whitespace-pre-wrap ${!n.is_read ? 'text-zinc-300' : 'text-zinc-500'}`}>{n.message}</p>
-                            </div>
-                          ))}
-                          {notifications.length > 4 && (
-                            <Link 
-                               to="/dashboard/notifications" 
-                               onClick={() => setIsNotificationsOpen(false)}
-                               className="block px-6 py-4 text-center text-sm font-semibold text-orange-500 hover:text-orange-400 hover:bg-white/[0.02] transition-colors"
-                            >
-                               View all notifications ({notifications.length})
-                            </Link>
-                          )}
-                        </>
-                      )}
-                    </div>
-                  </div>
-                </>
-              )}
+              <AnimatePresence>
+                {isNotificationsOpen && (
+                  <Suspense fallback={<div className="fixed inset-0 z-50 bg-black/10" />}>
+                    <NotificationPanel 
+                      notifications={notifications}
+                      unreadCount={unreadCount}
+                      handleMarkAllRead={handleMarkAllRead}
+                      handleNotificationClick={handleNotificationClick}
+                      setIsNotificationsOpen={setIsNotificationsOpen}
+                    />
+                  </Suspense>
+                )}
+              </AnimatePresence>
             </div>
             
             <div className="flex items-center gap-3 pl-4 border-l border-white/10">
@@ -258,57 +204,16 @@ export function DashboardLayout() {
       {/* Mobile Sidebar Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <div className="fixed inset-0 z-50 lg:hidden">
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-black/60 backdrop-blur-sm" 
-              onClick={() => setIsMobileMenuOpen(false)} 
+          <Suspense fallback={<div className="fixed inset-0 z-50 lg:hidden bg-black/60" />}>
+            <MobileSidebar 
+              navLinks={navLinks} 
+              unreadCount={unreadCount} 
+              setIsMobileMenuOpen={setIsMobileMenuOpen} 
             />
-            <motion.aside 
-              initial={{ x: '-100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '-100%' }}
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="absolute left-0 top-0 bottom-0 w-72 bg-zinc-950 p-8 flex flex-col border-r border-white/10"
-            >
-            <div className="flex items-center justify-between mb-12">
-              <div className="flex flex-col">
-                <img src="/sambhasha-logo.png" alt="SAMBHASHA" className="h-20 w-auto object-contain" />
-                <div className="h-1 w-8 bg-orange-500 mt-3 rounded-full" />
-              </div>
-              <button onClick={() => setIsMobileMenuOpen(false)}>
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-            <nav className="flex-1 space-y-2">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  to={link.path}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`flex items-center gap-4 px-6 py-4 rounded-2xl transition-all ${
-                    location.pathname === link.path
-                      ? 'bg-white text-black'
-                      : 'text-zinc-500 hover:text-white'
-                  }`}
-                >
-                  <link.icon className="w-5 h-5" />
-                  <span className="font-medium flex-1">{link.name}</span>
-                  {link.name === 'Notifications' && unreadCount > 0 && (
-                     <div className="bg-[#25D366] text-black font-bold text-[10px] min-w-[20px] h-5 px-1.5 rounded-full flex items-center justify-center">
-                       {unreadCount}
-                     </div>
-                  )}
-                </Link>
-              ))}
-            </nav>
-          </motion.aside>
-        </div>
+          </Suspense>
         )}
       </AnimatePresence>
 
-    </div>
+    </Bg>
   );
 }

@@ -4,6 +4,7 @@ import { Scanner } from '@yudiel/react-qr-scanner';
 import { supabase } from '@/lib/supabase';
 import { CheckCircle2, Smartphone, AlertCircle } from 'lucide-react';
 import { motion } from 'motion/react';
+import { Bg } from '@/components/Bg';
 
 export function RemoteScanner() {
   const [searchParams] = useSearchParams();
@@ -64,22 +65,22 @@ export function RemoteScanner() {
 
   if (!sessionId) {
     return (
-      <div className="min-h-[100dvh] bg-black text-white flex items-center justify-center p-4">
+      <Bg className="flex items-center justify-center p-4">
         <div className="bg-red-500/10 border border-red-500/20 p-6 rounded-2xl flex flex-col items-center max-w-sm text-center gap-4">
           <AlertCircle className="w-10 h-10 text-red-500" />
           <h2 className="text-xl font-bold">Invalid Session</h2>
           <p className="text-zinc-400 text-sm">No active scanner session found. Please scan the QR code from the laptop screen again.</p>
         </div>
-      </div>
+      </Bg>
     );
   }
 
   return (
-    <div className="fixed inset-0 bg-black flex flex-col font-sans">
+    <Bg className="flex flex-col font-sans">
       <div className="p-4 bg-zinc-900 border-b border-white/10 flex items-center justify-between z-10 relative">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center">
-            <Smartphone className="w-5 h-5 text-orange-500" />
+          <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center">
+            <Smartphone className="w-5 h-5 text-white" />
           </div>
           <div>
             <h1 className="font-bold text-white uppercase tracking-widest text-xs">Remote Input</h1>
@@ -92,7 +93,7 @@ export function RemoteScanner() {
         </div>
       </div>
 
-      <div className="flex-1 relative bg-black flex flex-col justify-center">
+      <div className="flex-1 relative flex flex-col justify-center">
         <div className="absolute inset-0 z-0">
           <Scanner 
             onScan={(result) => {
@@ -115,10 +116,10 @@ export function RemoteScanner() {
               <div className="flex-1 bg-black/40 backdrop-blur-[2px]" />
               <div className="w-[250px] relative">
                  {/* Corner markers */}
-                 <div className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-orange-500 rounded-tl-xl" />
-                 <div className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-orange-500 rounded-tr-xl" />
-                 <div className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-orange-500 rounded-bl-xl" />
-                 <div className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-orange-500 rounded-br-xl" />
+                 <div className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-white/50 rounded-tl-xl" />
+                 <div className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-white/50 rounded-tr-xl" />
+                 <div className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-white/50 rounded-bl-xl" />
+                 <div className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-white/50 rounded-br-xl" />
               </div>
               <div className="flex-1 bg-black/40 backdrop-blur-[2px]" />
            </div>
@@ -151,6 +152,6 @@ export function RemoteScanner() {
           </motion.div>
         )}
       </div>
-    </div>
+    </Bg>
   );
 }

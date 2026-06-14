@@ -153,7 +153,7 @@ export function AttendanceScanner() {
               className="hidden lg:flex items-center gap-2 bg-white/5 border border-white/10 hover:bg-white/10 px-4 py-2 rounded-xl text-xs font-bold transition-colors shadow-lg"
               title="Use Phone to Scan"
             >
-              <Smartphone className="w-4 h-4 text-orange-400" />
+              <Smartphone className="w-4 h-4 text-white" />
               Use Phone
             </button>
           </div>
@@ -172,24 +172,24 @@ export function AttendanceScanner() {
                      <div className="absolute inset-0 flex items-center justify-center">
                         <div className="w-56 h-56 relative box-content">
                            {/* Hollow Cutout using box-shadow trick */}
-                           <div className="absolute inset-0 rounded-3xl shadow-[0_0_0_9999px_rgba(0,0,0,0.6)]" />
+                           <div className="absolute inset-0 rounded-3xl shadow-md" />
                            {/* Corner Brackets */}
-                           <div className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-orange-500 rounded-tl-3xl opacity-80" />
-                           <div className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-orange-500 rounded-tr-3xl opacity-80" />
-                           <div className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-orange-500 rounded-bl-3xl opacity-80" />
-                           <div className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-orange-500 rounded-br-3xl opacity-80" />
+                           <div className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-white/50 rounded-tl-3xl opacity-80" />
+                           <div className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-white/50 rounded-tr-3xl opacity-80" />
+                           <div className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-white/50 rounded-bl-3xl opacity-80" />
+                           <div className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-white/50 rounded-br-3xl opacity-80" />
                            {/* Scanning Line */}
-                           <div className="absolute left-4 right-4 h-[2px] bg-orange-500/80 shadow-[0_0_8px_2px_rgba(249,115,22,0.6)] animate-scan" />
+                           <div className="absolute left-4 right-4 h-[2px] bg-white/10 shadow-md animate-scan" />
                         </div>
                      </div>
                   </div>
 
                   {processing && (
                      <div className="absolute inset-0 bg-zinc-950/80 backdrop-blur-md flex flex-col items-center justify-center z-10 transition-all">
-                        <div className="w-12 h-12 rounded-2xl bg-orange-500/20 flex items-center justify-center mb-4">
-                           <Scan className="w-6 h-6 text-orange-500 animate-pulse" />
+                        <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center mb-4">
+                           <Scan className="w-6 h-6 text-white animate-pulse" />
                         </div>
-                        <p className="font-bold tracking-widest text-xs uppercase text-orange-400">Processing QR</p>
+                        <p className="font-bold tracking-widest text-xs uppercase text-white">Processing QR</p>
                      </div>
                   )}
                </div>
@@ -252,14 +252,14 @@ export function AttendanceScanner() {
                 <div className="mb-6">
                    <div className="relative flex-1 group">
                       <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                         <Search className="w-5 h-5 text-zinc-500 group-focus-within:text-orange-500 transition-colors" />
+                         <Search className="w-5 h-5 text-zinc-500 group-focus-within:text-white transition-colors" />
                       </div>
                       <input 
                          type="text" 
                          placeholder="Filter names within this school..."
                          value={search}
                          onChange={e => setSearch(e.target.value)}
-                         className="w-full h-14 bg-black/40 border border-white/10 rounded-2xl pl-12 pr-4 text-sm focus:outline-none focus:border-orange-500/50 focus:bg-black/60 focus:ring-4 focus:ring-orange-500/10 transition-all placeholder:text-zinc-600"
+                         className="w-full h-14 bg-black/40 border border-white/10 rounded-2xl pl-12 pr-4 text-sm focus:outline-none focus:border-white/20 focus:bg-black/60 focus:ring-4 focus:ring-brand-500/10 transition-all placeholder:text-zinc-600"
                       />
                    </div>
                 </div>
@@ -281,7 +281,7 @@ export function AttendanceScanner() {
                             className={`shrink-0 flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 rounded-xl text-sm font-bold transition-all ${
                               c.is_attended 
                                 ? 'bg-green-500/10 text-green-500 border border-green-500/20 cursor-not-allowed' 
-                                : 'bg-orange-500 text-black hover:bg-orange-400 shadow-[0_0_20px_rgba(249,115,22,0.3)] hover:shadow-[0_0_25px_rgba(249,115,22,0.4)]'
+                                : 'bg-white text-black hover:bg-white text-black shadow-md hover:shadow-md'
                             }`}
                          >
                             {c.is_attended ? (
@@ -301,7 +301,7 @@ export function AttendanceScanner() {
               <>
                 <div className="mb-6">
                   <h2 className="text-xl font-bold flex items-center gap-2 mb-1">
-                     <Search className="w-5 h-5 text-orange-400" />
+                     <Search className="w-5 h-5 text-white" />
                      Manual Search
                   </h2>
                   <p className="text-sm text-zinc-500">Search by contestant name or school name if QR is unavailable.</p>
@@ -310,14 +310,14 @@ export function AttendanceScanner() {
                 <form onSubmit={handleSearch} className="flex gap-2 sm:gap-3 mb-8">
                    <div className="relative flex-1 group">
                       <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                         <Search className="w-5 h-5 text-zinc-500 group-focus-within:text-orange-500 transition-colors" />
+                         <Search className="w-5 h-5 text-zinc-500 group-focus-within:text-white transition-colors" />
                       </div>
                       <input 
                          type="text" 
                          placeholder="Search name or school..."
                          value={search}
                          onChange={e => setSearch(e.target.value)}
-                         className="w-full h-14 bg-black/40 border border-white/10 rounded-2xl pl-12 pr-4 text-sm focus:outline-none focus:border-orange-500/50 focus:bg-black/60 focus:ring-4 focus:ring-orange-500/10 transition-all placeholder:text-zinc-600"
+                         className="w-full h-14 bg-black/40 border border-white/10 rounded-2xl pl-12 pr-4 text-sm focus:outline-none focus:border-white/20 focus:bg-black/60 focus:ring-4 focus:ring-brand-500/10 transition-all placeholder:text-zinc-600"
                       />
                    </div>
                    <button 
@@ -348,7 +348,7 @@ export function AttendanceScanner() {
                                   className={`shrink-0 flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 rounded-xl text-sm font-bold transition-all ${
                                     c.is_attended 
                                       ? 'bg-green-500/10 text-green-500 border border-green-500/20 cursor-not-allowed' 
-                                      : 'bg-orange-500 text-black hover:bg-orange-400 shadow-[0_0_20px_rgba(249,115,22,0.3)] hover:shadow-[0_0_25px_rgba(249,115,22,0.4)]'
+                                      : 'bg-white text-black hover:bg-white text-black shadow-md hover:shadow-md'
                                   }`}
                                >
                                   {c.is_attended ? (
@@ -400,8 +400,8 @@ export function AttendanceScanner() {
               </button>
               
               <div className="text-center mb-8 pt-4">
-                <div className="w-16 h-16 bg-orange-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-orange-500/20">
-                  <Smartphone className="w-8 h-8 text-orange-400" />
+                <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-white/20">
+                  <Smartphone className="w-8 h-8 text-white" />
                 </div>
                 <h2 className="text-2xl font-black text-white mb-2">Scan with Phone</h2>
                 <p className="text-zinc-400 text-sm">

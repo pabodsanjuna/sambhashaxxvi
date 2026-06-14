@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUser } from '@clerk/clerk-react';
 import { CheckCircle } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
+import { Bg } from '@/components/Bg';
 
 export function OnboardingSuccess() {
   const navigate = useNavigate();
@@ -51,20 +52,20 @@ export function OnboardingSuccess() {
   };
 
   if (fetching || !schoolId) {
-    return <div className="min-h-screen bg-black flex items-center justify-center text-white font-sans">
+    return <Bg className="flex items-center justify-center text-white font-sans">
         <div className="animate-pulse">Loading setup...</div>
-    </div>;
+    </Bg>;
   }
 
   return (
-    <div className="flex flex-col min-h-screen relative text-white font-sans selection:bg-white selection:text-black bg-gradient-to-br from-[#2b1000] via-[#050505] to-[#0a0500] overflow-hidden items-center justify-center">
+    <Bg className="flex flex-col relative text-white font-sans selection:bg-white selection:text-black overflow-hidden items-center justify-center">
       {/* Animated Mesh Background Elements */}
-      <div className="mesh-blob mesh-orange-1 fixed z-0 pointer-events-none"></div>
-      <div className="mesh-blob mesh-orange-2 fixed z-0 pointer-events-none"></div>
+      <div className="mesh-blob mesh-brand-1 fixed z-0 pointer-events-none"></div>
+      <div className="mesh-blob mesh-brand-2 fixed z-0 pointer-events-none"></div>
 
       <div className="relative z-10 w-full max-w-xl mx-auto p-8 lg:p-12 text-center">
         <div className="mb-12">
-            <CheckCircle className="w-20 h-20 text-orange-500 mx-auto drop-shadow-[0_0_15px_rgba(249,115,22,0.5)]" />
+            <CheckCircle className="w-20 h-20 text-brand-500 mx-auto drop-shadow-[0_0_15px_rgba(138,111,91,0.5)]" />
             <h1 className="font-[family-name:var(--font-modern)] tracking-tight font-bold text-3xl md:text-4xl text-white mt-8 mb-3">
                Successfully registered to SAMBHASHA XXVI
             </h1>
@@ -89,6 +90,6 @@ export function OnboardingSuccess() {
             </button>
         </div>
       </div>
-    </div>
+    </Bg>
   );
 }

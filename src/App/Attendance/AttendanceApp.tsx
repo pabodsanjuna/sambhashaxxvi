@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { Activity, QrCode, LogOut, LayoutDashboard, Menu, X } from 'lucide-react';
 import { useAuth, useUser } from '@clerk/clerk-react';
-import { VintageBackground } from '@/components/VintageBackground';
+import { Bg } from '@/components/Bg';
 
 export function AttendanceApp() {
   const { signOut } = useAuth();
@@ -24,14 +24,14 @@ export function AttendanceApp() {
   ];
 
   return (
-    <div className="flex h-screen bg-black text-white font-sans relative selection:bg-orange-500/30 overflow-hidden">
-       <VintageBackground />
+    <div className="flex h-screen text-white font-sans relative selection:bg-white/10 overflow-hidden">
+       <Bg />
        
        {/* Desktop Sidebar */}
        <aside className="w-64 bg-zinc-950/80 backdrop-blur-xl border-r border-white/5 flex flex-col relative z-50 h-full hidden md:flex">
           <div className="p-6">
              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-orange-700 flex items-center justify-center text-white font-black text-lg relative overflow-hidden shadow-lg shadow-orange-900/20">
+                <div className="w-10 h-10 rounded-xl bg-white text-black flex items-center justify-center font-black text-lg relative overflow-hidden shadow-lg shadow-[0_0_15px_rgba(255,255,255,0.1)]">
                    <div className="absolute inset-0 bg-white/20 transform -rotate-45 scale-150 origin-left" />
                    S
                 </div>
@@ -48,7 +48,7 @@ export function AttendanceApp() {
                   key={tab.name}
                   to={tab.path}
                   end={tab.path === '/attendance'}
-                  className={({isActive}) => `flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-sm font-bold tracking-wide ${isActive ? 'bg-orange-500/10 text-orange-400 border border-orange-500/20 shadow-lg shadow-orange-900/20' : 'text-zinc-500 hover:text-zinc-300 hover:bg-white/5 border border-transparent'}`}
+                  className={({isActive}) => `flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-sm font-bold tracking-wide ${isActive ? 'bg-white/10 text-white border border-white/20 shadow-lg shadow-[0_0_15px_rgba(255,255,255,0.1)]' : 'text-zinc-500 hover:text-zinc-300 hover:bg-white/5 border border-transparent'}`}
                >
                   <tab.icon className="w-5 h-5" />
                   <span>{tab.name}</span>
@@ -58,7 +58,7 @@ export function AttendanceApp() {
 
           <div className="p-4 border-t border-white/5 mt-auto">
             {isAdmin && (
-               <button onClick={() => navigate('/admin')} className="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold text-orange-500 hover:text-orange-400 hover:bg-orange-500/10 rounded-xl transition-colors mb-2">
+               <button onClick={() => navigate('/admin')} className="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold text-white hover:text-white hover:bg-white/10 rounded-xl transition-colors mb-2">
                   <LayoutDashboard className="w-4 h-4" />
                   <span>Admin Panel</span>
                </button>
@@ -79,7 +79,7 @@ export function AttendanceApp() {
              >
                 <Menu className="w-5 h-5" />
              </button>
-             <div className="w-8 h-8 rounded-lg bg-orange-600 flex items-center justify-center text-white font-black text-sm relative overflow-hidden">
+             <div className="w-8 h-8 rounded-lg bg-white text-black flex items-center justify-center font-black text-sm relative overflow-hidden">
                 <div className="absolute inset-0 bg-white/20 transform rotate-45 scale-150 origin-left" />
                 S
              </div>
@@ -99,8 +99,8 @@ export function AttendanceApp() {
             />
             <aside className="w-[280px] h-full border-r border-white/5 bg-zinc-950 flex flex-col pt-6 px-6 pb-6 shadow-2xl relative z-10 animate-in slide-in-from-left duration-300">
               <div className="flex items-center justify-between mb-10">
-                <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-amber-500 tracking-tight flex items-center gap-3">
-                   <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center text-black font-black text-sm relative overflow-hidden">
+                <h1 className="text-xl font-bold text-white tracking-tight flex items-center gap-3">
+                   <div className="w-8 h-8 rounded-lg bg-white text-black flex items-center justify-center text-black font-black text-sm relative overflow-hidden">
                       <div className="absolute inset-0 bg-white/20 transform rotate-45 scale-150 origin-left" />
                       S
                    </div>
@@ -121,13 +121,13 @@ export function AttendanceApp() {
                       to={tab.path}
                       end={tab.path === '/attendance'}
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className={({isActive}) => `flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-semibold transition-all group relative overflow-hidden ${isActive ? 'bg-orange-600/10 text-orange-500 border border-orange-500/20 shadow-lg shadow-orange-900/20' : 'text-zinc-400 hover:text-white hover:bg-white/5 border border-transparent'}`}
+                      className={({isActive}) => `flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-semibold transition-all group relative overflow-hidden ${isActive ? 'bg-white/10 text-white border border-white/20 shadow-lg shadow-[0_0_15px_rgba(255,255,255,0.1)]' : 'text-zinc-400 hover:text-white hover:bg-white/5 border border-transparent'}`}
                     >
                       {({isActive}) => (
                         <>
-                          <tab.icon className={`w-5 h-5 transition-transform group-hover:scale-110 ${isActive ? 'text-orange-500' : 'text-zinc-500 group-hover:text-zinc-300'}`} />
+                          <tab.icon className={`w-5 h-5 transition-transform group-hover:scale-110 ${isActive ? 'text-white' : 'text-zinc-500 group-hover:text-zinc-300'}`} />
                           <span className="tracking-wide relative z-10">{tab.name}</span>
-                          {isActive && <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-orange-500 rounded-r-full shadow-[0_0_10px_rgba(249,115,22,0.8)]" />}
+                          {isActive && <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-white text-black rounded-r-full shadow-md" />}
                         </>
                       )}
                     </NavLink>
@@ -138,7 +138,7 @@ export function AttendanceApp() {
                 {isAdmin && (
                    <button 
                      onClick={() => { setIsMobileMenuOpen(false); navigate('/admin'); }} 
-                     className="w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-orange-500 hover:bg-orange-500/10 rounded-2xl transition-colors"
+                     className="w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-white hover:bg-white/10 rounded-2xl transition-colors"
                    >
                       <LayoutDashboard className="w-5 h-5" />
                       <span>Admin Panel</span>

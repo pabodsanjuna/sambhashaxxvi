@@ -1,13 +1,15 @@
-import { ShieldAlert, Mail, MapPin, Phone, Building2, User, Camera, QrCode, Download, ShieldCheck, MailCheck, LocateFixed, Link2 } from 'lucide-react';
+import { ShieldAlert, Building2, Camera, ShieldCheck } from 'lucide-react';
 import { useUser } from '@clerk/clerk-react';
 import { motion } from 'motion/react';
 import { useSchoolDetails } from '@/hooks/useSchoolDetails';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, lazy, Suspense } from 'react';
 import { supabase } from '@/lib/supabase';
-import { QRCodeSVG } from 'qrcode.react';
 import * as htmlToImage from 'html-to-image';
 import { jsPDF } from 'jspdf';
-import { EntryPass } from './components/EntryPass';
+import { User } from 'lucide-react';
+
+const SchoolIdentityCard = lazy(() => import('./components/Settings/SchoolIdentityCard').then(m => ({ default: m.SchoolIdentityCard })));
+const QRDownloadCard = lazy(() => import('./components/Settings/QRDownloadCard').then(m => ({ default: m.QRDownloadCard })));
 
 export function Settings() {
   const { user } = useUser();
@@ -143,48 +145,9 @@ export function Settings() {
             </motion.div>
           </div>
 
-          {/* School Information Card */}
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.2 }}
-            className="bg-black/20 backdrop-blur-md border border-white/5 rounded-[2.5rem] p-8 relative overflow-hidden flex flex-col justify-between"
-          >
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white/[0.02] rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-            
-            <div className="flex items-center gap-3 mb-8">
-              <Building2 className="w-5 h-5 text-zinc-500" />
-              <h2 className="text-lg font-bold text-white tracking-tight">Identity Details</h2>
-            </div>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-8 gap-x-10 relative z-10">
-              <div className="space-y-1.5 focus-within:bg-white/5 p-4 -ml-4 rounded-2xl transition-colors">
-                <label className="text-[10px] uppercase font-bold text-zinc-500 tracking-wider flex items-center gap-2">
-                  <MapPin className="w-3 h-3" /> School Name
-                </label>
-                <p className="text-white font-medium">{schoolDetailsData.schoolName}</p>
-              </div>
-              
-              <div className="space-y-1.5 focus-within:bg-white/5 p-4 -ml-4 rounded-2xl transition-colors">
-                <label className="text-[10px] uppercase font-bold text-zinc-500 tracking-wider flex items-center gap-2">
-                  <LocateFixed className="w-3 h-3" /> City / Location
-                </label>
-                <p className="text-white font-medium">{schoolDetailsData.city}</p>
-              </div>
-
-              <div className="space-y-1.5 focus-within:bg-white/5 p-4 -ml-4 rounded-2xl transition-colors">
-                <label className="text-[10px] uppercase font-bold text-zinc-500 tracking-wider flex items-center gap-2">
-                  <Phone className="w-3 h-3" /> Contact Number
-                </label>
-                <p className="text-white font-medium">{schoolDetailsData.phone}</p>
-              </div>
-
-              <div className="space-y-1.5 focus-within:bg-white/5 p-4 -ml-4 rounded-2xl transition-colors">
-                <label className="text-[10px] uppercase font-bold text-zinc-500 tracking-wider flex items-center gap-2">
-                  <MailCheck className="w-3 h-3" /> Registered Email
-                </label>
-                <p className="text-white font-medium">{schoolDetailsData.registeredEmail}</p>
-              </div>
-            </div>
-          </motion.div>
+          <Suspense fallback={<div className="h-[200px] bg-white/5 rounded-[2.5rem] animate-pulse" />}>
+            <SchoolIdentityCard schoolDetailsData={schoolDetailsData} />
+          </Suspense>
 
           {/* Security Restrictions Banner */}
           <motion.div 
@@ -208,38 +171,17 @@ export function Settings() {
         <div className="md:col-span-4 flex flex-col gap-6">
 
           {/* Download QR Card */}
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.4, delay: 0.3 }}
-            className="bg-orange-500 border border-orange-400 rounded-[2.5rem] p-8 text-black relative overflow-hidden group shadow-xl shadow-orange-500/10"
-          >
-            <div className="absolute top-0 right-0 w-48 h-48 bg-white/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
-            
-            <div className="mb-6 relative z-10">
-              <div className="w-12 h-12 bg-black/10 rounded-2xl flex items-center justify-center mb-4">
-                <QrCode className="w-6 h-6 text-black" />
-              </div>
-              <h3 className="text-2xl font-bold tracking-tight leading-tight mb-2">Event<br/>Entry Pass</h3>
-              <p className="text-black/70 text-sm font-medium">Download your school's QR for rapid registration on competition day.</p>
-            </div>
-
-            <button 
-              onClick={downloadQR}
-              disabled={isGeneratingQR}
-              className="w-full bg-black text-white hover:bg-zinc-900 px-6 py-4 rounded-2xl font-bold flex items-center justify-center gap-3 transition-transform active:scale-95 disabled:opacity-50 relative z-10"
-            >
-              {isGeneratingQR ? (
-                <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              ) : (
-                <Download className="w-5 h-5" />
-              )}
-              {isGeneratingQR ? 'Generating PDF...' : 'Download PDF'}
-            </button>
-            
-            {/* Hidden QR generation component */}
-            <div className="absolute top-[9999px] left-[9999px] opacity-0 pointer-events-none">
-               <EntryPass ref={qrCardRef} schoolDetails={schoolDetails} schoolDetailsData={schoolDetailsData} contactPersons={contactPersons} originOrigin={window.location.origin} />
-            </div>
-          </motion.div>
+          <Suspense fallback={<div className="h-[250px] bg-white/5 rounded-[2.5rem] animate-pulse" />}>
+            <QRDownloadCard
+              isGeneratingQR={isGeneratingQR}
+              downloadQR={downloadQR}
+              qrCardRef={qrCardRef}
+              schoolDetails={schoolDetails}
+              schoolDetailsData={schoolDetailsData}
+              contactPersons={contactPersons}
+              originURL={window.location.origin}
+            />
+          </Suspense>
 
           {/* Administrative Contacts */}
           <motion.div 

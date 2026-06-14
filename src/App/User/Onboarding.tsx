@@ -4,6 +4,7 @@ import { UploadCloud } from 'lucide-react';
 import { useUser } from '@clerk/clerk-react';
 import { supabase } from '@/lib/supabase';
 import { useSchoolDetails } from '@/hooks/useSchoolDetails';
+import { Bg } from '@/components/Bg';
 
 export function Onboarding() {
   const navigate = useNavigate();
@@ -130,15 +131,15 @@ export function Onboarding() {
   };
 
   if (loading) {
-    return <div className="min-h-screen bg-black flex items-center justify-center text-white">Loading...</div>;
+    return <Bg className="flex items-center justify-center text-white">Loading...</Bg>;
   }
 
   return (
-    <div className="flex flex-col min-h-screen relative text-white font-sans selection:bg-white selection:text-black bg-gradient-to-br from-[#2b1000] via-[#050505] to-[#0a0500] overflow-hidden">
+    <Bg className="flex flex-col relative text-white font-sans selection:bg-white selection:text-black overflow-hidden">
       {/* Animated Mesh Background Elements */}
-      <div className="mesh-blob mesh-orange-1 fixed z-0 pointer-events-none"></div>
-      <div className="mesh-blob mesh-orange-2 fixed z-0 pointer-events-none"></div>
-      <div className="mesh-blob mesh-orange-3 fixed z-0 pointer-events-none"></div>
+      <div className="mesh-blob mesh-brand-1 fixed z-0 pointer-events-none"></div>
+      <div className="mesh-blob mesh-brand-2 fixed z-0 pointer-events-none"></div>
+      <div className="mesh-blob mesh-brand-3 fixed z-0 pointer-events-none"></div>
 
       <div className="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 py-12 lg:py-20 flex-1 flex flex-col justify-center my-6">
         <div className="mb-8 text-center lg:text-left">
@@ -282,6 +283,6 @@ export function Onboarding() {
 
       </div>
       
-    </div>
+    </Bg>
   );
 }

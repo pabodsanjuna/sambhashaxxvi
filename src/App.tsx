@@ -1,7 +1,9 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { AuthBG } from './components/AuthBG';
+import { Analytics } from "@vercel/analytics/react";
 import { AuthForm } from './components/AuthForm';
 import { SignUpForm } from './components/SignUpForm';
+import { Auth_Page_Bg } from './components/Auth_Page_Bg';
+import { Outlet } from 'react-router-dom';
 import { RequireAuth } from './components/RequireAuth';
 import { RequireRole } from './components/RequireRole';
 
@@ -44,10 +46,10 @@ export default function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/remote-scanner" element={<RemoteScanner />} />
         <Route path="/staff-onboarding" element={<StaffOnboarding />} />
-        <Route element={<AuthBG />}>
-          <Route path="/sign-in/*" element={<AuthForm />} />
-          <Route path="/sign-up/*" element={<SignUpForm />} />
-        </Route>
+      <Route element={<Auth_Page_Bg />}>
+        <Route path="/sign-in/*" element={<AuthForm />} />
+        <Route path="/sign-up/*" element={<SignUpForm />} />
+      </Route>
         
         {/* Admin Flow */}
         <Route element={<RequireRole allowedRoles={['admin']} />}>
@@ -91,6 +93,7 @@ export default function App() {
         {/* Catch-all redirect to Landing Page */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      <Analytics />
     </>
   );
 }

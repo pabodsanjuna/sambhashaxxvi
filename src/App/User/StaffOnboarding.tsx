@@ -4,7 +4,7 @@ import { supabase } from '@/lib/supabase';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { useStaffProfile } from '@/hooks/useStaffProfile';
 import { ShieldCheck, LogOut } from 'lucide-react';
-import { VintageBackground } from '@/components/VintageBackground';
+import { Bg } from '@/components/Bg';
 
 export function StaffOnboarding() {
   const { user, isLoaded } = useUser();
@@ -25,7 +25,7 @@ export function StaffOnboarding() {
   const role = (user?.publicMetadata?.role as string) || '';
 
   if (!isLoaded || profileLoading) {
-    return <div className="min-h-screen bg-black text-white flex items-center justify-center">Loading...</div>;
+    return <Bg className="flex items-center justify-center">Loading...</Bg>;
   }
 
   if (staffProfile) {
@@ -76,13 +76,12 @@ export function StaffOnboarding() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white selection:bg-orange-500/30 flex items-center justify-center p-6 relative">
-       <VintageBackground />
+    <Bg className="selection:bg-brand-500/30 flex items-center justify-center p-6 relative">
        <div className="w-full max-w-lg bg-zinc-900/80 backdrop-blur-md border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden z-10">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/10 blur-[100px] rounded-full pointer-events-none" />
+          <div className="absolute top-0 right-0 w-64 h-64 bg-brand-500/10 blur-[100px] rounded-full pointer-events-none" />
           
           <div className="flex items-center gap-4 mb-10 relative z-10">
-             <div className="w-12 h-12 rounded-xl bg-orange-600 flex items-center justify-center shadow-lg shadow-orange-900/50">
+             <div className="w-12 h-12 rounded-xl bg-brand-600 flex items-center justify-center shadow-lg shadow-brand-900/50">
                <ShieldCheck className="w-6 h-6 text-white" />
              </div>
              <div>
@@ -94,48 +93,48 @@ export function StaffOnboarding() {
           <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
              <div>
                 <label className="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-1.5 flex items-center justify-between">
-                   Full Name <span className="text-orange-500 text-[10px]">*</span>
+                   Full Name <span className="text-brand-500 text-[10px]">*</span>
                 </label>
                 <input 
                    required
                    type="text" 
                    value={formData.name} 
                    onChange={e => setFormData({...formData, name: e.target.value})} 
-                   className="w-full h-12 bg-black border border-white/10 rounded-xl px-4 text-sm focus:outline-none focus:border-orange-500" 
+                   className="w-full h-12 bg-black border border-white/10 rounded-xl px-4 text-sm focus:outline-none focus:border-brand-500" 
                 />
              </div>
 
              <div>
                 <label className="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-1.5 flex items-center justify-between">
-                   Email Address <span className="text-orange-500 text-[10px]">*</span>
+                   Email Address <span className="text-brand-500 text-[10px]">*</span>
                 </label>
                 <input 
                    required
                    type="email" 
                    value={formData.email} 
                    onChange={e => setFormData({...formData, email: e.target.value})} 
-                   className="w-full h-12 bg-black border border-white/10 rounded-xl px-4 text-sm focus:outline-none focus:border-orange-500 opacity-50 cursor-not-allowed" 
+                   className="w-full h-12 bg-black border border-white/10 rounded-xl px-4 text-sm focus:outline-none focus:border-brand-500 opacity-50 cursor-not-allowed" 
                    readOnly
                 />
              </div>
 
              <div>
                 <label className="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-1.5 flex items-center justify-between">
-                   Mobile Number <span className="text-orange-500 text-[10px]">*</span>
+                   Mobile Number <span className="text-brand-500 text-[10px]">*</span>
                 </label>
                 <input 
                    required
                    type="tel" 
                    value={formData.mobile} 
                    onChange={e => setFormData({...formData, mobile: e.target.value})} 
-                   className="w-full h-12 bg-black border border-white/10 rounded-xl px-4 text-sm focus:outline-none focus:border-orange-500" 
+                   className="w-full h-12 bg-black border border-white/10 rounded-xl px-4 text-sm focus:outline-none focus:border-brand-500" 
                 />
              </div>
 
              {role === 'admin' && (
                <div>
                   <label className="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-1.5 flex items-center justify-between">
-                     NCCU Board of Officials Position <span className="text-orange-500 text-[10px]">*</span>
+                     NCCU Board of Officials Position <span className="text-brand-500 text-[10px]">*</span>
                   </label>
                   <input 
                      required
@@ -143,7 +142,7 @@ export function StaffOnboarding() {
                      placeholder="e.g. Director, Event Lead"
                      value={formData.position} 
                      onChange={e => setFormData({...formData, position: e.target.value})} 
-                     className="w-full h-12 bg-black border border-white/10 rounded-xl px-4 text-sm focus:outline-none focus:border-orange-500" 
+                     className="w-full h-12 bg-black border border-white/10 rounded-xl px-4 text-sm focus:outline-none focus:border-brand-500" 
                   />
                </div>
              )}
@@ -151,7 +150,7 @@ export function StaffOnboarding() {
              {role === 'registrar' && (
                <div>
                   <label className="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-1.5 flex items-center justify-between">
-                     NCCU Membership ID <span className="text-orange-500 text-[10px]">*</span>
+                     NCCU Membership ID <span className="text-brand-500 text-[10px]">*</span>
                   </label>
                   <input 
                      required
@@ -159,7 +158,7 @@ export function StaffOnboarding() {
                      placeholder="e.g. NCCU-123456"
                      value={formData.membership_id} 
                      onChange={e => setFormData({...formData, membership_id: e.target.value})} 
-                     className="w-full h-12 bg-black border border-white/10 rounded-xl px-4 text-sm focus:outline-none focus:border-orange-500 font-mono" 
+                     className="w-full h-12 bg-black border border-white/10 rounded-xl px-4 text-sm focus:outline-none focus:border-brand-500 font-mono" 
                   />
                </div>
              )}
@@ -176,13 +175,13 @@ export function StaffOnboarding() {
                 <button 
                   type="submit" 
                   disabled={isSaving}
-                  className="flex-1 h-12 rounded-xl bg-orange-600 font-bold text-sm hover:bg-orange-500 transition-colors shadow-lg shadow-orange-900/20 disabled:opacity-50"
+                  className="flex-1 h-12 rounded-xl bg-brand-600 font-bold text-sm hover:bg-brand-500 transition-colors shadow-lg shadow-brand-900/20 disabled:opacity-50"
                 >
                   {isSaving ? 'Saving Profile...' : 'Complete Registration'}
                 </button>
              </div>
           </form>
        </div>
-    </div>
+    </Bg>
   );
 }
