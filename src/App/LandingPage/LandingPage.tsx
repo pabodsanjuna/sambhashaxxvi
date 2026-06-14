@@ -39,7 +39,7 @@ export function LandingPage() {
     <Bg className="flex flex-col items-center justify-center p-4 selection:bg-white selection:text-black relative">
       <div 
         className="absolute inset-0 z-0 pointer-events-none opacity-20 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url('/sambhasha_bg.jpg')` }}
+        style={{ backgroundImage: `url('/sambhasha_bg.webp')` }}
         aria-hidden="true"
       />
       <div className="relative z-10 w-full max-w-2xl mx-auto flex flex-col items-center text-center mt-[-10vh]">
