@@ -7,7 +7,7 @@ export function Auth_Page_Bg({ children }: { children?: React.ReactNode }) {
     <Bg className="flex flex-col min-h-[100dvh]">
       <header className="w-full flex items-center justify-center p-6 shrink-0 h-24">
         <img 
-          src="/SAMBHASHA_TEXT_LOGO.png" 
+          src="/SAMBHASHA_TEXT_LOGO.webp" 
           alt="Sambhasha Logo" 
           className="h-full w-auto object-contain opacity-90" 
         />

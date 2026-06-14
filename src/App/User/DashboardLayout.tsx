@@ -142,7 +142,7 @@ export function DashboardLayout() {
         {/* Top Header */}
         <header className="h-20 flex items-center justify-between px-6 sm:px-10 border-b border-white/5 flex-shrink-0 relative z-30">
           <div className="flex items-center gap-4 lg:hidden">
-            <img src="/sambhasha-logo.png" alt="SAMBHASHA" className="h-20 w-auto object-contain" />
+            <img src="/sambhasha-logo.webp" alt="SAMBHASHA" className="h-20 w-auto object-contain" />
           </div>
 
           <div className="flex items-center gap-4 ml-auto">
