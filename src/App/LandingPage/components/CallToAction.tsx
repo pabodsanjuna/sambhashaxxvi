@@ -72,7 +72,7 @@ export function CallToAction() {
           Sambhasha XXVI is calling the next generation of Sri Lanka's Media Leaders. Register your school, form your team, and compete for glory.
         </p>
 
-        <button onClick={() => navigate('/sing-up')} className="cursor-pointer px-12 py-4 border border-sepia-500/50 bg-black/40 backdrop-blur-md rounded-full font-cinzel text-sepia-100 tracking-widest text-sm hover:bg-sepia-800/80 hover:border-sepia-300 transition-all duration-300 shadow-[0_0_20px_rgba(200,121,64,0.1)] hover:shadow-[0_0_40px_rgba(200,121,64,0.4)]">
+        <button onClick={() => navigate('/sign-in')} className="cursor-pointer px-12 py-4 border border-sepia-500/50 bg-black/40 backdrop-blur-md rounded-full font-cinzel text-sepia-100 tracking-widest text-sm hover:bg-sepia-800/80 hover:border-sepia-300 transition-all duration-300 shadow-[0_0_20px_rgba(200,121,64,0.1)] hover:shadow-[0_0_40px_rgba(200,121,64,0.4)]">
           REGISTER NOW
         </button>
       </div>

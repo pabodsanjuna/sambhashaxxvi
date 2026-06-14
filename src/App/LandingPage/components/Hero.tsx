@@ -151,7 +151,7 @@ export function Hero({ isLoaded = true }: { isLoaded?: boolean }) {
         <div className="flex-1 w-full min-h-[9.5rem] md:min-h-[12rem] lg:min-h-[12rem]" />
 
         <div className="hero-bottom-content flex flex-col items-center w-full opacity-0 ">
-          <button onClick={() => navigate('/sign-up')} className="cursor-pointer px-8 mt-10 md:mt-20 md:px-10 py-3 border border-sepia-500/50 bg-black/40 backdrop-blur-md rounded-full font-cinzel text-sepia-100 tracking-widest text-xs md:text-sm hover:bg-sepia-800/60 hover:border-sepia-400 transition-all duration-300 mb-6 md:mb-10 shadow-[0_0_20px_rgba(200,121,64,0.1)] hover:shadow-[0_0_30px_rgba(200,121,64,0.3)] pointer-events-auto">
+          <button onClick={() => navigate('/sign-in')} className="cursor-pointer px-8 mt-10 md:mt-20 md:px-10 py-3 border border-sepia-500/50 bg-black/40 backdrop-blur-md rounded-full font-cinzel text-sepia-100 tracking-widest text-xs md:text-sm hover:bg-sepia-800/60 hover:border-sepia-400 transition-all duration-300 mb-6 md:mb-10 shadow-[0_0_20px_rgba(200,121,64,0.1)] hover:shadow-[0_0_30px_rgba(200,121,64,0.3)] pointer-events-auto">
             REGISTER NOW
           </button>
 
