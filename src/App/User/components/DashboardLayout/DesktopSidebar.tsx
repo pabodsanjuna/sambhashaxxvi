@@ -18,7 +18,7 @@ export const DesktopSidebar = memo(function DesktopSidebar({ navLinks, unreadCou
   return (
     <aside className="hidden lg:flex flex-col w-72 bg-black/40 backdrop-blur-xl border border-white/5 rounded-[2.5rem] p-8 flex-shrink-0 h-full">
       <div className="mb-12 shrink-0">
-        <img src="/sambhasha-logo.png" alt="SAMBHASHA" className="h-20 w-auto object-contain" />
+        <img src="/sambhasha-logo.webp" alt="SAMBHASHA" className="h-20 w-auto object-contain" />
         <div className="h-1 w-12 bg-brand-500 mt-3 rounded-full" />
       </div>
 

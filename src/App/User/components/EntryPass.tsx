@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
-import { MapPin } from 'lucide-react';
+import { MapPin, CheckCircle2 } from 'lucide-react';
 
 interface EntryPassProps {
   schoolDetails: any;
@@ -13,83 +13,106 @@ export const EntryPass = forwardRef<HTMLDivElement, EntryPassProps>(({ schoolDet
   return (
     <div 
       ref={ref} 
-      className="w-[480px] h-[720px] bg-white text-black relative flex flex-col p-8 box-border overflow-hidden" 
+      className="w-[480px] h-[720px] bg-zinc-950 text-white relative flex flex-col box-border overflow-hidden" 
       style={{ fontFamily: 'Inter, sans-serif' }}
     >
-      {/* Borders */}
-      <div className="absolute inset-4 border border-black/10 rounded-2xl pointer-events-none" />
+      {/* Background Graphic */}
+      <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
+         <div className="absolute top-[-100px] right-[-100px] w-[350px] h-[350px] bg-brand-500/30 rounded-full blur-[80px]" />
+         <div className="absolute bottom-[-100px] left-[-100px] w-[300px] h-[300px] bg-brand-500/20 rounded-full blur-[80px]" />
+      </div>
 
-      {/* Header area */}
-      <div className="z-10 w-full flex justify-between items-center mt-2 mb-8 px-2">
-         <div className="flex flex-col">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-500 font-bold mb-2">Entry Pass</p>
-            <h1 className="text-[36px] font-black leading-none tracking-tight text-black flex items-center" style={{ fontFamily: '"Bruny", "Bruno Ace", sans-serif' }}>
-               SAMBHASHA XXVI
-            </h1>
-            <p className="text-[8px] uppercase tracking-[0.1em] text-black mt-2 font-bold border-t border-black/10 pt-2 w-max">Nalanda College Communication Unit</p>
-         </div>
-         {/* Logos */}
-         <div className="flex gap-4">
-           {schoolDetails?.school_logo_url && (
-             <div className="w-16 h-16 p-1 bg-white rounded-lg border border-black/10 flex items-center justify-center overflow-hidden">
-               <img src={schoolDetails.school_logo_url} className="w-full h-full object-contain" alt="Logo" crossOrigin="anonymous" referrerPolicy="no-referrer" />
+      {/* Outer Border wrapper */}
+      <div className="absolute inset-3 border border-white/10 rounded-[24px] pointer-events-none z-20" />
+      <div className="absolute inset-4 border border-white/5 rounded-[20px] pointer-events-none z-20 bg-zinc-950/20" />
+
+      <div className="relative z-30 flex flex-col w-full h-full p-10">
+          
+          {/* Header */}
+          <div className="flex justify-between items-start w-full mb-8">
+             <div className="flex flex-col gap-1">
+                <div className="inline-flex items-center gap-2 mb-3">
+                  <span className="w-2 h-2 rounded-full bg-brand-500 relative">
+                    <span className="absolute inset-0 rounded-full bg-brand-500 animate-ping opacity-50"></span>
+                  </span>
+                  <p className="text-[10px] uppercase tracking-[0.4em] text-brand-400 font-bold">Official Entry Pass</p>
+                </div>
+                
+                <img src="/SAMBHASHA_TEXT_LOGO.webp" alt="SAMBHASHA" className="h-10 w-auto object-left object-contain mb-1" />
+                <p className="text-[7px] uppercase tracking-[0.2em] text-white/50 font-bold max-w-[200px]">Nalanda College Communication Unit</p>
              </div>
-           )}
-         </div>
-      </div>
 
-      <div className="z-10 w-full flex-1 flex flex-col mb-6 px-2">
-         {/* School Name block */}
-         <div className="mb-10">
-            <p className="text-[10px] font-mono tracking-[0.2em] text-zinc-500 mb-2 uppercase">School Profile <span className="text-zinc-300 mx-2">|</span> <span className="text-black font-bold">{schoolDetailsData.schoolId || 'REG-ID'}</span></p>
-            <h2 className="text-[28px] font-black uppercase tracking-tight leading-[1.1] mb-2 text-black line-clamp-2">{schoolDetailsData.schoolName || 'SCHOOL_NAME'}</h2>
-            <h3 className="text-[14px] font-medium text-zinc-600 uppercase tracking-tight flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-black" /> 
-              {schoolDetailsData.city || 'CITY'}
-            </h3>
-         </div>
+             {/* School Logo */}
+             {schoolDetails?.school_logo_url && (
+               <div className="w-14 h-14 p-1.5 bg-white/5 backdrop-blur-md rounded-xl border border-white/10 flex items-center justify-center shrink-0">
+                 <img src={schoolDetails.school_logo_url} className="w-full h-full object-contain" alt="Logo" crossOrigin="anonymous" referrerPolicy="no-referrer" />
+               </div>
+             )}
+          </div>
 
-         {/* Grid for details */}
-         <div className="grid grid-cols-1 gap-6 mb-auto">
-            <div className="border-l-2 border-black/10 pl-4">
-               <p className="text-[9px] uppercase tracking-[0.2em] text-zinc-500 font-bold mb-1">Master In Charge</p>
-               <p className="text-[16px] font-bold tracking-tight text-black leading-tight">{contactPersons.mic.name || 'MIC Name'}</p>
-               <p className="text-[14px] text-zinc-600 font-mono mt-1">{contactPersons.mic.phone || 'Phone'}</p>
-            </div>
-            <div className="border-l-2 border-black/10 pl-4">
-               <p className="text-[9px] uppercase tracking-[0.2em] text-zinc-500 font-bold mb-1">Co-ordinator</p>
-               <p className="text-[16px] font-bold tracking-tight text-black leading-tight">{contactPersons.coordinator.name || 'Co-ordinator Name'}</p>
-               <p className="text-[14px] text-zinc-600 font-mono mt-1">{contactPersons.coordinator.phone || 'Phone'}</p>
-            </div>
-         </div>
-      </div>
+          {/* QR Code Section (Centered) */}
+          <div className="flex flex-col items-center justify-center flex-1">
+             <div className="p-4 bg-white rounded-3xl shadow-2xl mb-6 relative border-[6px] border-white/10 bg-clip-padding">
+                <QRCodeSVG 
+                  value={`${originOrigin}/attendance/${schoolDetails?.id}`}
+                  size={200}
+                  level="H"
+                  includeMargin={false}
+                  className="text-black"
+                />
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg border-4 border-white overflow-hidden p-1">
+                   <img src="/nccu_logo.webp" alt="NCCU" className="w-full h-full object-contain" crossOrigin="anonymous" referrerPolicy="no-referrer" />
+                </div>
+             </div>
+             
+             <div className="flex flex-col items-center text-center">
+                <p className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-bold mb-2">Authenticator ID</p>
+                <div className="inline-flex items-center gap-3">
+                   <div className="h-[1px] w-8 bg-white/10"></div>
+                   <p className="text-[28px] font-bold font-mono text-white tracking-widest leading-none drop-shadow-lg">{schoolDetailsData.schoolId}</p>
+                   <div className="h-[1px] w-8 bg-white/10"></div>
+                </div>
+                <div className="inline-flex items-center gap-2 border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 rounded-full mt-4">
+                   <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                   <p className="text-[9px] font-mono tracking-[0.2em] text-emerald-400 uppercase font-bold">System Validated</p>
+                </div>
+             </div>
+          </div>
 
-      {/* Bottom QR Section */}
-      <div className="z-10 mt-auto flex justify-between items-end w-full px-2 border-t border-black/10 pt-6">
-        <div className="space-y-4">
-           <div>
-             <p className="text-[9px] uppercase tracking-[0.3em] text-zinc-500 font-bold mb-1">Authenticator ID</p>
-             <p className="text-[24px] font-bold font-mono text-black tracking-wider leading-none">{schoolDetailsData.schoolId}</p>
-           </div>
-           <div>
-              <p className="text-[8px] font-mono tracking-[0.2em] text-zinc-500 mt-2 uppercase">System Validated</p>
-           </div>
-        </div>
+          <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent my-2" />
 
-        <div className="p-2 bg-white border border-black/10 rounded-xl">
-            <QRCodeSVG 
-              value={`${originOrigin}/attendance/${schoolDetails?.id}`}
-              size={120}
-              level="H"
-              includeMargin={false}
-              className="text-black"
-            />
-        </div>
-      </div>
+          {/* School & Personnel Details Footer */}
+          <div className="flex flex-col w-full text-center">
+             {/* School Name */}
+             <div className="mb-2">
+               <h2 className="text-[24px] font-black uppercase tracking-tight leading-[1.1] mb-2 text-white line-clamp-2">{schoolDetailsData.schoolName || 'SCHOOL_NAME'}</h2>
+               <div className="inline-flex items-center justify-center gap-2">
+                  <MapPin className="w-4 h-4 text-brand-400" /> 
+                  <span className="text-[12px] font-medium text-white/70 uppercase tracking-widest">{schoolDetailsData.city || 'CITY'}</span>
+               </div>
+             </div>
 
-      {/* Generated details vertical right */}
-      <div className="absolute right-2 top-1/2 -translate-y-1/2 origin-center -rotate-90 z-10 opacity-30 pointer-events-none">
-           <p className="text-[8px] uppercase tracking-[0.6em] font-bold text-black whitespace-nowrap">PORTAL SYSTEMS • {new Date().getFullYear()}</p>
+             {/* Personnel Grid */}
+             <div className="grid grid-cols-2 gap-3 mt-auto">
+                <div className="p-3 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm relative overflow-hidden text-left flex flex-col justify-center">
+                   <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 to-transparent opacity-50" />
+                   <div className="relative z-10">
+                      <p className="text-[8px] uppercase tracking-[0.2em] text-white/40 font-bold mb-1">Master In Charge</p>
+                      <p className="text-[13px] font-bold tracking-wide text-white leading-tight mb-0.5 truncate">{contactPersons.mic.name || 'MIC Name'}</p>
+                      <p className="text-[9px] text-brand-200/70 font-mono tracking-widest">{contactPersons.mic.phone || 'Phone'}</p>
+                   </div>
+                </div>
+                <div className="p-3 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm relative overflow-hidden text-left flex flex-col justify-center">
+                   <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 to-transparent opacity-50" />
+                   <div className="relative z-10">
+                      <p className="text-[8px] uppercase tracking-[0.2em] text-white/40 font-bold mb-1">Co-ordinator</p>
+                      <p className="text-[13px] font-bold tracking-wide text-white leading-tight mb-0.5 truncate">{contactPersons.coordinator.name || 'Co-ordinator Name'}</p>
+                      <p className="text-[9px] text-brand-200/70 font-mono tracking-widest">{contactPersons.coordinator.phone || 'Phone'}</p>
+                   </div>
+                </div>
+             </div>
+          </div>
+          
       </div>
     </div>
   );

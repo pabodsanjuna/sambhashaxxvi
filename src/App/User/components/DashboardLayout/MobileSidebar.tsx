@@ -36,7 +36,7 @@ export const MobileSidebar = memo(function MobileSidebar({ navLinks, unreadCount
       >
         <div className="flex items-center justify-between mb-12 shrink-0">
           <div className="flex flex-col">
-            <img src="/sambhasha-logo.png" alt="SAMBHASHA" className="h-20 w-auto object-contain" />
+            <img src="/sambhasha-logo.webp" alt="SAMBHASHA" className="h-20 w-auto object-contain" />
             <div className="h-1 w-8 bg-brand-500 mt-3 rounded-full" />
           </div>
           <button onClick={() => setIsMobileMenuOpen(false)}>

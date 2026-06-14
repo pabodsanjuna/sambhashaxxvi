@@ -39,7 +39,7 @@ export function Settings() {
     if (!qrCardRef.current || !schoolDetails) return;
     setIsGeneratingQR(true);
     try {
-      const imgData = await htmlToImage.toPng(qrCardRef.current, { quality: 1, backgroundColor: '#ffffff', pixelRatio: 2 });
+      const imgData = await htmlToImage.toPng(qrCardRef.current, { quality: 1, pixelRatio: 2 });
       
       const pdf = new jsPDF({
         orientation: 'portrait',
