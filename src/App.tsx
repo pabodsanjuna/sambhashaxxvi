@@ -1,5 +1,4 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { Analytics } from "@vercel/analytics/react";
 import { AuthForm } from './components/AuthForm';
 import { SignUpForm } from './components/SignUpForm';
 import { Auth_Page_Bg } from './components/Auth_Page_Bg';
@@ -93,7 +92,6 @@ export default function App() {
         {/* Catch-all redirect to Landing Page */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-      <Analytics />
     </>
   );
 }
